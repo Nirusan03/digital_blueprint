@@ -1,10 +1,10 @@
-import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin, FaStackOverflow } from "react-icons/fa";
 import logo from "../assets/nirusanHariharanLogo.webp";
 
 const Navbar = () => {
     return (
         <nav className="flex items-center justify-between py-6 relative z-50 px-6">
-            {/* Logo on the Left */}
+
             <div className="flex items-center">
                 <a href="/" aria-label="Home">
                     <img src={logo} 
@@ -13,7 +13,6 @@ const Navbar = () => {
                 </a>
             </div>
 
-            {/* LinkedIn Icons on the Right */}
             <div className="flex items-center gap-4 text-2xl">
                 <a href="https://www.linkedin.com/in/nirusan-hariharan-447463214/" 
                     target="_blank"
@@ -29,6 +28,14 @@ const Navbar = () => {
                     aria-label="Github"
                     className="hover:text-blue-500 transition">
                         <FaGithub />
+                </a>
+
+                <a href="https://stackoverflow.com/users/15590600/nirusan-hariharan" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="StackOverFlow"
+                    className="hover:text-blue-500 transition">
+                        <FaStackOverflow />
                 </a>
 
                 <a href="https://www.instagram.com/nirusan_hariharan/" 
