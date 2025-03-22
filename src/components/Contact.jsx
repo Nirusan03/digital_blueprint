@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CONTACT } from "../constants";
 import { motion } from "framer-motion";
 
-// Reusable Input Field Component
+// Reusable Input Field
 const FormField = ({ label, type = "text", name, value, onChange, placeholder }) => (
   <div className="w-full">
     <label htmlFor={name} className="block text-sm font-medium text-gray-300">
@@ -51,19 +51,19 @@ const Contact = () => {
 
   return (
     <motion.div
-      className="flex justify-center items-center min-h-[70vh] border-t border-stone-900 pb-20 relative z-50 px-6"
+      className="flex justify-center items-center min-h-[70vh] border-t border-stone-900 pb-20 relative z-50 px-4 sm:px-6"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div
-        className="w-full max-w-5xl border border-gray-700 rounded-lg p-10 shadow-lg bg-stone-900/80"
+        className="w-full max-w-5xl border border-gray-700 rounded-lg p-6 sm:p-10 shadow-lg bg-stone-900/80"
         initial={{ y: 100, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7 }}
       >
         <motion.h2
-          className="my-10 text-center text-5xl font-semibold text-white tracking-tight"
+          className="my-8 sm:my-10 text-center text-4xl sm:text-5xl font-semibold text-white tracking-tight"
           initial={{ y: -50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -71,9 +71,10 @@ const Contact = () => {
           Get In Touch
         </motion.h2>
 
-        <div className="flex flex-col lg:flex-row items-start gap-12">
+        <div className="flex flex-col lg:flex-row items-start gap-10">
+          {/* Contact Info */}
           <motion.div
-            className="w-full lg:w-1/2 text-lg text-gray-400 space-y-4"
+            className="w-full lg:w-1/2 text-base sm:text-lg text-gray-400 space-y-4 break-words"
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
@@ -84,16 +85,17 @@ const Contact = () => {
                 {CONTACT.phoneNo}
               </a>
             </p>
-            <p>
+            <p className="break-words">
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="border-b border-gray-400 hover:text-white hover:border-white transition"
+                className="break-all border-b border-gray-400 hover:text-white hover:border-white transition"
               >
                 {CONTACT.email}
               </a>
             </p>
           </motion.div>
 
+          {/* Contact Form */}
           <motion.div
             className="w-full lg:w-1/2"
             initial={{ x: 100, opacity: 0 }}
@@ -101,7 +103,7 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
           >
             <form onSubmit={handleSubmit} className="space-y-4 text-white">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <FormField
                   label="Your Name"
                   name="name"
