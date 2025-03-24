@@ -9,6 +9,7 @@ import project8 from "../assets/projects/project-8.webp";
 import project9 from "../assets/projects/project-9.webp";
 import project10 from "../assets/projects/project-10.webp";
 import project11 from "../assets/projects/project-11.webp";
+import project12 from "../assets/projects/project-12.webp";
 
 export const MY_CONTENT = `I am a full stack developer with a strong focus on building scalable, high-quality web applications. Over the past three years, I have worked extensively with back-end technologies such as Spring Boot, Node.js, Flask, FastAPI, and databases including MySQL, PostgreSQL, and MongoDB. On the front end, I have experience using frameworks like React, AngularJS, and Vue.js. I enjoy solving real-world problems through clean, efficient code and aim to create solutions that enhance user experience and support business goals.`;
 
@@ -66,6 +67,16 @@ export const PROJECTS = [
     technologies: ["Flask", "React.js", "MongoDB", "Swagger", "Keras", "Tensorflow"],
     github: "https://github.com/Nirusan03/MedEase_Procurement_System",
   },
+  {
+    title: "Student Hub",
+    image: project12,
+    description: "A modern full stack application built with Spring Boot and React.js to manage student records efficiently. Designed for academic use, it allows adding, viewing, and deleting students through a responsive UI backed by a robust RESTful API and PostgreSQL integration.",
+    technologies: ["Java", "Spring Boot", "React.js", "PostgreSQL", "REST API", "HTML", "CSS", "JavaScript"],
+    githubs: [
+      { label: "Frontend", url: "https://github.com/Nirusan03/student-hub-ui" },
+      { label: "Backend", url: "https://github.com/Nirusan03/student-hub-api" }
+    ],
+  },  
   {
     title: "CarNexus Platform",
     image: project4,
