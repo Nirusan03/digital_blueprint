@@ -17,11 +17,39 @@ export const ABOUT_TEXT = `I am a versatile and committed full stack developer w
 
 export const EXPERIENCES = [
   {
+    year: "2025 May - 2025 Aug",
+    role: "Associate Software Engineer",
+    company: "Altrium",
+    description:
+      "Led development for PlanYear, a SaaS platform facilitating secure data exchange among brokers, carriers, and buyers with role-based access control. Implemented insurance proposal export using Spring Boot and Excel APIs. Engineered database migrations and Spring AI email generation, fulfilling client critical requirements on schedule. Oversaw project workflows and independently debugged support issues causing data inconsistencies.",
+    technologies: [
+      "Spring Boot",
+      "React.js",
+      "FastAPI",
+      "Spring AI",
+      "MongoDB",
+      "RabbitMQ",
+      "AWS",
+      "Jenkins",
+      "Docker",
+      "Gradle",
+    ],
+  },
+  {
     year: "2023 - 2024",
     role: "Software Engineer Intern",
     company: "Vestoria",
     description: `Led the development of an internal API service application using Spring Boot, Vue.js, and MySQL. Engineered a mediator application integrating company and client systems with Kafka, Spring Boot, React.js, and MySQL. Created an internal UI library with Vue.js to ensure consistent frontend design.`,
-    technologies: ["Springboot", "React.js", "Vue.js", "MySQL", "Docker", "AWS", "Amazon ECS", "RESTful API"],
+    technologies: [
+      "Springboot",
+      "React.js",
+      "Vue.js",
+      "MySQL",
+      "Docker",
+      "AWS",
+      "Amazon ECS",
+      "RESTful API",
+    ],
   },
   {
     year: "2023 - 2024",
@@ -35,7 +63,14 @@ export const EXPERIENCES = [
     role: "Founder",
     company: "Immersive Smile Plus",
     description: `Built an enterprise-level virtual reality application to help reduce psychological pain through immersive environments, using Unity and Unreal Engine with C#, React.js for the web interface, and Firebase for data management.`,
-    technologies: ["C#", "Virtual Reality", "React.js", "MongoDB", "Unity", "Unreal Engine"],
+    technologies: [
+      "C#",
+      "Virtual Reality",
+      "React.js",
+      "MongoDB",
+      "Unity",
+      "Unreal Engine",
+    ],
   },
 ];
 
@@ -56,7 +91,10 @@ export const PROJECTS = [
     technologies: ["Node.js", "Angular.js", "Figma", "MongoDB", "Docker"],
     githubs: [
       { label: "Frontend", url: "https://github.com/Nirusan03/EmploySync_UI" },
-      { label: "Backend", url: "https://github.com/itzmalith/EmploySyncBackend" }
+      {
+        label: "Backend",
+        url: "https://github.com/itzmalith/EmploySyncBackend",
+      },
     ],
   },
   {
@@ -64,19 +102,36 @@ export const PROJECTS = [
     image: project3,
     description:
       "A web based application for healthcare e-procurement with vendor, customer, and admin roles, streamlining supply requests, orders, and stock management.",
-    technologies: ["Flask", "React.js", "MongoDB", "Swagger", "Keras", "Tensorflow"],
+    technologies: [
+      "Flask",
+      "React.js",
+      "MongoDB",
+      "Swagger",
+      "Keras",
+      "Tensorflow",
+    ],
     github: "https://github.com/Nirusan03/MedEase_Procurement_System",
   },
   {
     title: "Student Hub",
     image: project12,
-    description: "A modern full stack application built with Spring Boot and React.js to manage student records efficiently. Designed for academic use, it allows adding, viewing, and deleting students through a responsive UI backed by a robust RESTful API and PostgreSQL integration.",
-    technologies: ["Java", "Spring Boot", "React.js", "PostgreSQL", "REST API", "HTML", "CSS", "JavaScript"],
+    description:
+      "A modern full stack application built with Spring Boot and React.js to manage student records efficiently. Designed for academic use, it allows adding, viewing, and deleting students through a responsive UI backed by a robust RESTful API and PostgreSQL integration.",
+    technologies: [
+      "Java",
+      "Spring Boot",
+      "React.js",
+      "PostgreSQL",
+      "REST API",
+      "HTML",
+      "CSS",
+      "JavaScript",
+    ],
     githubs: [
       { label: "Frontend", url: "https://github.com/Nirusan03/student-hub-ui" },
-      { label: "Backend", url: "https://github.com/Nirusan03/student-hub-api" }
+      { label: "Backend", url: "https://github.com/Nirusan03/student-hub-api" },
     ],
-  },  
+  },
   {
     title: "CarNexus Platform",
     image: project4,
@@ -88,23 +143,35 @@ export const PROJECTS = [
   {
     title: "Cruise Ship Management",
     image: project11,
-    description: "A Java-based console application for managing cruise ship cabin bookings. Supports up to 36 passengers across 12 cabins with dynamic queue management. Implements a circular queue to handle overflow passengers, file-based data persistence, alphabetical sorting, and real-time passenger expense tracking.",
-    technologies: ["Java", "JDK 8+","CLI"],
-    github: "https://github.com/Nirusan03/Cruise-ship-management"
+    description:
+      "A Java-based console application for managing cruise ship cabin bookings. Supports up to 36 passengers across 12 cabins with dynamic queue management. Implements a circular queue to handle overflow passengers, file-based data persistence, alphabetical sorting, and real-time passenger expense tracking.",
+    technologies: ["Java", "JDK 8+", "CLI"],
+    github: "https://github.com/Nirusan03/Cruise-ship-management",
   },
   {
     title: "Skin Consultation Manager",
     image: project10,
-    description: "A full-stack Java application for managing skin consultation clinics. The system provides both command-line and GUI interfaces to manage doctors and consultations efficiently. It supports adding, viewing, and removing doctors, scheduling consultations with conflict detection, and persistent file storage.",
-    technologies: ["Java", "Java Swing","JDK 8+","CLI", "GUI"],
-    github: "https://github.com/Nirusan03/Skin_Consultation_Manger"
+    description:
+      "A full-stack Java application for managing skin consultation clinics. The system provides both command-line and GUI interfaces to manage doctors and consultations efficiently. It supports adding, viewing, and removing doctors, scheduling consultations with conflict detection, and persistent file storage.",
+    technologies: ["Java", "Java Swing", "JDK 8+", "CLI", "GUI"],
+    github: "https://github.com/Nirusan03/Skin_Consultation_Manger",
   },
   {
     title: "ElderGuardian-MonitorSystem",
     image: project5,
     description:
       "A full-stack elder monitoring system using Flask and Flutter, featuring real-time video streaming, AI-based fall detection, alert notifications, and secure user authentication.",
-    technologies: ["Flask", "Vue.js", "Dart", "OpenCV", "Tensorflow", "Scikit learn", "Mysql", "Docker", "Jenkins"],
+    technologies: [
+      "Flask",
+      "Vue.js",
+      "Dart",
+      "OpenCV",
+      "Tensorflow",
+      "Scikit learn",
+      "Mysql",
+      "Docker",
+      "Jenkins",
+    ],
     github: "https://github.com/Nirusan03/ElderGuardian-MonitorSystem",
   },
   {
@@ -112,30 +179,55 @@ export const PROJECTS = [
     image: project9,
     description:
       "A web-based application designed to recommend scholarship opportunities and suitable job roles based on a user’s educational history. It uses a Decision Tree model to support user decision-making and a Naive Bayes classifier to suggest relevant scholarships.",
-    technologies: ["Flask", "React.js", "Tensorflow", "Scikit learn", "MongoDB"],
+    technologies: [
+      "Flask",
+      "React.js",
+      "Tensorflow",
+      "Scikit learn",
+      "MongoDB",
+    ],
     github: "https://github.com/PasanPunsaraDeshapriya/ImplementationSDGP",
   },
   {
     title: "Risk-Lens",
     image: project6,
-    description: "A machine learning project that predicts insurance claim severity and detects fraudulent claims using XGBoost, LightGBM, and Random Forest Regressor models. The system includes preprocessing, model training, evaluation, and hyperparameter tuning pipelines with support for Optuna-based optimisation.",
-    technologies: ["Python", "XGBoost", "LightGBM", "Random Forest", "Optuna", "Pandas", "Scikit-learn"],
+    description:
+      "A machine learning project that predicts insurance claim severity and detects fraudulent claims using XGBoost, LightGBM, and Random Forest Regressor models. The system includes preprocessing, model training, evaluation, and hyperparameter tuning pipelines with support for Optuna-based optimisation.",
+    technologies: [
+      "Python",
+      "XGBoost",
+      "LightGBM",
+      "Random Forest",
+      "Optuna",
+      "Pandas",
+      "Scikit-learn",
+    ],
     github: "https://github.com/Nirusan03/RiskLens",
   },
   {
     title: "Pronunciation Trainer for Autism Support",
     image: project7,
-    description: "An offline Python-based speech pronunciation trainer designed to assist individuals with autism. Utilises the Vosk API for real-time speech recognition and compares user speech against predefined words to provide human-friendly pronunciation guidance and feedback.",
+    description:
+      "An offline Python-based speech pronunciation trainer designed to assist individuals with autism. Utilises the Vosk API for real-time speech recognition and compares user speech against predefined words to provide human-friendly pronunciation guidance and feedback.",
     technologies: ["Python", "Vosk API", "PyAudio", "NLTK", "pyttsx3"],
-    github: "https://github.com/Nirusan03/ATD_SpeechTherapy"
+    github: "https://github.com/Nirusan03/ATD_SpeechTherapy",
   },
   {
     title: "Education-risk-analysis",
     image: project8,
-    description: "A machine learning application that identifies primary school students at risk of underperforming in writing. It uses early literacy, numeracy, demographic, and socio-economic data to provide meaningful insights and support early intervention through predictive modelling and student grouping.",
-    technologies: ["Python", "scikit-learn", "Pandas", "SMOTE", "Matplotlib", "Seaborn", "PCA"],
-    github: "https://github.com/Nirusan03/Education-risk-analysis"
-  }
+    description:
+      "A machine learning application that identifies primary school students at risk of underperforming in writing. It uses early literacy, numeracy, demographic, and socio-economic data to provide meaningful insights and support early intervention through predictive modelling and student grouping.",
+    technologies: [
+      "Python",
+      "scikit-learn",
+      "Pandas",
+      "SMOTE",
+      "Matplotlib",
+      "Seaborn",
+      "PCA",
+    ],
+    github: "https://github.com/Nirusan03/Education-risk-analysis",
+  },
 ];
 
 export const CONTACT = {
