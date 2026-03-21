@@ -51,7 +51,8 @@ const Contact = () => {
 
   return (
     <motion.section
-      className="pb-24 relative z-50 px-6 border-t border-stone-800/60"
+      id="contact"
+      className="pb-24 pt-24 relative z-50 px-6 border-t border-stone-800/60"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

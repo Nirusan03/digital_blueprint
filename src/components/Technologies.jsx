@@ -67,7 +67,7 @@ const TextTech = ({ label, duration, color }) => (
 );
 
 const Technologies = () => (
-  <div className="pb-24 relative z-50 px-6">
+  <div id="technologies" className="pb-24 pt-24 relative z-50 px-6">
     <motion.h2
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: -100 }}

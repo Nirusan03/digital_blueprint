@@ -15,7 +15,7 @@ const App = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-8">
+      <div className="container mx-auto px-8 pt-16">
         <Navbar />
         <Hero />
         <Technologies />
