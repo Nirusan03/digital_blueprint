@@ -1,4 +1,4 @@
-import profilePic from "../assets/nirusanHariharan.webp";
+import profilePic from "../assets/nirusanHariharan2.webp";
 import { MY_CONTENT } from "../constants";
 import { motion } from "framer-motion";
 
