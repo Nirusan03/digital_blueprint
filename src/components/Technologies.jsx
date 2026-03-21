@@ -150,7 +150,7 @@ const Technologies = () => (
       <TechIcon Icon={SiAmazoneks} label="Amazon EKS" duration={1.8} color="text-[#FF9900]" />
       <TechIcon Icon={SiAmazonecs} label="Amazon ECS" duration={2.0} color="text-orange-500" />
       <TextTech label="Azure DevOps" duration={2.2} color="text-[#0078D7] border-[#0078D7]/40" />
-      <TextTech label="Azure Push Notification" duration={2.4} color="text-[#0078D7] border-[#0078D7]/40" />
+      {/* <TextTech label="Azure Push Notification" duration={2.4} color="text-[#0078D7] border-[#0078D7]/40" /> */}
       <TechIcon Icon={SiGithubactions} label="CI/CD" duration={2.6} color="text-white" />
       <TechIcon Icon={SiApachekafka} label="Kafka" duration={2.8} />
     </Section>
