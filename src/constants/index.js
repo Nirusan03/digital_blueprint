@@ -11,139 +11,23 @@ import project10 from "../assets/projects/project-10.webp";
 import project11 from "../assets/projects/project-11.webp";
 import project12 from "../assets/projects/project-12.webp";
 
-export const MY_CONTENT = `I am a Software Engineer with a strong focus on building production-grade REST APIs, AI-integrated backends, and scalable full-stack applications. I have worked extensively with backend technologies such as FastAPI, Spring Boot, ASP.NET Core, and Node.js, databases including PostgreSQL, MongoDB, and Firebase, and cloud infrastructure across AWS and Azure. I have hands-on experience integrating LLMs, MCP, and building multi-platform mobile applications. I enjoy solving real-world engineering challenges through clean, efficient code and aim to build solutions that are performant, secure, and impactful.`;
-
-export const ABOUT_TEXT = `I am a versatile and committed full stack developer with a passion for building intuitive, high-performing web applications. Over the past three years, I have gained hands-on experience with a wide range of technologies, including Spring Boot, Flask APIs, React, Vue.js, Node.js, Docker, and databases like MySQL, PostgreSQL, and MongoDB. What began as a curiosity about how things work has grown into a fulfilling career where I am constantly learning and tackling new challenges. I enjoy working in collaborative teams and take pride in finding smart, reliable solutions to complex problems. Beyond development, I like staying active, exploring emerging tech, and contributing to open-source projects.`;
-
-export const EXPERIENCES = [
-  {
-    year: "2025 Aug - Present",
-    role: "Software Engineer",
-    company: "Niroga AI Inc.",
-    description: [
-      "Spearheaded end-to-end backend architecture under Dr. Yasantha Rajakarunanayake, building a production-grade FastAPI REST API with latency management, async processing, and thread-safe concurrency — reducing average API response time by 40% across web and mobile clients.",
-      "Architected a multi-LLM gateway integrating Gemini and OpenAI APIs with MCP (Model Context Protocol) to expose backend services as AI-accessible tools with centralized LLM traffic governance.",
-      "Solely owned the complete CI/CD pipeline across AWS EC2 and Linode (production + staging) with Docker and Git automation, handling all server security operations including malware detection, anomaly monitoring, and infrastructure hardening.",
-      "Developed Kotlin (Android) and Swift (iOS) mobile applications with an offline-first sync architecture using SQLite, PowerSync, and Supabase, ensuring seamless data consistency across zero-connectivity environments.",
-    ],
-    technologies: [
-      "FastAPI",
-      "Python",
-      "MCP",
-      "Gemini API",
-      "OpenAI API",
-      "JWT",
-      "Firebase",
-      "AWS EC2",
-      "Linode",
-      "Docker",
-      "Kotlin",
-      "Swift",
-      "SQLite",
-      "PowerSync",
-      "Supabase",
-      "PostgreSQL",
-    ],
-  },
-  {
-    year: "2025 Aug - Present",
-    role: "Software Engineer",
-    company: "BlueLotus360 (PVT) Ltd",
-    description: [
-      "Engineered a complete Ticketing Management System for an ERP solution on ASP.NET Core with Azure Notification Hub, designing sync and async APIs with latency management, bottleneck handling, and thread-safe concurrency — backed by a persistent FCM and APNS notification queue with automatic retry under high-concurrency loads.",
-      "Architected a complete Azure DevOps CI/CD pipeline across 4 deployment tracks for iOS and Android, resolving a critical bundle ID conflict causing application swapping between two co-existing versions, enabling independent parallel builds for both legacy and active codebases.",
-      "Drove the full migration of the legacy Blazor Hybrid ERP mobile application to the latest framework, establishing clean codebase separation between BL10 and BL11 across both platforms.",
-    ],
-    technologies: [
-      "ASP.NET Core",
-      "C#",
-      "Blazor Hybrid",
-      "Syncfusion",
-      "SQL",
-      "SSMS",
-      "Azure DevOps",
-      "Azure Notification Hub",
-      "FCM",
-      "APNS",
-      "iOS",
-      "Android",
-    ],
-  },
-  {
-    year: "2025 May - 2025 Aug",
-    role: "Associate Software Engineer",
-    company: "Altrium",
-    description: [
-      "Coordinated the lifecycle of PlanYear, a SaaS platform used in Silicon Valley, enabling secure data exchange for 50,000+ users across brokers, carriers, and buyers with multi-level access control.",
-      "Integrated Spring AI with email generation for insurance proposal exports, automating 100+ daily communications, saving 5 hours weekly, and accelerating delivery by 25%.",
-      "Revamped project workflows addressing critical support bugs that caused data inconsistencies, leading to a 10% reduction in production incidents.",
-    ],
-    technologies: [
-      "Spring Boot",
-      "React.js",
-      "FastAPI",
-      "Spring AI",
-      "MongoDB",
-      "RabbitMQ",
-      "AWS",
-      "Jenkins",
-      "Docker",
-      "Gradle",
-    ],
-  },
-  {
-    year: "2023 - 2024",
-    role: "Software Engineer Intern",
-    company: "Vetstoria",
-    description: [
-      "Enhanced the Reporting API with Spring Boot, increasing session data coverage by 12% for 200 clinics and delivering 20% deeper insights for business decisions.",
-      "Played a key role in Autonoe, a middleware solution orchestrating message queues across 4 SaaS products, relied on by 40% of clinics for seamless integration between PIMS and applications.",
-      "Developed features and documentation in an internal frontend component framework, ensuring design consistency across 4 internal teams.",
-    ],
-    technologies: [
-      "Spring Boot",
-      "React.js",
-      "Vue.js",
-      "MySQL",
-      "Docker",
-      "AWS",
-      "Amazon ECS",
-      "RESTful API",
-    ],
-  },
-  {
-    year: "2023 - 2024",
-    role: "Full Stack Developer",
-    company: "Izatic",
-    description: [
-      "Developed dynamic e-commerce and portfolio websites utilizing WordPress, HTML, CSS, and MySQL, resulting in enhanced user engagement and increased online sales.",
-      "Implemented responsive design principles to ensure seamless user experiences across various devices.",
-      "Collaborated with clients to customize themes and plugins, tailoring solutions to meet specific business needs.",
-    ],
-    technologies: ["WordPress", "HTML", "CSS", "MySQL"],
-  },
-  {
-    year: "2022 - 2025",
-    role: "Founder",
-    company: "Immersive Smile Plus",
-    description: [
-      "Founded and led development of a VR-based mental wellness platform, clinically trialed with 50+ pediatric patients, reporting zero pain levels at the initial stage.",
-      "Presented a digital anesthesia product with IoT and VR, adopted by 5+ top Sri Lankan hospitals, boosting engagement by 80%.",
-    ],
-    technologies: [
-      "C#",
-      "Virtual Reality",
-      "React.js",
-      "Firebase",
-      "Unity",
-      "Unreal Engine",
-    ],
-  },
-];
-
 export const PROJECTS = [
   {
+    title: "Immersive Smile Plus",
+    image: null,
+    description:
+      "VR and IoT for healthcare. I’m the Co-founder and CTO, developing immersive experiences with our founding team.",
+    technologies: ["Unity", "C#", "Virtual Reality", "IoT"],
+    website: "https://www.immersivesmile.com/",
+    collaborators: [
+      "Jaiyramanan Vijayaalayan",
+      "Sankeetha Elancheliyan",
+      "Ashvin Vigneshwaran",
+    ],
+  },
+  {
     title: "QuanNetDetect",
+    publication: "https://doi.org/10.1109/QCNC69040.2026.00129",
     image: project1,
     description:
       "A system focused on detecting encrypted malicious TLS traffic using quantum deep learning models for enhanced accuracy, efficiency, and interpretability.",
@@ -152,6 +36,7 @@ export const PROJECTS = [
   },
   {
     title: "EmploySync Platform",
+    sourceStatus: "unavailable",
     image: project2,
     description:
       "A web based recruitment management system with recruiter, applicant, and admin roles, facilitating job postings, applications, team management, and interview scheduling with an intuitive UI.",
@@ -225,9 +110,14 @@ export const PROJECTS = [
   },
   {
     title: "ElderGuardian-MonitorSystem",
+    collaborators: [
+      "Jaiyramanan Vijayaalayan",
+      "Rishimithun Muralidharan",
+      "Al Arfith Ahamed",
+    ],
     image: project5,
     description:
-      "A full-stack elder monitoring system using Flask and Flutter, featuring real-time video streaming, AI-based fall detection, alert notifications, and secure user authentication.",
+      "A remote elder-care prototype combining live conferencing, VR, and environment monitoring, with motion detection and alerts. Developed with my team for Haxmas 2023, where we placed first runner-up.",
     technologies: [
       "Flask",
       "Vue.js",
@@ -297,8 +187,4 @@ export const PROJECTS = [
   },
 ];
 
-export const CONTACT = {
-  address: "Moor's Road, Colombo 06, Sri Lanka",
-  phoneNo: "+76 711 9285",
-  email: "nirusan.hariharan350@gmail.com",
-};
+export const CONTACT = { email: "nirusan.hariharan350@gmail.com" };
