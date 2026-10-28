@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { CONTACT, PROJECTS } from "../constants";
 import { CAREER, LINKS, RECOGNITION } from "./content";
-import portrait from "../assets/nirusanHariharan2.webp";
+import portrait from "../assets/portraits/nirusan-cutout-v2.webp";
+import "./portrait.css";
 export function AboutFile() {
   return (
     <div className="about-file">

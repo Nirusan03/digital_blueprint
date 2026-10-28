@@ -44,3 +44,7 @@ The user supplied these University of Moratuwa library links for the ADScAI work
 
 - [ADScAI repository filtered by author](https://dl.lib.uom.lk/collections/82a1a2f9-fd70-41b2-a766-d599d3bbfadd?spc.page=1&f.author=Hariharan,%20N,equals)
 - [ADScAI paper download](https://dl.lib.uom.lk/bitstreams/b4cd0161-dae4-47c3-bddf-7de6139ca1a1/download)
+
+## Portrait edit
+
+At the user’s explicit request, the existing photograph was edited using the built-in image tool to remove the venue background and produce a transparent upper-body cutout. The original remains unchanged. The selected master and two optimized WebP assets are in `src/assets/portraits/`; the exact edit prompt is in `EDIT_NOTES.md` there. The site adds its slate/teal backdrop through CSS.

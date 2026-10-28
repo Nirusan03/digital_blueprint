@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import portrait from "../assets/nirusanHariharan2.webp";
+import portrait from "../assets/portraits/nirusan-cutout-v2.webp";
 
 const stations = [
   { id: "work", label: "Projects", position: [-2.25, 0.72, 1.25] },
@@ -292,9 +292,13 @@ export default function World({
         } else if (station.id === "about") {
           box(0.87, 1.22, 0.075, metal, group, 0, 0.75, 0);
           box(0.96, 0.08, 0.45, dark, group, 0, 0.1, 0);
+          box(0.76, 1.1, 0.001, dark, group, 0, 0.76, 0.039);
           const material = new THREE.MeshBasicMaterial({
             color: 0xffffff,
             side: THREE.DoubleSide,
+            transparent: true,
+            alphaTest: 0.02,
+            depthWrite: false,
           });
           const photo = mesh(
             new THREE.PlaneGeometry(0.76, 1.1),

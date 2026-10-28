@@ -2,6 +2,18 @@
 
 The redesign is local only. Nothing was pushed, published, or deployed.
 
+## Follow-up: portrait treatment
+
+The original event photo remains untouched. A new transparent portrait was edited with the built-in image tool, removing the orange/magenta venue background and using an upper-body crop. Shared slate/teal framing now appears in the workspace and About/reading views; the 3D portrait display uses the same edited asset with alpha support.
+
+- Alpha channel verified with values spanning 0–255.
+- Profile asset: about 31 KB; document/3D asset: about 79 KB. The previous full image was about 276 KB.
+- Workspace and About view checked at 320 × 568, 390 × 844, 768 × 1024, 1440 × 900, and 1920 × 1080: images loaded, no horizontal overflow, and no legacy 1.7× scaling on the profile portrait.
+- Reading view loaded the edited document portrait successfully. Final browser console check reported no errors.
+- ESLint and production build passed. No application dependency changed. Existing Three.js chunk advisory remains.
+- The image prompt and asset provenance are recorded in `src/assets/portraits/EDIT_NOTES.md`. Assets and master are saved in that same directory.
+- This follow-up used responsive browser emulation; no new physical-device or cross-browser coverage is claimed.
+
 ## Follow-up: terminal, mobile 3D, background, and second game
 
 Current local revision adds a Linux-style browser filesystem and nano-style editor, a dedicated mobile processor model, a locally illustrated atmosphere background, and Packet Run alongside Quantum Relay.

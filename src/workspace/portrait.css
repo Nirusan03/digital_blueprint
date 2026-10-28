@@ -1,0 +1,22 @@
+/* A photographic cutout shares the workspace's slate/teal palette. */
+.workspace-identity .identity-photo {
+  background: radial-gradient(ellipse at 50% 28%, #31525f 0%, #182f41 55%, #10212f 100%);
+  border: 1px solid #8bb4b15c;
+  border-radius: 2px;
+  box-shadow: 0 8px 24px #020b1426;
+}
+.workspace-identity .identity-photo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 16%;
+  transform: none;
+  filter: saturate(.9);
+}
+.about-file figure > img {
+  background: radial-gradient(ellipse at 50% 28%, #31525f 0%, #182f41 55%, #10212f 100%);
+  border-color: #668b8f;
+  border-radius: 2px;
+  object-position: 50% 14%;
+  filter: saturate(.9);
+}

@@ -17,7 +17,8 @@ import {
   WorkFile,
 } from "./Files";
 import { LINKS, TITLES } from "./content";
-import portrait from "../assets/nirusanHariharan2.webp";
+import portrait from "../assets/portraits/nirusan-profile-v2.webp";
+import "./portrait.css";
 import SceneBoundary from "./SceneBoundary";
 const World = lazy(() => import("./World"));
 const MobileWorld = lazy(() => import("./MobileWorld"));
