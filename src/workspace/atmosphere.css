@@ -1,0 +1,50 @@
+.personal-workspace {
+  background: #0b1828 url("/workspace-atmosphere.svg") center / cover no-repeat;
+}
+.workspace-menubar {
+  background: #0c1b27d9;
+  border-bottom-color: #7aa2b43b;
+}
+.workspace-status {
+  background: #0b1a24d9;
+  border-top-color: #6a8f9b40;
+}
+.workspace-launcher {
+  background: #10232ddc;
+  border-color: #83aeb259;
+  box-shadow: 0 14px 45px #0003;
+}
+.workspace-main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, #08101b75, transparent 48%),
+    radial-gradient(ellipse at 70% 45%, #53b8aa0b, transparent 60%);
+}
+.world-coordinate {
+  color: #bdd5d9;
+}
+.world-coordinate > span {
+  color: #83acb7;
+}
+.world-caption {
+  color: #a4bdc3;
+}
+.world-label {
+  background: #10252be8;
+  border-color: #b9b28a;
+}
+@media (max-width: 760px) {
+  .personal-workspace {
+    background-position: 62% center;
+  }
+  .workspace-main::before {
+    background: linear-gradient(#08111d40, transparent 40%, #08111d30);
+  }
+  .workspace-launcher {
+    background: #102631eb;
+  }
+}

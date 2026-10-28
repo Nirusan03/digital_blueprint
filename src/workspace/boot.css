@@ -1,0 +1,427 @@
+/* The opening is a public visitor sequence, not an account login. */
+.signal-boot {
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: auto;
+  color: #2b3833;
+  background-color: #e9ebe5;
+  background-image:
+    linear-gradient(#455f4d09 1px, transparent 1px),
+    linear-gradient(90deg, #455f4d09 1px, transparent 1px);
+  background-size: 38px 38px;
+  color-scheme: light;
+  opacity: 1;
+  transition: opacity 450ms ease;
+}
+.signal-boot::backdrop {
+  background: #e9ebe5;
+}
+.signal-header,
+.signal-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  margin: 0 4%;
+  font: 11px/1.6 var(--mono);
+  letter-spacing: 0.05em;
+}
+.signal-header {
+  height: 90px;
+  border-bottom: 1px solid #2c433527;
+}
+.signal-header > div {
+  display: flex;
+  gap: 28px;
+}
+.signal-boot button {
+  min-height: 44px;
+  padding: 5px 0;
+  color: #344e3e;
+  font: inherit;
+}
+.signal-boot button:hover {
+  color: #935a38 !important;
+}
+.signal-boot button:focus-visible {
+  outline-color: #356f5a;
+}
+.signal-stage {
+  position: relative;
+  min-height: 430px;
+  height: calc(100dvh - 185px);
+  isolation: isolate;
+  overflow: hidden;
+}
+.signal-field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.signal-diagram {
+  position: absolute;
+  height: 115%;
+  width: 85%;
+  left: 7.5%;
+  top: -7.5%;
+  fill: none;
+  stroke: #587c6c;
+  stroke-width: 0.7;
+}
+.signal-orbits {
+  opacity: 0.25;
+  transform-origin: 400px 300px;
+  animation: signal-orbit 26s linear infinite;
+}
+.signal-nodes {
+  opacity: 0.25;
+}
+.signal-core {
+  fill: #b9d6c455;
+  stroke: #4d7963;
+  opacity: 0.5;
+}
+.signal-message {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  right: 12%;
+  text-align: center;
+  transform: translateY(-50%);
+  animation: signal-message-in 0.6s ease both;
+}
+.signal-step-label {
+  font: 11px/1.5 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 26px;
+  color: #60766a;
+}
+.signal-message h1 {
+  font: 400 clamp(24px, 2.8vw, 45px) / 1.3 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.signal-detail {
+  margin: 22px auto 0;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #50675a;
+}
+.signal-trace {
+  position: absolute;
+  font: 10px/2 var(--mono);
+  letter-spacing: 0.07em;
+  color: #83988a;
+  opacity: 0.65;
+  padding: 17px 22px;
+  border: 1px solid #60796919;
+}
+.signal-trace p + p {
+  margin-top: 5px;
+}
+.signal-trace-left {
+  top: 7%;
+  left: 4%;
+}
+.signal-trace-right {
+  bottom: 8%;
+  right: 4%;
+}
+.signal-wave {
+  font-size: 28px;
+  line-height: 1.8;
+  letter-spacing: -0.12em;
+  color: #739a87;
+}
+.signal-session {
+  display: grid;
+  gap: 12px;
+  margin: 32px auto 0;
+  max-width: 350px;
+  font: 13px/1.5 var(--mono);
+  text-align: left;
+}
+.signal-session > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #556f5e25;
+  padding-bottom: 12px;
+}
+.signal-session dt {
+  color: #77897e;
+}
+.signal-session dd {
+  margin: 0;
+}
+.signal-step-1 .signal-message {
+  left: 12%;
+  right: 52%;
+  text-align: left;
+}
+.signal-step-1 .signal-diagram {
+  left: 30%;
+  width: 75%;
+  opacity: 0.7;
+}
+.signal-step-1 .signal-trace-left {
+  display: none;
+}
+.signal-step-1 .signal-session {
+  margin-left: 0;
+}
+.signal-step-1 .signal-message h1 {
+  font-size: clamp(25px, 2.5vw, 38px);
+}
+.signal-step-2 .signal-message h1 {
+  font-size: clamp(28px, 4vw, 58px);
+  letter-spacing: 0.13em;
+}
+.signal-step-2 .signal-diagram {
+  opacity: 0.4;
+  transform: scale(1.1);
+  transition: transform 1.8s ease-out;
+}
+.signal-step-2 .signal-trace {
+  opacity: 0.25;
+}
+.signal-signature {
+  font: 10px/1.9 var(--mono);
+  letter-spacing: 0.12em;
+  margin-top: 36px;
+  color: #7b8e80;
+}
+.signal-fragments {
+  position: absolute;
+  inset: 4% 16%;
+  opacity: 0;
+  transition: opacity 1s;
+}
+.signal-fragments i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: #a7c8b8;
+  border: 1px solid #6e9f8b55;
+  opacity: 0.3;
+  transform: rotate(var(--turn));
+  animation: signal-fragment 4s ease-in-out infinite alternate;
+  animation-delay: var(--delay);
+}
+.signal-fragments i:nth-child(3n) {
+  background: #c3ad92;
+}
+.signal-fragments i:nth-child(4n) {
+  background: transparent;
+}
+.signal-step-2 .signal-fragments {
+  opacity: 1;
+}
+.signal-footer {
+  min-height: 95px;
+  border-top: 1px solid #2c433527;
+}
+.signal-footer ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: clamp(20px, 4vw, 65px);
+}
+.signal-footer li {
+  position: relative;
+  color: #88978c;
+  padding-top: 12px;
+}
+.signal-footer li:before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #88978c33;
+}
+.signal-footer li[aria-current] {
+  color: #2d5e47;
+}
+.signal-footer li[aria-current]:before {
+  background: #4b8064;
+  transform-origin: left;
+  animation: signal-progress 2s linear both;
+}
+.signal-footer li[data-complete="true"]:before {
+  background: #4b8064;
+}
+.signal-footer li > span {
+  margin-right: 8px;
+}
+.signal-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes signal-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes signal-message-in {
+  from {
+    margin-top: 12px;
+  }
+  to {
+    margin-top: 0;
+  }
+}
+@keyframes signal-fragment {
+  to {
+    translate: 14px -20px;
+    rotate: 20deg;
+  }
+}
+@keyframes signal-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (max-width: 760px) {
+  .signal-header {
+    height: 80px;
+    font-size: 9px;
+    margin: 0 6%;
+    gap: 12px;
+  }
+  .signal-header > span {
+    max-width: 120px;
+  }
+  .signal-header > div {
+    gap: 18px;
+  }
+  .signal-stage {
+    height: calc(100dvh - 185px);
+    min-height: 350px;
+  }
+  .signal-trace {
+    display: none;
+  }
+  .signal-diagram {
+    width: 160%;
+    left: -30%;
+    height: 100%;
+    top: 0;
+  }
+  .signal-message {
+    left: 7%;
+    right: 7%;
+  }
+  .signal-message h1 {
+    font-size: clamp(22px, 6.6vw, 36px);
+    letter-spacing: 0.04em;
+  }
+  .signal-detail {
+    font-size: 16px;
+    max-width: 280px;
+  }
+  .signal-step-label {
+    font-size: 10px;
+    margin-bottom: 24px;
+  }
+  .signal-step-1 .signal-message {
+    left: 7%;
+    right: 7%;
+    text-align: center;
+  }
+  .signal-step-1 .signal-diagram {
+    width: 160%;
+    left: -30%;
+    opacity: 0.3;
+  }
+  .signal-step-1 .signal-message h1 {
+    font-size: 25px;
+  }
+  .signal-step-1 .signal-session {
+    margin: 28px auto 0;
+  }
+  .signal-session {
+    font-size: 12px;
+    max-width: 290px;
+  }
+  .signal-step-2 .signal-message h1 {
+    font-size: 30px;
+    letter-spacing: 0.06em;
+  }
+  .signal-signature {
+    font-size: 8px;
+    max-width: 270px;
+    margin: 25px auto 0;
+  }
+  .signal-footer {
+    min-height: 105px;
+    margin: 0 6%;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 13px 0;
+    font-size: 9px;
+  }
+  .signal-footer ol {
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+  }
+  .signal-footer li > span {
+    margin-right: 3px;
+  }
+  .signal-footer > button {
+    min-height: 30px;
+    margin-left: auto;
+  }
+  .signal-fragments {
+    inset: 8% 0;
+  }
+}
+@media (max-height: 600px) {
+  .signal-header {
+    height: 65px;
+    padding: 10px 0;
+  }
+  .signal-stage {
+    min-height: 300px;
+    height: calc(100dvh - 150px);
+  }
+  .signal-footer {
+    min-height: 85px;
+    padding: 10px 0;
+  }
+  .signal-step-label {
+    margin-bottom: 15px;
+  }
+  .signal-session {
+    margin-top: 20px;
+    gap: 7px;
+  }
+  .signal-signature {
+    margin-top: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signal-boot *,
+  .signal-boot {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,116 @@
+.linux-terminal .terminal-output pre {
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0 0 14px;
+}
+.linux-terminal form {
+  grid-template-columns: max-content minmax(0, 1fr) 36px;
+}
+.linux-terminal form label {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nano-editor {
+  min-height: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0c1a21;
+  color: #dbe8dd;
+  padding: 0;
+  font: 13px/1.7 var(--mono);
+}
+.nano-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  gap: 10px;
+  background: #bdd4c6;
+  color: #152d28;
+}
+.nano-header span:nth-child(2) {
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.nano-editor textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 200px;
+  resize: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  padding: 20px;
+  font: inherit;
+  line-height: 1.8;
+  tab-size: 2;
+  outline-offset: -2px;
+}
+.nano-status {
+  padding: 8px 15px;
+  color: #9dc9b4;
+  font: 11px/1.6 var(--mono);
+  overflow-wrap: anywhere;
+}
+.nano-shortcuts,
+.nano-confirm {
+  padding: 10px;
+  border-top: 1px solid #456454;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nano-shortcuts button,
+.nano-confirm button {
+  min-height: 42px;
+  color: #d3eddf;
+  border: 1px solid #456454;
+  padding: 7px 14px;
+  font: 12px var(--mono);
+}
+.nano-confirm p {
+  flex-basis: 100%;
+  font: inherit;
+  padding: 5px 7px;
+}
+.window-terminal .window-body:has(.nano-editor) {
+  padding: 0;
+}
+@media (max-width: 760px) {
+  .linux-terminal form {
+    grid-template-columns: minmax(0, 1fr) 34px;
+  }
+  .linux-terminal form label {
+    grid-column: 1 / -1;
+    max-width: 100%;
+    font-size: 12px;
+  }
+  .linux-terminal form input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .linux-terminal .terminal-output pre {
+    font-size: 13px;
+  }
+  .nano-editor {
+    min-height: 100%;
+  }
+  .nano-editor textarea {
+    font-size: 16px;
+    padding: 14px;
+  }
+  .nano-header {
+    font-size: 11px;
+  }
+  .nano-shortcuts button {
+    flex: 1;
+    padding: 6px;
+  }
+}

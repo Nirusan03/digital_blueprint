@@ -102,6 +102,14 @@ export default function WorkspaceWindow({
       aria-modal="false"
       aria-labelledby={`title-${app}`}
       onPointerDown={onFront}
+      onScroll={(event) => {
+        // Keep the frame fixed when browser focus/scrollIntoView targets a child.
+        // Document and game content scroll only inside .window-body.
+        if (event.target === event.currentTarget) {
+          event.currentTarget.scrollTop = 0;
+          event.currentTarget.scrollLeft = 0;
+        }
+      }}
     >
       <header
         ref={title}
@@ -162,9 +170,9 @@ export default function WorkspaceWindow({
         <span>{APP_TITLES[app]}</span>
         <span>
           {app === "terminal"
-            ? "LOCAL COMMANDS ONLY"
+            ? "BROWSER FILESYSTEM"
             : app === "quantum"
-              ? "SINGLE-QUBIT SIMULATION"
+              ? "QUANTUM RELAY / PACKET RUN"
               : "NIRUSAN HARIHARAN"}
         </span>
       </div>

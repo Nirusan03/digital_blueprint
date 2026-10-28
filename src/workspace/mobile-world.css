@@ -1,0 +1,60 @@
+.mobile-processor > canvas {
+  cursor: grab;
+}
+.processor-caption {
+  position: absolute;
+  top: 42px;
+  left: 5%;
+  right: 5%;
+  text-align: center;
+  color: #a7d8d2;
+  font: 10px/1.9 var(--mono);
+  letter-spacing: 0.14em;
+  pointer-events: none;
+}
+.processor-caption span {
+  display: block;
+  color: #829eab;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.processor-stations {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  left: 5%;
+  right: 5%;
+  bottom: 65px;
+  z-index: 7;
+}
+.processor-stations button {
+  min-height: 44px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: #c3e4df;
+  border-bottom: 1px solid #75b9b05c;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.processor-stations button span {
+  color: #dba375;
+}
+@media (max-height: 650px) {
+  .processor-caption {
+    top: 31px;
+    font-size: 8px;
+  }
+  .processor-caption span {
+    font-size: 7px;
+  }
+  .processor-stations {
+    bottom: 31px;
+    gap: 22px;
+  }
+  .processor-stations button {
+    min-height: 36px;
+    font-size: 11px;
+  }
+}

@@ -27,9 +27,9 @@ Nothing in this project publishes or deploys automatically.
 - Drag the actual 3D scene to orbit; select an object or its labeled station to open a file.
 - Move desktop windows using the title bar, or focus the grip and use arrow keys. Escape closes the front window. Minimized files are restored from the footer.
 - On phones, files open as scrollable sheets with visible window controls.
-- Quantum Relay is a five-stage H/X/Z gate puzzle with a real single-qubit state calculation. It is an educational simulation, not a quantum hardware connection.
-- The terminal accepts a small local command list. Run `help`. It never executes operating-system commands or user code.
-- The introduction can be skipped. Sound is optional and off by default. Animation respects reduced-motion preferences and can be disabled under View.
+- Play contains Quantum Relay (the five-stage H/X/Z puzzle) and Packet Run (an animated, three-lane network arcade with keyboard, swipe, and touch controls). Games pause when covered or hidden. Quantum Relay is an educational simulation, not a quantum hardware connection.
+- The terminal has a Linux-style virtual filesystem. Run `help`: navigation, writable files, copy/move/remove, redirects, pipes, command history, Tab completion, and a nano-style editor are supported. Ctrl+O saves, Ctrl+X exits, and on-screen controls work on phones. Shift+Tab leaves the input. Files persist in browser storage; the terminal never executes host operating-system commands or user code.
+- The three-stage introduction advances automatically: inbound signal, guest authentication, then welcome. Sound is on by default, with a quiet synthesized ambient loop and stage cues. Browser autoplay rules may defer audio until the first pointer or keyboard interaction. Mute is available in the introduction, workspace, and reading view. The intro can be skipped; reduced-motion preferences simplify its transitions. Animation can also be disabled under View.
 - Read portfolio provides the same professional information without navigating the scene. Opening `/#read` directly does not load the 3D module.
 
 ## Maintain
@@ -39,7 +39,9 @@ Nothing in this project publishes or deploys automatically.
 | `src/workspace/content.js` | Roles, dates, recognition, research sources |
 | `src/constants/index.js` | Original project archive, images, repository links, email |
 | `src/workspace/Files.jsx` | Shared portfolio documents and reading view |
-| `src/workspace/World.jsx` | Procedural models, lights, camera, object selection, render scheduling |
+| `src/workspace/World.jsx`, `MobileWorld.jsx` | Desktop workbench and lighter mobile processor, lights, camera, render scheduling |
+| `src/lib/shell.js`, `src/workspace/Terminal.jsx` | Browser filesystem, command parser, completion, and editor |
+| `src/lib/packetRun.js`, `src/workspace/PacketRun.jsx` | Arcade simulation, canvas rendering, controls, pause, best score |
 | `src/workspace/Workspace.jsx` | Window stack, menus, preferences, entry flow |
 | `src/lib/qubit.js`, `src/lib/relay.js` | Quantum simulation and missions |
 | `src/index.css` | Responsive workspace, document, print, and reduced-motion styles |
@@ -54,3 +56,7 @@ Dependencies are pinned; `.npmrc` selects the official npm registry and disables
 See [TEST_REPORT.md](TEST_REPORT.md) for coverage and limitations, and [SOURCE_NOTES.md](SOURCE_NOTES.md) for factual provenance.
 
 Employer product/store listings are intentionally omitted. Keep employer experience general; research sources and public personal projects remain available.
+
+The mobile scene is a separate exploded quantum-processor design study with a small geometry budget. It is not the desktop workbench scaled down. `public/workspace-atmosphere.svg` is the locally authored background illustration; no external image request is made.
+
+The filesystem permits writes only under `/home/visitor` and `/tmp`, with a 256 KB serialized quota, a 256-node bound, and a 64 KB limit per file. It supports the commands listed by `help`; it does not provide a full Linux kernel, package manager, arbitrary binaries, or network access. Virtual file edits change only the visitor's browser data, not the portfolio source.

@@ -2,7 +2,8 @@ import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import Boot from "./Boot";
 import WorkspaceWindow from "./Window";
 import Terminal from "./Terminal";
-import QuantumRelay from "./QuantumRelay";
+import Playground from "./Playground";
+import "./atmosphere.css";
 import useSound from "./useSound";
 import {
   AboutFile,
@@ -19,6 +20,7 @@ import { LINKS, TITLES } from "./content";
 import portrait from "../assets/nirusanHariharan2.webp";
 import SceneBoundary from "./SceneBoundary";
 const World = lazy(() => import("./World"));
+const MobileWorld = lazy(() => import("./MobileWorld"));
 const files = [
   ["research", "Research"],
   ["experience", "Experience"],
@@ -40,7 +42,7 @@ function initialMotion() {
 }
 function initialBoot() {
   try {
-    return sessionStorage.getItem("nh-workspace-entered") !== "yes";
+    return sessionStorage.getItem("nh-signal-intro-entered") !== "yes";
   } catch {
     return true;
   }
@@ -50,6 +52,15 @@ export default function Workspace() {
     [reading, setReading] = useState(
       () => location.hash === "#read" || location.hash.startsWith("#index-"),
     );
+  const [compact, setCompact] = useState(
+    () => matchMedia("(max-width: 760px)").matches,
+  );
+  useEffect(() => {
+    const query = matchMedia("(max-width: 760px)");
+    const change = () => setCompact(query.matches);
+    query.addEventListener("change", change);
+    return () => query.removeEventListener("change", change);
+  }, []);
   const [ready, setReady] = useState(false),
     [failed, setFailed] = useState(false),
     [motion, setMotion] = useState(initialMotion),
@@ -65,7 +76,7 @@ export default function Workspace() {
   const { sound, setEnabled, play } = useSound();
   const markEntered = () => {
     try {
-      sessionStorage.setItem("nh-workspace-entered", "yes");
+      sessionStorage.setItem("nh-signal-intro-entered", "yes");
     } catch {
       /* Optional storage. */
     }
@@ -73,7 +84,6 @@ export default function Workspace() {
   const enter = () => {
     markEntered();
     setBoot(false);
-    play("welcome");
   };
   const openIndex = () => {
     markEntered();
@@ -182,7 +192,8 @@ export default function Workspace() {
   }, []);
   useEffect(() => {
     const key = (event) => {
-      if (event.key !== "Escape" || boot || reading) return;
+      if (event.defaultPrevented || event.key !== "Escape" || boot || reading)
+        return;
       const menu = document.querySelector(".workspace-menu[open]");
       if (menu) {
         menu.open = false;
@@ -198,7 +209,15 @@ export default function Workspace() {
     document.addEventListener("keydown", key);
     return () => document.removeEventListener("keydown", key);
   }, [front, boot, reading]);
-  if (reading) return <ReadIndex onBack={closeIndex} />;
+  if (reading)
+    return (
+      <ReadIndex
+        onBack={closeIndex}
+        sound={sound}
+        onSound={() => setEnabled(!sound)}
+      />
+    );
+  const Scene = compact ? MobileWorld : World;
   const renderApp = (app) => {
     switch (app) {
       case "about":
@@ -216,9 +235,18 @@ export default function Workspace() {
       case "stack":
         return <StackFile />;
       case "terminal":
-        return <Terminal onOpen={openApp} />;
+        return (
+          <Terminal onOpen={openApp} onExit={() => closeApp("terminal")} />
+        );
       case "quantum":
-        return <QuantumRelay onState={setQubit} onSound={play} />;
+        return (
+          <Playground
+            onState={setQubit}
+            onSound={play}
+            active={front === "quantum"}
+            motion={motion}
+          />
+        );
       case "contact":
         return <ContactFile />;
       default:
@@ -356,7 +384,11 @@ export default function Workspace() {
           <div className="world-coordinate">
             INTERACTIVE ENGINEERING WORKSPACE
             <br />
-            <span>DRAG TO ORBIT · OPEN A STATION</span>
+            <span>
+              {compact
+                ? "DRAG TO INSPECT · EXPLORE BELOW"
+                : "DRAG TO ORBIT · OPEN A STATION"}
+            </span>
           </div>
           <SceneBoundary onFailure={onFailure}>
             <Suspense
@@ -366,7 +398,7 @@ export default function Workspace() {
                 </div>
               }
             >
-              <World
+              <Scene
                 motion={motion}
                 suspended={Boolean(front) || reading || boot}
                 onOpen={openApp}
@@ -455,6 +487,9 @@ export default function Workspace() {
       {boot && (
         <Boot
           ready={ready}
+          failed={failed}
+          motion={motion}
+          onCue={play}
           onEnter={enter}
           onIndex={openIndex}
           sound={sound}

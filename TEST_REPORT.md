@@ -2,6 +2,38 @@
 
 The redesign is local only. Nothing was pushed, published, or deployed.
 
+## Follow-up: terminal, mobile 3D, background, and second game
+
+Current local revision adds a Linux-style browser filesystem and nano-style editor, a dedicated mobile processor model, a locally illustrated atmosphere background, and Packet Run alongside Quantum Relay.
+
+- **19 unit tests pass**: nine existing qubit/relay checks, six filesystem/shell checks, and four arcade simulation checks. Shell coverage includes path normalization, quoted filenames, copy/move, pipes, recursive copy isolation, permissions, missing operands, failed `&&` chains, persistence restore, and completion. Arcade coverage includes lane bounds, collision/collection counted once, pause, bounded frame deltas, loss, and successful delivery.
+- Browser workflow verified: `mkdir -p experiments && cd experiments`, redirected writing, `cp`, `cat`, `nano above.txt`, editing and Ctrl+O save, on-screen editor exit, and content/cwd restored after closing and reopening Terminal.
+- Tab completed `mk` to `mkdir ` while focus remained in the command input. Ctrl+G editor help worked. The in-app browser intercepted Ctrl+X before it reached the page during automation; the on-screen Exit control passed. Standalone-browser Ctrl+X is implemented but not independently verified here.
+- Packet Run start, arrow-key steering, touch-button steering, pause/resume, and automatic pause when another window covered it passed. Keyboard arrow navigation between the two game tabs passed. Quantum Relay's first mission was completed again after integration.
+- The new mobile model reported **25 draw calls / 4,536 triangles** in development, compared with approximately 189 draw calls / 60,254 triangles for the previous full workbench. These are geometry/submission counts, not measured frame-rate guarantees. Mobile DPR is capped at 1.75; animations stop when covered/hidden. The layered model has no floating labels over the geometry.
+- The background is a locally authored SVG with a star field and contour paths. No new application dependency or remote media service was added.
+- Workspace, Terminal, and Packet Run checked at 320 × 568, 360 × 800, 390 × 844, 430 × 932, 768 × 1024, 1024 × 768, 1440 × 900, and 1920 × 1080: correct mobile/desktop scene switch and no horizontal overflow in either document pane.
+- A natural Packet Run loss displayed the final score; restart reset score, shields, and timer. Start via Space and keyboard steering after using touch buttons also passed.
+- Game-start scrolling is restricted to the content pane. The outer window scroll position remained zero and the title controls remained visible on both desktop and phone.
+- Final lint/build passed and the final browser console pass reported no errors. The deferred shared Three.js engine still triggers the existing 500 kB uncompressed advisory. Current initial JS is about 95 kB gzip; deferred engine about 147 kB gzip, with small separate mobile/desktop scene modules.
+- Captures: `artifacts/qa/processor-mobile-revised.jpg`, `atmosphere-desktop-revised.jpg`, `packet-run-desktop.jpg`, and `workspace-final.jpg`.
+- Test-created virtual files were removed. The handed-off preview has animation and sound enabled. These checks use viewport emulation, not physical Android/iOS or Safari/Firefox testing.
+
+## Follow-up: automatic signal introduction and sound
+
+The previous opt-in intro is replaced with an automatic sequence: inbound quantum/cybersecurity signal, public guest authentication, and a welcome transition. It takes about 6.65 seconds with motion enabled, then opens the workspace. The short static sequence is used when animation is off. Authentication is presentation only: there is no account form, credential collection, or server authentication request.
+
+Sound is now **on by default**, with a quiet locally synthesized ambient loop and phase cues. Audio activation is attempted automatically; browser autoplay restrictions can defer it until a pointer or keyboard interaction. Mute remains available in the intro, workspace, and reading view. The old sound-off/opt-in results below are historical and superseded.
+
+Verified in the in-app Chromium browser:
+
+- All three stages appeared in order and automatically entered the workspace.
+- Intro skip, read-index shortcut, mute/unmute, and reading-view mute worked.
+- Animation-off sequence also completed all three stages; motion was restored on for handoff.
+- Authentication layout checked at 320 × 568, 390 × 844, 768 × 1024, 1024 × 768, 1440 × 900, and 1920 × 1080: no horizontal overflow, content and skip control within the viewport, no credential fields.
+- No runtime console errors during the interaction pass. Audio controls and Web Audio execution checked; perceived audio quality and cross-browser autoplay behavior remain outside this local test.
+- Captures: `artifacts/qa/intro-signal-desktop.jpg`, `intro-authentication-desktop.jpg`, `intro-welcome-desktop.jpg`, and `intro-authentication-mobile.jpg`.
+
 ## Follow-up: ADScAI links and company privacy
 
 The production directory has now been removed from the scene, launchers, menus, reading index, app registry, and terminal command whitelist. Its previous coverage below is a historical record of the initial redesign, not a description of the current site.

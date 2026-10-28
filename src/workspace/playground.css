@@ -1,0 +1,150 @@
+.play-tabs {
+  display: flex;
+  gap: 22px;
+  border-bottom: 1px solid #a8b59b;
+  margin-bottom: 28px;
+}
+.play-tabs button {
+  flex: 1;
+  min-height: 48px;
+  text-align: left;
+  font: 12px/1.6 var(--mono);
+  padding: 10px 0;
+  color: #647256;
+  border-bottom: 2px solid transparent;
+}
+.play-tabs button[aria-selected="true"] {
+  color: #243c2c;
+  border-bottom-color: #3b6651;
+}
+.packet-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.packet-heading h2 {
+  margin-top: 12px;
+  font-size: 35px;
+}
+.packet-heading > span {
+  font: 11px var(--mono);
+  color: #5d735d;
+}
+.packet-description {
+  margin-top: 18px;
+  max-width: 620px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.packet-hud {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 20px 0 14px;
+  font: 11px/1.8 var(--mono);
+  color: #66755c;
+}
+.packet-hud strong {
+  display: block;
+  font: 19px/1.5 var(--mono);
+  color: #284a3c;
+}
+.packet-stage {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #53766e;
+  background: #0a1b2a;
+  touch-action: pan-y;
+}
+.packet-stage canvas {
+  display: block;
+  width: 100%;
+  height: 340px;
+}
+.packet-stage:focus-visible {
+  outline-offset: 3px;
+  outline-color: #479c8b;
+}
+.packet-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  text-align: center;
+  color: #d8eae0;
+  background: #081722b8;
+  padding: 22px;
+}
+.packet-overlay p {
+  font: 10px/1.7 var(--mono);
+  letter-spacing: 0.14em;
+  color: #89c5b7;
+}
+.packet-overlay h3 {
+  font-size: 27px;
+  color: #e1eee5;
+}
+.packet-overlay button {
+  min-height: 48px;
+  border: 1px solid #85bba7;
+  padding: 10px 28px;
+  color: #d7f3e3;
+  background: #2c64564d;
+  font: 13px var(--mono);
+}
+.packet-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+.packet-controls button {
+  min-height: 46px;
+  flex: 1;
+  border: 1px solid #9eae90;
+  color: #294f40;
+  font: 13px var(--mono);
+  background: #d3dcc8;
+}
+.packet-help {
+  font: 11px/1.9 var(--mono);
+  color: #5c7258;
+  margin-top: 17px;
+}
+@media (max-width: 760px) {
+  .play-tabs {
+    gap: 13px;
+    margin-bottom: 24px;
+  }
+  .play-tabs button {
+    font-size: 10px;
+  }
+  .packet-heading h2 {
+    font-size: 29px;
+  }
+  .packet-heading > span {
+    font-size: 9px;
+  }
+  .packet-description {
+    font-size: 15px;
+  }
+  .packet-stage canvas {
+    height: clamp(160px, 32dvh, 270px);
+  }
+  .packet-hud {
+    font-size: 10px;
+  }
+  .packet-hud strong {
+    font-size: 17px;
+  }
+  .packet-overlay h3 {
+    font-size: 24px;
+  }
+  .packet-help {
+    font-size: 10px;
+  }
+}

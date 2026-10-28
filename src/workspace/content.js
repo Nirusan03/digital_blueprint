@@ -1,7 +1,9 @@
 export const LINKS = {
   paper: "https://doi.org/10.1109/QCNC69040.2026.00129",
-  adscaiRepository: "https://dl.lib.uom.lk/collections/82a1a2f9-fd70-41b2-a766-d599d3bbfadd?spc.page=1&f.author=Hariharan,%20N,equals",
-  adscaiPaper: "https://dl.lib.uom.lk/bitstreams/b4cd0161-dae4-47c3-bddf-7de6139ca1a1/download",
+  adscaiRepository:
+    "https://dl.lib.uom.lk/collections/82a1a2f9-fd70-41b2-a766-d599d3bbfadd?spc.page=1&f.author=Hariharan,%20N,equals",
+  adscaiPaper:
+    "https://dl.lib.uom.lk/bitstreams/b4cd0161-dae4-47c3-bddf-7de6139ca1a1/download",
   ieee: "https://ieeexplore.ieee.org/document/11500296/",
   conference: "https://www.ieee-qcnc.org/2026/accepted-papers.php",
   thesis: "https://dlib.iit.ac.lk/xmlui/handle/123456789/3364",
@@ -19,7 +21,7 @@ export const TITLES = {
   recognition: "recognition.log",
   stack: "toolkit.txt",
   terminal: "terminal",
-  quantum: "quantum-relay",
+  quantum: "playground",
   contact: "contact",
 };
 export const CAREER = [

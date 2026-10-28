@@ -116,7 +116,11 @@ export function ResearchFile() {
         the repository entry and conference download below.
       </p>
       <div className="file-links">
-        <a href={LINKS.adscaiRepository} target="_blank" rel="noopener noreferrer">
+        <a
+          href={LINKS.adscaiRepository}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           ADScAI repository ↗
         </a>
         <a href={LINKS.adscaiPaper} target="_blank" rel="noopener noreferrer">
@@ -132,9 +136,9 @@ export function ImmersiveFile() {
       <p className="file-eyebrow">CO-FOUNDER & CTO / VR & IOT</p>
       <h2>Immersive Smile Plus</h2>
       <p className="file-intro">
-        I build immersive experiences for healthcare with our founding team.
-        Our work brings together virtual reality, connected devices, and
-        software engineering.
+        I build immersive experiences for healthcare with our founding team. Our
+        work brings together virtual reality, connected devices, and software
+        engineering.
       </p>
       <div className="file-links">
         <a href={LINKS.immersive} target="_blank" rel="noopener noreferrer">
@@ -356,11 +360,14 @@ export function ContactFile() {
     </div>
   );
 }
-export function ReadIndex({ onBack }) {
+export function ReadIndex({ onBack, sound, onSound }) {
   return (
     <div className="read-index">
       <header>
         <button onClick={onBack}>← 3D workspace</button>
+        <button onClick={onSound} aria-pressed={!sound}>
+          {sound ? "Mute sound" : "Unmute sound"}
+        </button>
         <nav aria-label="Portfolio index">
           <a href="#index-research">Research</a>
           <a href="#index-experience">Experience</a>
