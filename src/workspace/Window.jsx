@@ -163,7 +163,7 @@ export default function WorkspaceWindow({
           </button>
         </div>
       </header>
-      <div className="window-body" tabIndex="0">
+      <div className={`window-body ${["terminal", "quantum"].includes(app) ? "" : "document-dark"}`} tabIndex="0">
         {children}
       </div>
       <div className="window-status">

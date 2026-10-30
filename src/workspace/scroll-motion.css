@@ -1,0 +1,7 @@
+/* Motion is progressive enhancement: no JavaScript or reduced motion leaves content readable. */
+.scroll-portfolio[data-scroll-motion="active"] [data-story="waiting"] { pointer-events:none; }
+.scroll-portfolio .research-intro > p:not(.file-eyebrow,.research-title,.research-authors) { font-size:18px; line-height:1.9; max-width:850px; margin-top:24px; }
+@media(max-width:760px) { .scroll-portfolio .research-intro > p:not(.file-eyebrow,.research-title,.research-authors) { font-size:16px; } }
+html[data-motion="off"] .scroll-portfolio [data-story] { opacity:1 !important; transform:none !important; pointer-events:auto; }
+@media(prefers-reduced-motion:reduce) { .scroll-portfolio [data-story] { opacity:1 !important; transform:none !important; pointer-events:auto; } }
+@media print { .scroll-portfolio [data-story], .scroll-portfolio [data-story] * { opacity:1 !important; transform:none !important; pointer-events:auto; } }

@@ -1,0 +1,11 @@
+.paper-preview { margin: 32px 0 0; padding: 22px; background: #dce4dc; border: 1px solid #abbdb3; color: #213b3e; }
+.paper-preview figcaption { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.paper-preview figcaption strong { display: block; font-family: var(--display); font-size: 24px; font-weight: 500; }
+.paper-preview figcaption span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.6; }
+.paper-preview figcaption a { font-size: 14px; flex-shrink: 0; }
+.paper-page { display: block; max-width: 650px; margin: auto; background: white; box-shadow: 0 8px 25px #173a3b16; }
+.paper-page img { width: 100%; height: auto; aspect-ratio: 1061 / 1500; }
+.paper-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; font-family: var(--mono); font-size: 12px; }
+.paper-controls button { min-height: 44px; padding: 5px; color: #244b48; }
+.paper-preview .paper-note { margin: 8px 0 0 !important; font-size: 12px !important; line-height: 1.7 !important; color: #516c65; }
+@media(max-width: 600px) { .paper-preview { padding: 12px; } .paper-preview figcaption { display: block; } .paper-preview figcaption a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 6px; } }

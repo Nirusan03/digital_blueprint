@@ -3,9 +3,20 @@ import { CONTACT, PROJECTS } from "../constants";
 import { CAREER, LINKS, RECOGNITION } from "./content";
 import portrait from "../assets/portraits/nirusan-cutout-v2.webp";
 import "./portrait.css";
+import "./toolkit.css";
+import "./milestones.css";
+import MilestoneIcon from "./MilestoneIcon";
+import ExperienceRow from "./ExperienceRow";
+import "./experience-motion.css";
+import useFileChoreography from "./useFileChoreography";
+import PaperPreview from "./PaperPreview";
+import ProjectMedia, { ProjectIllustration } from "./ProjectMedia";
+import ResearchResults from "./ResearchResults";
+import QuantumLab from "./QuantumLab";
 export function AboutFile() {
+  const reveal=useFileChoreography();
   return (
-    <div className="about-file">
+    <div className="about-file" ref={reveal}>
       <figure>
         <img src={portrait} alt="Nirusan Hariharan" width="220" height="280" />
         <figcaption>Colombo, Sri Lanka</figcaption>
@@ -46,9 +57,10 @@ export function AboutFile() {
     </div>
   );
 }
-export function ResearchFile() {
+export function ResearchFile({ motion = true }) {
   return (
     <article className="research-file">
+      <div className="research-intro">
       <p className="file-eyebrow">PUBLISHED RESEARCH / APRIL 2026</p>
       <h2>QuanNetDetect</h2>
       <p className="research-title">
@@ -62,22 +74,17 @@ export function ResearchFile() {
         combines classical deep learning with quantum models to analyse
         encrypted TLS traffic while preserving privacy.
       </p>
+      </div>
       <dl className="research-facts">
         <div>
           <dt>Published at</dt>
           <dd>IEEE QCNC 2026 · Kobe, Japan</dd>
         </div>
         <div>
-          <dt>Reported accuracy</dt>
+          <dt>Binary detection</dt>
           <dd>
-            99.75% on evaluated datasets{" "}
-            <a
-              href={LINKS.westminster}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              [Westminster]
-            </a>
+            99.95% validation accuracy · CIC-Darknet-2020
+            {" "}<a href={LINKS.paper} target="_blank" rel="noopener noreferrer">[IEEE paper]</a>
           </dd>
         </div>
         <div>
@@ -109,6 +116,10 @@ export function ResearchFile() {
         </a>
       </div>
       <p className="document-note">DOI: 10.1109/QCNC69040.2026.00129</p>
+      <div className="file-rule" />
+      <QuantumLab motion={motion} />
+      <ResearchResults />
+      <PaperPreview />
       <div className="file-rule" />
       <h3>ADScAI 2025</h3>
       <p>
@@ -150,8 +161,19 @@ export function ImmersiveFile() {
   );
 }
 export function RecognitionFile() {
+  const milestones = useRef(null);
+  useEffect(() => {
+    // The reading view uses the shared scroll choreography. PC panes observe their own rows.
+    const host = milestones.current;
+    if (!host || host.closest(".scroll-portfolio") || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(({target,isIntersecting}) => target.setAttribute("data-milestone",isIntersecting ? "entering" : "idle"));
+    }, { threshold:.12 });
+    host.querySelectorAll(".milestone-row").forEach(row => observer.observe(row));
+    return () => observer.disconnect();
+  }, []);
   return (
-    <div className="recognition-file">
+    <div className="recognition-file" ref={milestones}>
       <p className="file-eyebrow">RESEARCH / EDUCATION / STARTUPS</p>
       <h2>A few milestones</h2>
       <p className="file-intro">
@@ -159,21 +181,32 @@ export function RecognitionFile() {
         recognised it.
       </p>
       {RECOGNITION.map((item) => (
-        <article key={item.title}>
-          <span>{item.year || "—"}</span>
-          <div>
+        <article key={item.title} className="milestone-row" data-tone={item.tone}>
+          <div className="milestone-meta">
+            <MilestoneIcon name={item.icon} />
+            {item.year && <span className="milestone-year">{item.year}</span>}
+          </div>
+          <div className="milestone-copy">
             <h3>{item.title}</h3>
             <p>{item.detail}</p>
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              {item.url.includes("linkedin") ? "On LinkedIn" : "Source"} ↗
-            </a>
+            <div className="recognition-links">
+              {(item.links || [{ url: item.url, label: item.url.includes("linkedin") ? "On LinkedIn" : "Source" }]).map(link => (
+                <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label}<svg className="milestone-link-arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
+              ))}
+            </div>
           </div>
         </article>
       ))}
     </div>
   );
 }
-function RepositoryLinks({ project }) {
+export function RepositoryLinks({ project }) {
+  if (project.links)
+    return project.links.map(({ label, url }) => (
+      <a key={url} href={url} target="_blank" rel="noopener noreferrer">
+        {label} ↗
+      </a>
+    ));
   if (project.website)
     return (
       <a href={project.website} target="_blank" rel="noopener noreferrer">
@@ -217,15 +250,10 @@ export function WorkFile() {
           ))}
         </nav>
       </div>
-      <article className="work-file-preview" aria-live="polite">
-        {project.image && (
-          <img
-            src={project.image}
-            alt={`${project.title} project illustration`}
-            width="800"
-            height="450"
-          />
-        )}
+      <article key={project.title} className="work-file-preview" aria-live="polite">
+        {project.preview && <ProjectMedia project={project} />}
+        {!project.preview && project.image && <ProjectIllustration project={project} />}
+        {project.role && <p className="file-eyebrow">PRODUCTION / {project.role}</p>}
         <h2>{project.title.trim()}</h2>
         <p>{project.description}</p>
         <p className="inline-stack">{project.technologies.join(" / ")}</p>
@@ -255,58 +283,132 @@ export function WorkFile() {
     </div>
   );
 }
-export function ExperienceFile() {
+export function ExperienceFile({ expanded = false, motion = true }) {
+  const experience = useRef(null);
+  useEffect(() => {
+    const host = experience.current;
+    if (!host || host.closest(".scroll-portfolio") || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(({target,isIntersecting}) => target.setAttribute("data-experience",isIntersecting ? "entering" : "idle"));
+    }, { threshold:.12 });
+    host.querySelectorAll(".experience-row").forEach(row => observer.observe(row));
+    return () => observer.disconnect();
+  }, []);
   return (
-    <div className="experience-file">
+    <div className="experience-file" ref={experience}>
       <p className="file-eyebrow">WORK HISTORY / CURRENT & PREVIOUS</p>
       <h2>Experience</h2>
-      {CAREER.map((item, index) => (
-        <details key={item.company} open={index < 2 ? true : undefined}>
-          <summary>
-            <span className="experience-date">{item.year}</span>
-            <span>
-              <strong>{item.company}</strong>
-              <span>{item.role}</span>
-            </span>
-            <span className="file-expand" aria-hidden="true">
-              +
-            </span>
-          </summary>
-          <div>
-            <ul>
-              {item.description.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
-            <p className="inline-stack">{item.technologies.join(" / ")}</p>
-          </div>
-        </details>
-      ))}
-      <a href="/Nirusan_Hariharan_CV.pdf" download>
-        Download résumé ↓
-      </a>
+      {CAREER.map((item,index) => <ExperienceRow key={item.company} item={item} index={index} defaultOpen={expanded || index < 2} motion={motion} />)}
+      <a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé ↓</a>
     </div>
   );
 }
+
 const toolkit = [
-  ["Languages", "Python, Java, C#, TypeScript, JavaScript, Kotlin, Swift"],
-  ["Backend", "FastAPI, Spring Boot, ASP.NET Core, Node.js, Flask"],
-  ["Frontend", "React, Next.js, Angular, Vue, Blazor"],
-  ["AI & quantum", "LLM integrations, MCP, TensorFlow, Qiskit, PennyLane"],
-  ["Data", "PostgreSQL, MongoDB, MySQL, Firebase, Supabase, SQLite"],
-  ["Infrastructure", "AWS, Azure, Linode, Docker, Jenkins, Azure DevOps"],
-  ["Immersive & mobile", "Unity, Unreal Engine, VR, IoT, Android, iOS"],
+  [
+    "Languages",
+    [
+      ["Python", "python"],
+      ["Java", "java"],
+      ["C#", "csharp"],
+      ["TypeScript", "typescript"],
+      ["JavaScript", "javascript"],
+      ["Kotlin", "kotlin"],
+      ["Swift", "swift"],
+    ],
+  ],
+  [
+    "Backend",
+    [
+      ["FastAPI", "fastapi"],
+      ["Spring Boot", "spring"],
+      ["ASP.NET Core", "dotnetcore"],
+      ["Node.js", "nodejs"],
+      ["Flask", "flask"],
+    ],
+  ],
+  [
+    "Frontend",
+    [
+      ["React", "react"],
+      ["Next.js", "nextjs"],
+      ["Angular", "angular"],
+      ["Vue", "vuejs"],
+      ["Blazor", "blazor"],
+    ],
+  ],
+  [
+    "AI & quantum",
+    [
+      ["LLM integrations", "concept-llm"],
+      ["MCP", "concept-mcp"],
+      ["TensorFlow", "tensorflow"],
+      ["Qiskit", "qiskit"],
+      ["PennyLane", "concept-circuit"],
+    ],
+  ],
+  [
+    "Data",
+    [
+      ["PostgreSQL", "postgresql"],
+      ["MongoDB", "mongodb"],
+      ["MySQL", "mysql"],
+      ["Firebase", "firebase"],
+      ["Supabase", "supabase"],
+      ["SQLite", "sqlite"],
+    ],
+  ],
+  [
+    "Infrastructure",
+    [
+      ["AWS", "amazonwebservices"],
+      ["Azure", "azure"],
+      ["Linode", "concept-cloud"],
+      ["Docker", "docker"],
+      ["Jenkins", "jenkins"],
+      ["Azure DevOps", "azuredevops"],
+    ],
+  ],
+  [
+    "Immersive & mobile",
+    [
+      ["Unity", "unity"],
+      ["Unreal Engine", "unrealengine"],
+      ["VR", "concept-vr"],
+      ["IoT", "concept-iot"],
+      ["Android", "android"],
+      ["iOS", "apple"],
+    ],
+  ],
 ];
 export function StackFile() {
+  const reveal=useFileChoreography("dl > div");
   return (
-    <div className="stack-file">
+    <div className="stack-file" ref={reveal}>
       <p className="file-eyebrow">TOOLS / LANGUAGES / PLATFORMS</p>
       <h2>The toolkit</h2>
       <dl>
         {toolkit.map(([title, list]) => (
           <div key={title}>
             <dt>{title}</dt>
-            <dd>{list}</dd>
+            <dd>
+              <ul className="toolkit-items">
+                {list.map(([name, icon],i) => (
+                  <li key={name} style={{'--tool-order':i}}>
+                    <img
+                      src={`/icons/toolkit/${icon}.svg`}
+                      data-icon={icon}
+                      alt=""
+                      aria-hidden="true"
+                      width="30"
+                      height="30"
+                      loading="lazy"
+                    />
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
+            </dd>
           </div>
         ))}
       </dl>
@@ -314,6 +416,7 @@ export function StackFile() {
   );
 }
 export function ContactFile() {
+  const reveal=useFileChoreography();
   const [status, setStatus] = useState("");
   const timer = useRef(null);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -328,8 +431,9 @@ export function ContactFile() {
     }
   };
   return (
-    <div className="contact-file">
+    <div className="contact-file" ref={reveal}>
       <p className="file-eyebrow">CONTACT</p>
+      <svg className="contact-signal" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><circle className="contact-orbit" cx="50" cy="50" r="43" strokeDasharray="2 8"/><path className="contact-signal-path" pathLength="1" d="m20 52 60-29-23 59-10-24-27-6ZM47 58l33-35M47 58l-7 18 17 6"/><circle cx="80" cy="23" r="3" fill="currentColor" stroke="none"/></svg>
       <h2>Get in touch.</h2>
       <p>
         For roles, projects, or a conversation about something you’re building.

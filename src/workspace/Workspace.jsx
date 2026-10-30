@@ -10,7 +10,6 @@ import {
   ContactFile,
   ExperienceFile,
   ImmersiveFile,
-  ReadIndex,
   RecognitionFile,
   ResearchFile,
   StackFile,
@@ -20,8 +19,8 @@ import { LINKS, TITLES } from "./content";
 import portrait from "../assets/portraits/nirusan-profile-v2.webp";
 import "./portrait.css";
 import SceneBoundary from "./SceneBoundary";
+import ScrollPortfolio from "./ScrollPortfolio";
 const World = lazy(() => import("./World"));
-const MobileWorld = lazy(() => import("./MobileWorld"));
 const files = [
   ["research", "Research"],
   ["experience", "Experience"],
@@ -33,6 +32,11 @@ const files = [
   ["quantum", "Play"],
   ["contact", "Contact"],
 ];
+const palettes = ["Midnight", "Deep teal", "Plum"];
+function initialPalette() {
+  try { const saved = localStorage.getItem("nh-dark-palette"); return palettes.includes(saved) ? saved : palettes[0]; }
+  catch { return palettes[0]; }
+}
 function initialMotion() {
   try {
     if (localStorage.getItem("portfolio-motion") === "off") return false;
@@ -49,9 +53,15 @@ function initialBoot() {
   }
 }
 export default function Workspace() {
+  const [palette, setPalette] = useState(initialPalette);
+  const cyclePalette = () => setPalette(previous => palettes[(palettes.indexOf(previous) + 1) % palettes.length]);
+  useEffect(() => {
+    document.documentElement.dataset.palette = palette.toLowerCase().replace(" ", "-");
+    try { localStorage.setItem("nh-dark-palette", palette); } catch { /* Optional preference. */ }
+  }, [palette]);
   const [boot, setBoot] = useState(initialBoot),
     [reading, setReading] = useState(
-      () => location.hash === "#read" || location.hash.startsWith("#index-"),
+      () => location.hash !== "#workspace",
     );
   const [compact, setCompact] = useState(
     () => matchMedia("(max-width: 760px)").matches,
@@ -94,7 +104,8 @@ export default function Workspace() {
   };
   const closeIndex = () => {
     setReading(false);
-    history.replaceState(null, "", location.pathname + location.search);
+    history.pushState(null, "", "#workspace");
+    window.scrollTo(0, 0);
   };
   const openApp = useCallback(
     (app) => {
@@ -168,7 +179,7 @@ export default function Workspace() {
   useEffect(() => {
     const navigation = () =>
       setReading(
-        location.hash === "#read" || location.hash.startsWith("#index-"),
+        location.hash !== "#workspace",
       );
     const dismissMenus = (event) => {
       if (!event.target.closest(".workspace-menu"))
@@ -212,23 +223,31 @@ export default function Workspace() {
   }, [front, boot, reading]);
   if (reading)
     return (
-      <ReadIndex
-        onBack={closeIndex}
-        sound={sound}
-        onSound={() => setEnabled(!sound)}
-      />
+      <>
+        <ScrollPortfolio
+          onWorkspace={(app) => { closeIndex(); if (app) openApp(app); }}
+          motion={motion}
+          onMotion={toggleMotion}
+          sound={sound}
+          onSound={() => setEnabled(!sound)}
+          boot={boot}
+          palette={palette}
+          onPalette={cyclePalette}
+        />
+        {boot && <Boot ready={ready} failed={failed} motion={motion} onCue={play} onEnter={enter} onIndex={openIndex} sound={sound} setSound={setEnabled} />}
+      </>
     );
-  const Scene = compact ? MobileWorld : World;
+  const Scene = World;
   const renderApp = (app) => {
     switch (app) {
       case "about":
         return <AboutFile />;
       case "research":
-        return <ResearchFile />;
+        return <ResearchFile motion={motion} />;
       case "immersive":
         return <ImmersiveFile />;
       case "experience":
-        return <ExperienceFile />;
+        return <ExperienceFile motion={motion} />;
       case "recognition":
         return <RecognitionFile />;
       case "work":
@@ -288,7 +307,7 @@ export default function Workspace() {
           <summary>View</summary>
           <nav aria-label="Workspace view options">
             <button onClick={openIndex}>
-              Read portfolio <span>Text index ↗</span>
+              Scroll portfolio <span>Full page ↗</span>
             </button>
             <button
               onClick={(event) => {
@@ -321,7 +340,7 @@ export default function Workspace() {
           <span aria-hidden="true">{sound ? "▥" : "⊘"}</span>
         </button>
         <button className="read-shortcut" onClick={openIndex}>
-          Read portfolio ↗
+          Scroll portfolio ↗
         </button>
         <time className="workspace-clock">{clock} LK</time>
       </header>

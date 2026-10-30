@@ -1,0 +1,63 @@
+/* Open editorial rows, with original illustrations instead of badge cards. */
+.recognition-file { container-type: inline-size; }
+.recognition-file .milestone-row { --milestone: #eabe7c; position: relative; grid-template-columns: 72px minmax(0,1fr); gap: 30px; border-top: 0; padding: 30px 0; isolation: isolate; background: linear-gradient(90deg,color-mix(in srgb,var(--milestone) 6%,transparent),transparent 65%) no-repeat; background-size: 0% 100%; transition: background-size .5s ease; }
+.recognition-file .milestone-row[data-tone="cyan"] { --milestone: #77d6e7; }
+.recognition-file .milestone-row[data-tone="lavender"] { --milestone: #b6a5f2; }
+.recognition-file .milestone-row[data-tone="mint"] { --milestone: #9ddbb9; }
+.recognition-file .milestone-row[data-tone="peach"] { --milestone: #f0aa90; }
+.recognition-file .milestone-row::before,.recognition-file .milestone-row::after { content:""; position:absolute; inset:0 0 auto; height:1px; pointer-events:none; }
+.recognition-file .milestone-row::before { background:var(--story-line,#9fbfc329); }
+.recognition-file .milestone-row::after { background:linear-gradient(90deg,transparent,var(--milestone),transparent); transform:scaleX(0); transform-origin:left; opacity:.65; }
+.recognition-file .milestone-row:nth-of-type(even)::after { transform-origin:right; }
+.milestone-meta { display:flex; flex-direction:column; align-items:center; gap:14px; padding-top:2px; color:var(--milestone); }
+.milestone-symbol { display:grid; place-items:center; position:relative; width:58px; height:58px; }
+.milestone-icon { width:48px; height:48px; overflow:visible; transform-origin:center; }
+.milestone-orbit { position:absolute; inset:-5px; border:1px solid color-mix(in srgb,var(--milestone) 40%,transparent); border-left-color:transparent; border-bottom-color:transparent; border-radius:50%; opacity:0; pointer-events:none; }
+.milestone-orbit::after { content:""; position:absolute; width:4px; height:4px; border-radius:50%; background:var(--milestone); top:7px; right:7px; box-shadow:0 0 10px var(--milestone); }
+.milestone-year { font:12px/1.2 var(--mono); letter-spacing:.04em; color:var(--milestone); }
+.milestone-copy { min-width:0; }
+.recognition-file .milestone-copy h3 { margin:0; line-height:1.45; transition:color .3s ease,transform .45s cubic-bezier(.2,.8,.2,1); }
+.recognition-file .milestone-copy p { margin:12px 0 16px; }
+.recognition-file .recognition-links a { gap:9px; min-height:44px; text-decoration:none; }
+.milestone-link-arrow { transition:transform .3s cubic-bezier(.2,.8,.2,1); }
+.recognition-links a:hover .milestone-link-arrow,.recognition-links a:focus-visible .milestone-link-arrow { transform:translate(3px,-3px); }
+.recognition-file .milestone-row:focus-within { background-size:100% 100%; }
+.recognition-file .milestone-row:focus-within h3 { color:var(--milestone); }
+@media (hover:hover) {
+  .recognition-file .milestone-row:hover { background-size:100% 100%; }
+  .recognition-file .milestone-row:hover h3 { color:var(--milestone); transform:translateX(6px); }
+}
+@media (prefers-reduced-motion:no-preference) {
+  html[data-motion="on"] .milestone-row:is([data-story="entering"],[data-story="visible"],[data-milestone="entering"])::after { animation:milestone-rule 1.6s cubic-bezier(.2,.7,.2,1) both; }
+  html[data-motion="on"] .milestone-row:is([data-story="entering"],[data-story="visible"],[data-milestone="entering"]) .milestone-icon { animation:milestone-arrival 1.2s cubic-bezier(.2,.8,.2,1) both; }
+  html[data-motion="on"] .milestone-row:is([data-story="entering"],[data-story="visible"],[data-milestone="entering"]) .milestone-stroke { stroke-dasharray:1; animation:milestone-draw 1.05s cubic-bezier(.4,0,.2,1) calc(var(--stroke-index) * 90ms + 100ms) both; }
+  html[data-motion="on"] .milestone-row:is([data-story="entering"],[data-story="visible"],[data-milestone="entering"]) .milestone-orbit { animation:milestone-orbit 1.8s ease-out both; }
+  html[data-motion="on"] .milestone-row[data-milestone="entering"] .milestone-copy > * { animation:milestone-copy .85s cubic-bezier(.2,.8,.2,1) both; }
+  html[data-motion="on"] .milestone-row[data-milestone="entering"] .milestone-copy > p { animation-delay:.12s; }
+  html[data-motion="on"] .milestone-row[data-milestone="entering"] .recognition-links { animation-delay:.24s; }
+  html[data-motion="on"] .milestone-row:focus-within .milestone-icon { animation:milestone-greet .8s ease both; }
+  @media (hover:hover) {
+    html[data-motion="on"] .milestone-row:hover .milestone-icon { animation:milestone-greet .8s ease both; }
+    html[data-motion="on"] .milestone-row:hover .milestone-orbit { animation:milestone-orbit 1.8s ease-out both; }
+  }
+}
+@keyframes milestone-arrival { 0% { opacity:0; transform:scale(.5) rotate(-22deg); } 65% { opacity:1; transform:scale(1.08) rotate(4deg); } 100% { opacity:1; transform:scale(1) rotate(0); } }
+@keyframes milestone-draw { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
+@keyframes milestone-orbit { 0% { opacity:0; transform:rotate(-100deg) scale(.65); } 25% { opacity:.8; } 75% { opacity:.5; } 100% { opacity:0; transform:rotate(250deg) scale(1.12); } }
+@keyframes milestone-rule { 0% { transform:scaleX(0); opacity:0; } 60% { opacity:.7; } 100% { transform:scaleX(1); opacity:.12; } }
+@keyframes milestone-copy { from { opacity:0; transform:translateX(28px); } to { opacity:1; transform:translateX(0); } }
+@keyframes milestone-greet { 0%,100% { transform:translateY(0) rotate(0); } 40% { transform:translateY(-6px) rotate(-7deg); } 70% { transform:translateY(-2px) rotate(3deg); } }
+@container (max-width:520px) {
+  .recognition-file .milestone-row { grid-template-columns:44px minmax(0,1fr); gap:18px; padding:26px 0; }
+  .milestone-symbol { width:42px; height:46px; }
+  .milestone-icon { width:38px; height:38px; }
+  .milestone-meta { gap:10px; }
+  .milestone-year { font-size:11px; }
+  .milestone-orbit { inset:0 -5px; }
+}
+html[data-motion="off"] .milestone-row *,html[data-motion="off"] .milestone-row::after { animation:none !important; transition:none !important; }
+@media(prefers-reduced-motion:reduce) {
+  .milestone-row *,.milestone-row::after { animation:none !important; transition:none !important; }
+  .recognition-file .milestone-row:hover h3 { transform:none; }
+}
+@media print { .milestone-row *,.milestone-row::after { animation:none !important; transition:none !important; } .milestone-orbit { display:none; } }

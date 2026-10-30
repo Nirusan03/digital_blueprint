@@ -14,6 +14,7 @@ import project12 from "../assets/projects/project-12.webp";
 export const PROJECTS = [
   {
     title: "Immersive Smile Plus",
+    preview: {"src": "/previews/immersive-website.webp", "url": "https://www.immersivesmile.com/", "kind": "website", "alt": "Public Immersive Smile homepage showing its VR healthcare product.", "caption": "Public website preview · Immersive Smile"},
     image: null,
     description:
       "VR and IoT for healthcare. I’m the Co-founder and CTO, developing immersive experiences with our founding team.",
@@ -27,12 +28,55 @@ export const PROJECTS = [
   },
   {
     title: "QuanNetDetect",
+    preview: {"src": "/research/ieee-qcnc-first-page.webp", "url": "https://doi.org/10.1109/QCNC69040.2026.00129", "kind": "paper", "alt": "First-page preview of the IEEE QCNC 2026 QuanNetDetect paper.", "caption": "IEEE QCNC 2026 · First-page image preview"},
     publication: "https://doi.org/10.1109/QCNC69040.2026.00129",
     image: project1,
     description:
       "A system focused on detecting encrypted malicious TLS traffic using quantum deep learning models for enhanced accuracy, efficiency, and interpretability.",
     technologies: ["Flask", "Pennylane", "Qiskit", "React.js", "MongoDB"],
     github: "https://github.com/Nirusan03/QuanNetDetct",
+  },
+  {
+    title: "Niroga AI",
+    preview: {"src": "/previews/niroga-website.webp", "url": "https://orders.niroga.ai/", "kind": "website", "alt": "Niroga AI online store homepage featuring the Niroga 470.", "caption": "Public website preview · Niroga AI online store"},
+    image: null,
+    role: "Software Engineer",
+    description:
+      "I maintain Niroga AI’s healthcare website, online store, and Android application, alongside backend and AI integration work.",
+    technologies: ["Python", "FastAPI", "AI integrations", "Android", "Web"],
+    links: [
+      { label: "Website", url: "https://niroga.ai/" },
+      { label: "Online store", url: "https://orders.niroga.ai/" },
+      { label: "Android app", url: "https://play.google.com/store/apps/details?id=com.nirogaaiauscultation&hl=en" },
+    ],
+  },
+  {
+    title: "BlueLotus360",
+    preview: {"src": "/previews/bluelotus-dashboard.webp", "screens": [{ "src": "/previews/bluelotus-dashboard.webp", "alt": "BL360 ERP Go dashboard interface, from the official App Store screenshot." }, { "src": "/previews/bluelotus-approvals.webp", "alt": "BL360 ERP Go waiting-list interface, from the official App Store screenshot." }], "url": "https://apps.apple.com/us/app/bl-360-erp-mobile-go/id6775718818", "kind": "app", "alt": "Official BL360 ERP Go app interface previews.", "caption": "App Store · interface details"},
+    image: null,
+    role: "Software Engineer",
+    description:
+      "I build and maintain the ERP applications across Android, iOS, and Windows, and work on the backend services that support them.",
+    technologies: ["C#", "ASP.NET Core", "Blazor Hybrid", "Kotlin", "SQL"],
+    links: [
+      { label: "Windows app", url: "https://apps.microsoft.com/detail/9p6rwsmqcjh5?hl=en-US&gl=LK" },
+      { label: "Android app", url: "https://play.google.com/store/apps/details?id=com.bl360.ui.blkotlinui&hl=en" },
+      { label: "iOS app", url: "https://apps.apple.com/us/app/bl-360-erp-mobile-go/id6775718818" },
+    ],
+  },
+  {
+    title: "SENOVA",
+    preview: {"src": "/previews/senova-website.webp", "url": "https://senovaproducts.com/", "kind": "website", "alt": "Public SENOVA homepage showing its smart ring product range.", "caption": "Public website preview · SENOVA"},
+    image: null,
+    role: "Product engineering · Niroga AI",
+    description:
+      "I maintain the ring and strap product websites and the Android companion application for SENOVA’s wearable products.",
+    technologies: ["Web", "E-commerce", "Android", "Connected devices"],
+    links: [
+      { label: "Global website", url: "https://senovaproducts.com/" },
+      { label: "Sri Lanka website", url: "https://senovaproducts.lk/" },
+      { label: "Android app", url: "https://play.google.com/store/apps/details?id=com.healthspan.stainlessring&hl=en" },
+    ],
   },
   {
     title: "EmploySync Platform",

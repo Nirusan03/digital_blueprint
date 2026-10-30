@@ -1,4 +1,6 @@
 export const LINKS = {
+  iitLinkedin: "https://www.linkedin.com/posts/informatics-institute-of-technology_celebrating-iitian-nirushan-hariharan-best-activity-7409291505158393856-wnDt",
+  iitFacebook: "https://www.facebook.com/iitsl/videos/celebrating-iitian-nirushan-hariharan-best-project-innovative-startup-award-/1198194912288987/",
   paper: "https://doi.org/10.1109/QCNC69040.2026.00129",
   adscaiRepository:
     "https://dl.lib.uom.lk/collections/82a1a2f9-fd70-41b2-a766-d599d3bbfadd?spc.page=1&f.author=Hariharan,%20N,equals",
@@ -129,25 +131,37 @@ export const RECOGNITION = [
   {
     year: "2026",
     title: "Recent Graduate Award — finalist",
+    icon: "laurels",
+    tone: "gold",
     detail: "University of Westminster Alumni Awards.",
     url: LINKS.westminster,
   },
   {
     year: "2026",
     title: "QuanNetDetect published at IEEE QCNC",
+    icon: "quantum",
+    tone: "cyan",
     detail: "Co-authored with Guhanathan Poravi. QCNC 2026, Kobe, Japan.",
     url: LINKS.paper,
   },
   {
     year: "2025",
     title: "First Class Honours · BSc Computer Science",
+    icon: "graduate",
+    tone: "lavender",
     detail:
       "University of Westminster / IIT. Research score: 92%. Best Final Year Research Project — Faculty of Computing.",
-    url: LINKS.linkedin,
+    url: LINKS.iitLinkedin,
+    links: [
+      { label: "IIT’s post", url: LINKS.iitLinkedin },
+      { label: "Facebook", url: LINKS.iitFacebook },
+    ],
   },
   {
     year: "2025",
     title: "Best Undergraduate Research — ADScAI",
+    icon: "research",
+    tone: "mint",
     detail:
       "QuanNetDetect, University of Moratuwa. Also shortlisted for NBQSA.",
     url: LINKS.adscaiRepository,
@@ -155,6 +169,8 @@ export const RECOGNITION = [
   {
     year: "2026",
     title: "Immersive Smile Plus — national showcases",
+    icon: "globe",
+    tone: "cyan",
     detail:
       "Disrupt Asia, National AI Expo, and SLT AI Expo participation. Selected for StartupTN.",
     url: LINKS.linkedin,
@@ -162,6 +178,8 @@ export const RECOGNITION = [
   {
     year: "",
     title: "Best Innovative Tech Product · IIT",
+    icon: "immersive",
+    tone: "peach",
     detail:
       "Immersive Smile Plus. Also 1st Runner-Up, Yarl IT Hub Innovative Solution Award.",
     url: LINKS.linkedin,
@@ -169,24 +187,32 @@ export const RECOGNITION = [
   {
     year: "2023",
     title: "1st Runner-Up · IEEE Innovation Nation Sri Lanka",
+    icon: "trophy",
+    tone: "gold",
     detail: "Immersive Smile Plus, Idea Stage.",
     url: "https://www.linkedin.com/posts/nirusan-hariharan-447463214_ieee-innovation-of-sri-lanka-insl-awarded-activity-7045885862596808704-adB9",
   },
   {
     year: "2023",
     title: "1st Runner-Up · Haxmas",
+    icon: "code",
+    tone: "lavender",
     detail: "ElderGuardian, built with my team.",
     url: LINKS.linkedin,
   },
   {
     year: "2022",
     title: "Grand finalist · HACKX 7.0",
+    icon: "launch",
+    tone: "peach",
     detail: "VR healthcare project. University of Kelaniya.",
     url: LINKS.linkedin,
   },
   {
     year: "2022",
     title: "2nd Runner-Up · Cutting Edge",
+    icon: "podium",
+    tone: "mint",
     detail:
       "IIT team project in full-stack development and e-commerce trading.",
     url: LINKS.linkedin,
@@ -194,6 +220,8 @@ export const RECOGNITION = [
   {
     year: "2022",
     title: "Business Faculty finalist · Cutting Edge",
+    icon: "growth",
+    tone: "cyan",
     detail: "A team project exploring an application for digital trading.",
     url: LINKS.linkedin,
   },

@@ -25,3 +25,7 @@ dist-ssr
 
 # Local review captures
 artifacts/
+
+# Publication PDFs stay outside the repository; only selected image previews belong here.
+**/QuanNetDetect*.pdf
+public/research/*.pdf

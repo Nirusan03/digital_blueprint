@@ -64,7 +64,7 @@ export default function World({
     }
     const compact = window.matchMedia("(max-width: 760px)").matches;
     renderer.setPixelRatio(
-      Math.min(window.devicePixelRatio || 1, compact ? 1 : 1.5),
+      Math.min(Math.max(window.devicePixelRatio || 1, 1.5), 2),
     );
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -94,6 +94,8 @@ export default function World({
     controls.minPolarAngle = 0.32;
     controls.maxPolarAngle = 1.3;
     controls.enableZoom = false;
+    controls.touches.ONE = null;
+    controls.touches.TWO = null;
     renderer.domElement.style.touchAction = "pan-y";
     const pmrem = new THREE.PMREMGenerator(renderer),
       room = new RoomEnvironment(),
@@ -230,7 +232,7 @@ export default function World({
     shadowContext.fillRect(0, 0, 256, 256);
     const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
     const shadow = mesh(
-      new THREE.PlaneGeometry(11, 11),
+      new THREE.PlaneGeometry(7.5, 7.5),
       new THREE.MeshBasicMaterial({
         map: shadowTexture,
         transparent: true,
@@ -441,8 +443,8 @@ export default function World({
       new THREE.TorusKnotGeometry(
         0.77,
         0.12,
-        compact ? 96 : 160,
-        compact ? 10 : 18,
+        160,
+        18,
         2,
         3,
       ),
@@ -514,7 +516,8 @@ export default function World({
       renderSamples = 0,
       disposed = false,
       dragging = false,
-      visible = !document.hidden;
+      visible = !document.hidden,
+      inViewport = true;
     function updateLabels() {
       const rect = container.getBoundingClientRect();
       stations.forEach((station) => {
@@ -530,7 +533,7 @@ export default function World({
       frame = 0;
       if (disposed) return;
       const current = state.current;
-      const running = current.motion && !current.suspended && visible;
+      const running = current.motion && !current.suspended && visible && inViewport;
       const delta = Math.min((time - last) / 1000, 0.06);
       if (running && time - last < (compact ? 32 : 22)) {
         frame = requestAnimationFrame(render);
@@ -562,6 +565,8 @@ export default function World({
         labelsDirty = false;
       }
       if (import.meta.env.DEV && renderSamples++ % 30 === 0) {
+        renderer.domElement.dataset.sceneTime = elapsed.toFixed(2);
+        renderer.domElement.dataset.pixelRatio = String(renderer.getPixelRatio());
         renderer.domElement.dataset.drawCalls = String(
           renderer.info.render.calls,
         );
@@ -592,7 +597,7 @@ export default function World({
     };
     const resize = new ResizeObserver(() => {
       const rect = container.getBoundingClientRect();
-      renderer.setSize(rect.width, rect.height);
+      renderer.setSize(rect.width, rect.height, false);
       camera.aspect = rect.width / rect.height;
       fitDistance = Math.max(
         10.4,
@@ -609,8 +614,15 @@ export default function World({
       requestFrame();
     });
     resize.observe(container);
+    const viewportObserver = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting;
+      if (!inViewport) { cancelAnimationFrame(frame); frame = 0; }
+      else requestFrame();
+    }, { rootMargin: "80px" });
+    viewportObserver.observe(container);
     const visibility = () => {
-      visible = !document.hidden;
+      visible = !document.hidden,
+      inViewport = true;
       if (!visible) {
         cancelAnimationFrame(frame);
         frame = 0;
@@ -658,6 +670,7 @@ export default function World({
       down = null;
     };
     const pointerMove = (event) => {
+      if (event.pointerType === "touch") return;
       renderer.domElement.style.cursor = down
         ? "grabbing"
         : pick(event)
@@ -672,6 +685,8 @@ export default function World({
     renderer.domElement.addEventListener("pointerdown", pointerDown);
     renderer.domElement.addEventListener("pointerup", pointerUp);
     renderer.domElement.addEventListener("pointermove", pointerMove);
+    const pointerCancel = () => { down = null; };
+    renderer.domElement.addEventListener("pointercancel", pointerCancel);
     controls.update();
     controls.saveState();
     renderer.render(scene, camera);
@@ -683,6 +698,7 @@ export default function World({
       cancelAnimationFrame(frame);
       engine.current = null;
       resize.disconnect();
+      viewportObserver.disconnect();
       document.removeEventListener("visibilitychange", visibility);
       controls.removeEventListener("start", start);
       controls.removeEventListener("end", end);
@@ -692,6 +708,7 @@ export default function World({
       renderer.domElement.removeEventListener("pointerdown", pointerDown);
       renderer.domElement.removeEventListener("pointerup", pointerUp);
       renderer.domElement.removeEventListener("pointermove", pointerMove);
+      renderer.domElement.removeEventListener("pointercancel", pointerCancel);
       const geometries = new Set(),
         materials = new Set(),
         textures = new Set([shadowTexture, hubLabel]);
