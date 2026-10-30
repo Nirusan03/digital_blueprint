@@ -63,12 +63,12 @@
   .chapter-dock { position:fixed; z-index:45; bottom:max(14px,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); width:min(370px,calc(100% - 28px)); min-height:56px; display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; border:1px solid #9bbfb94d; border-radius:14px; background:color-mix(in srgb,var(--story-surface) 94%,transparent); box-shadow:0 8px 35px #0006; backdrop-filter:blur(16px); }
   .chapter-step { display:grid; place-items:center; width:44px; min-height:52px; color:var(--story-accent); }
   .chapter-step[aria-disabled="true"] { opacity:.25; pointer-events:none; }
-  .chapter-current { display:flex; min-height:52px; align-items:center; gap:12px; width:100%; color:var(--story-ink); font-size:13px; text-align:left; }
+  .chapter-current { display:flex; min-height:52px; align-items:center; gap:12px; width:100%; color:var(--story-ink); font-size:15px; text-align:left; }
   .chapter-current > svg { margin-left:auto; color:var(--story-accent); }
   .chapter-current-number { color:var(--story-accent); font:9px/1 var(--mono); white-space:nowrap; }
   .chapter-menu:not([hidden]) { display:grid; position:fixed; z-index:44; bottom:calc(max(14px,env(safe-area-inset-bottom)) + 68px); left:50%; transform:translateX(-50%); width:min(440px,calc(100% - 28px)); padding:16px; grid-template-columns:1fr 1fr; gap:2px 14px; max-height:65svh; overflow:auto; border:1px solid #9bbfb94d; border-radius:16px; background:var(--story-surface); box-shadow:0 12px 45px #0008; }
   .chapter-menu > p { grid-column:1 / -1; color:var(--story-muted); font:9px/1.8 var(--mono); letter-spacing:.08em; margin-bottom:10px; }
-  .chapter-menu > a { min-height:48px; display:flex; align-items:center; gap:10px; color:var(--story-muted); font-size:13px; text-decoration:none; border-top:1px solid var(--story-line); }
+  .chapter-menu > a { min-height:48px; display:flex; align-items:center; gap:6px; color:var(--story-muted); font-size:14px; text-decoration:none; border-top:1px solid var(--story-line); }
   .chapter-menu > a > span { font:9px/1 var(--mono); color:var(--story-accent); }
   .chapter-menu > a > svg { margin-left:auto; opacity:.4; }
   .chapter-menu > a[aria-current] { color:var(--story-accent); }

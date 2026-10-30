@@ -33,6 +33,9 @@ const files = [
   ["contact", "Contact"],
 ];
 const palettes = ["Midnight", "Deep teal", "Plum"];
+// Set this to true to bring back the introductory sequence for new sessions.
+// The intro itself and the workspace's replay option remain available.
+const SHOW_INTRO_ON_FIRST_VISIT = false;
 function initialPalette() {
   try { const saved = localStorage.getItem("nh-dark-palette"); return palettes.includes(saved) ? saved : palettes[0]; }
   catch { return palettes[0]; }
@@ -46,6 +49,7 @@ function initialMotion() {
   return !matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 function initialBoot() {
+  if (!SHOW_INTRO_ON_FIRST_VISIT) return false;
   try {
     return sessionStorage.getItem("nh-signal-intro-entered") !== "yes";
   } catch {

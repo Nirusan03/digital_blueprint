@@ -160,7 +160,7 @@ export function ImmersiveFile() {
     </article>
   );
 }
-export function RecognitionFile() {
+export function RecognitionFile({ visual = null }) {
   const milestones = useRef(null);
   useEffect(() => {
     // The reading view uses the shared scroll choreography. PC panes observe their own rows.
@@ -174,12 +174,14 @@ export function RecognitionFile() {
   }, []);
   return (
     <div className="recognition-file" ref={milestones}>
-      <p className="file-eyebrow">RESEARCH / EDUCATION / STARTUPS</p>
+      <div className={visual ? "chapter-dimensional-heading" : undefined}>
+      <div><p className="file-eyebrow">RESEARCH / EDUCATION / STARTUPS</p>
       <h2>A few milestones</h2>
       <p className="file-intro">
         A record of the work, and the teams and institutions that have
         recognised it.
-      </p>
+      </p></div>{visual}
+      </div>
       {RECOGNITION.map((item) => (
         <article key={item.title} className="milestone-row" data-tone={item.tone}>
           <div className="milestone-meta">
@@ -283,7 +285,7 @@ export function WorkFile() {
     </div>
   );
 }
-export function ExperienceFile({ expanded = false, motion = true }) {
+export function ExperienceFile({ expanded = false, motion = true, visual = null }) {
   const experience = useRef(null);
   useEffect(() => {
     const host = experience.current;
@@ -297,7 +299,7 @@ export function ExperienceFile({ expanded = false, motion = true }) {
   return (
     <div className="experience-file" ref={experience}>
       <p className="file-eyebrow">WORK HISTORY / CURRENT & PREVIOUS</p>
-      <h2>Experience</h2>
+      {visual ? <div className="chapter-dimensional-heading"><h2>Experience</h2>{visual}</div> : <h2>Experience</h2>}
       {CAREER.map((item,index) => <ExperienceRow key={item.company} item={item} index={index} defaultOpen={expanded || index < 2} motion={motion} />)}
       <a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé ↓</a>
     </div>
@@ -381,12 +383,12 @@ const toolkit = [
     ],
   ],
 ];
-export function StackFile() {
+export function StackFile({ visual = null }) {
   const reveal=useFileChoreography("dl > div");
   return (
     <div className="stack-file" ref={reveal}>
       <p className="file-eyebrow">TOOLS / LANGUAGES / PLATFORMS</p>
-      <h2>The toolkit</h2>
+      {visual ? <div className="chapter-dimensional-heading"><h2>The toolkit</h2>{visual}</div> : <h2>The toolkit</h2>}
       <dl>
         {toolkit.map(([title, list]) => (
           <div key={title}>

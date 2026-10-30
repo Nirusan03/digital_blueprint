@@ -13,6 +13,7 @@ import Icon from "./Icons";
 import useScrollStory from "./useScrollStory";
 import ChapterNavigator from "./ChapterNavigator";
 import PlayArtwork from "./PlayArtwork";
+import ChapterObject from "./ChapterObject";
 import "./system-polish.css";
 
 const World = lazy(() => import("./World"));
@@ -109,10 +110,10 @@ export default function ScrollPortfolio({ onWorkspace, motion, onMotion, sound, 
           <div><Icon name="paper" size={24} /><strong>IEEE QCNC 2026</strong><span>Published quantum cybersecurity research</span></div>
         </section>
         <section className="scroll-section research-chapter" id="index-research" aria-label="Research"><p className="chapter-label">01 / RESEARCH</p><ResearchFile motion={motion} /></section>
-        <section className="scroll-section experience-chapter" id="index-experience" aria-label="Experience"><p className="chapter-label">02 / EXPERIENCE</p><ExperienceFile expanded motion={motion} /></section>
+        <section className="scroll-section experience-chapter" id="index-experience" aria-label="Experience"><p className="chapter-label">02 / EXPERIENCE</p><ExperienceFile expanded motion={motion} visual={<ChapterObject kind="experience" motion={motion} />} /></section>
         <section className="scroll-section about-chapter" id="index-about" aria-label="About Nirusan"><p className="chapter-label">03 / ABOUT</p><AboutFile /></section>
-        <section className="scroll-section recognition-chapter" id="index-recognition" aria-label="Recognition"><p className="chapter-label">04 / RECOGNITION</p><RecognitionFile /></section>
-        <section className="scroll-section toolkit-chapter" id="index-toolkit" aria-label="Toolkit"><p className="chapter-label">05 / TOOLKIT</p><StackFile /></section>
+        <section className="scroll-section recognition-chapter" id="index-recognition" aria-label="Recognition"><p className="chapter-label">04 / RECOGNITION</p><RecognitionFile visual={<ChapterObject kind="milestones" motion={motion} />} /></section>
+        <section className="scroll-section toolkit-chapter" id="index-toolkit" aria-label="Toolkit"><p className="chapter-label">05 / TOOLKIT</p><StackFile visual={<ChapterObject kind="toolkit" motion={motion} />} /></section>
         <section className="scroll-section archive-chapter" id="index-work" aria-labelledby="work-heading">
           <div className="chapter-heading independent-heading archive-dimensional-heading" id="index-archive"><div className="archive-heading-copy"><p className="chapter-label">06 / RESEARCH · PRODUCTS · INDEPENDENT PROJECTS</p><h2 id="work-heading">Ideas put to work.</h2><p>Quantum research, VR healthcare, and the applications I build and maintain with teams in Sri Lanka and the US.</p></div><ProjectArchiveArt motion={motion}/></div>
           <div className="independent-stories">{orderedProjects.map((project,index)=><ProjectRow key={project.title} project={project} index={index} />)}</div>
@@ -120,7 +121,7 @@ export default function ScrollPortfolio({ onWorkspace, motion, onMotion, sound, 
         <section className="scroll-section play-chapter" id="index-play" aria-labelledby="play-heading"><p className="chapter-label">07 / TAKE A DETOUR</p><PlayArtwork/><h2 id="play-heading">A little curiosity.<br />A little play.</h2><p>Try a quantum gate puzzle, steer a packet through a network, or explore the browser’s Linux-style terminal.</p><div className="play-invitations"><button onClick={() => onWorkspace("quantum")}>Quantum Relay & Packet Run ↗</button><button onClick={() => onWorkspace("terminal")}>Open the terminal ↗</button></div></section>
         <section className="scroll-section contact-chapter" id="index-contact" aria-label="Contact"><p className="chapter-label">08 / SAY HELLO</p><ContactFile /></section>
       </main>
-      <footer className="portfolio-footer"><span>© {new Date().getFullYear()} Nirusan Hariharan</span><a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><button onClick={onSound}>{sound ? "Sound on" : "Sound off"}</button><button onClick={onMotion}>{motion ? "Motion on" : "Motion off"}</button><button onClick={onPalette}>Palette: {palette}</button><a href="#portfolio-home">Back to top ↑</a></footer>
+      <footer className="portfolio-footer"><span>© {new Date().getFullYear()} Nirusan Hariharan</span><a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><button onClick={onSound}>{sound ? "Sound on" : "Sound off"}</button><button onClick={onMotion}>{motion ? "Motion on" : "Motion off"}</button><button onClick={onPalette}>Palette: {palette}</button><a href="#portfolio-home">Back to top ↑</a><div className="footer-feature"><a href={LINKS.iitFacebook} target="_blank" rel="noopener noreferrer">Watch IIT’s graduation feature on Facebook ↗</a></div></footer>
     </div>
   );
 }

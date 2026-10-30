@@ -92,6 +92,8 @@
 .portfolio-footer { display: flex; gap: 20px 30px; flex-wrap: wrap; align-items: center; padding: 30px 5vw; border-top: 1px solid #24443935; font: 11px var(--mono); color: #5c7167; }
 .portfolio-footer > span { margin-right: auto; }
 .portfolio-footer a, .portfolio-footer button { padding: 12px 0; }
+.portfolio-footer .footer-feature { flex-basis: 100%; border-top: 1px solid var(--story-line); padding-top: 12px; font: 14px/1.6 var(--display); }
+.portfolio-footer .footer-feature a { display: inline-block; color: var(--story-accent); }
 @media(max-width: 1000px) {
   .portfolio-nav { gap: 15px; } .portfolio-nav nav { gap: 16px; }
   .portfolio-hero { grid-template-columns: 1fr 1fr; padding-top: 50px; }
