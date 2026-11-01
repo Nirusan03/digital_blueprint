@@ -159,14 +159,10 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
                 <p className="film-place">Colombo, Sri Lanka</p>
               </div>
               <div className="film-card">
-                <a className="film-portrait" href="#index-about" aria-label="About Nirusan Hariharan">
-                  <img src="/portrait/nirusan-480.webp" srcSet="/portrait/nirusan-480.webp 480w, /portrait/nirusan-800.webp 800w" sizes="20vw" alt="" width="480" height="600" decoding="async" />
-                </a>
                 <ul className="film-now">
-                  <li><strong>Software Engineer</strong> Niroga AI, BlueLotus360</li>
-                  <li><strong>Co-founder &amp; CTO</strong> Immersive Smile Plus</li>
-                  <li><strong>Visiting Lecturer</strong> IIT</li>
-                  <li><strong>Published</strong> IEEE QCNC 2026</li>
+                  <li><strong>Software Engineer</strong><span>Niroga AI, BlueLotus360</span></li>
+                  <li><strong>Co-founder &amp; CTO</strong><span>Immersive Smile Plus</span></li>
+                  <li><strong>Visiting Lecturer</strong><span>IIT</span></li>
                 </ul>
               </div>
             </div>

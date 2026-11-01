@@ -18,7 +18,7 @@ function intro(host) {
     onSplit: (self) => gsap.from(self.chars, { yPercent: 118, duration: 1.3, ease: OUT, stagger: 0.024, delay: 0.25 }),
   });
   gsap.from(host.querySelectorAll(".film-lede > *"), { y: 22, autoAlpha: 0, duration: 1.1, ease: OUT, stagger: 0.1, delay: 0.9 });
-  gsap.from(host.querySelectorAll(".film-portrait, .film-now li"), { y: 26, autoAlpha: 0, duration: 1, ease: OUT, stagger: 0.07, delay: 1.05 });
+  gsap.from(host.querySelectorAll(".film-now li"), { y: 26, autoAlpha: 0, duration: 1, ease: OUT, stagger: 0.07, delay: 1.05 });
   gsap.from(".nav-bar > *", { y: -18, autoAlpha: 0, duration: 0.9, ease: OUT, stagger: 0.07, delay: 0.7 });
 }
 
