@@ -37,9 +37,9 @@ export default function PacketRun({ active, motion, onSound }) {
     const horizon = h * 0.22,
       roadBottom = h * 0.96;
     const gradient = ctx.createLinearGradient(0, 0, w, h);
-    gradient.addColorStop(0, "#0a142b");
-    gradient.addColorStop(0.6, "#123443");
-    gradient.addColorStop(1, "#081526");
+    gradient.addColorStop(0, "#1c1b19");
+    gradient.addColorStop(0.6, "#2d2c2a");
+    gradient.addColorStop(1, "#191816");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, w, h);
     const glow = ctx.createRadialGradient(
@@ -50,14 +50,14 @@ export default function PacketRun({ active, motion, onSound }) {
       horizon,
       w * 0.5,
     );
-    glow.addColorStop(0, "#4cc5b125");
-    glow.addColorStop(1, "#4cc5b100");
+    glow.addColorStop(0, "#ff5a1f25");
+    glow.addColorStop(1, "#ff5a1f00");
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, w, h);
     for (let i = 0; i < 55; i++) {
       const x = (i * 127 + 31) % w,
         y = (i * 67 + 11) % (h * 0.7);
-      ctx.fillStyle = i % 3 ? "#8abdc05c" : "#d6ac7e80";
+      ctx.fillStyle = i % 3 ? "#a7a6a45c" : "#acaba980";
       ctx.fillRect(x, y, i % 4 ? 1 : 2, 1);
     }
     const project = (lane, z) => {
@@ -68,7 +68,7 @@ export default function PacketRun({ active, motion, onSound }) {
         scale: p,
       };
     };
-    ctx.strokeStyle = "#70c8c13b";
+    ctx.strokeStyle = "#ff5a1f3b";
     ctx.lineWidth = 1;
     for (const edge of [-0.5, 0.5, 1.5, 2.5]) {
       const a = project(edge, 0),
@@ -88,7 +88,7 @@ export default function PacketRun({ active, motion, onSound }) {
       ctx.stroke();
     }
     // The gateway and towers establish depth without images or large model assets.
-    ctx.strokeStyle = "#63aaad52";
+    ctx.strokeStyle = "#8a898752";
     ctx.lineWidth = 1;
     for (const side of [-1, 1])
       for (let i = 0; i < 7; i++) {
@@ -97,10 +97,10 @@ export default function PacketRun({ active, motion, onSound }) {
           height = 35 + depth * 110;
         ctx.strokeRect(p.x - side * 8, p.y - height, side * 20 * depth, height);
       }
-    ctx.strokeStyle = "#b7d0bf60";
+    ctx.strokeStyle = "#c5c4c260";
     ctx.strokeRect(w * 0.42, horizon - 24, w * 0.16, 36);
     ctx.font = `${Math.max(9, w * 0.015)}px monospace`;
-    ctx.fillStyle = "#9ed7cf";
+    ctx.fillStyle = "#ff5a1f";
     ctx.textAlign = "center";
     ctx.fillText("SECURE GATEWAY", w / 2, horizon - 35);
     const sorted = [...game.objects].sort((a, b) => a.z - b.z);
@@ -112,8 +112,8 @@ export default function PacketRun({ active, motion, onSound }) {
       ctx.translate(p.x, p.y - 12 * p.scale);
       ctx.lineWidth = 1.5;
       if (item.kind === "malware") {
-        ctx.fillStyle = "#8e434055";
-        ctx.strokeStyle = "#ff9b85";
+        ctx.fillStyle = "#69686655";
+        ctx.strokeStyle = "#c4c3c1";
         ctx.beginPath();
         ctx.moveTo(0, -s);
         ctx.lineTo(s, s * 0.45);
@@ -129,12 +129,12 @@ export default function PacketRun({ active, motion, onSound }) {
         ctx.lineTo(s, s * 0.45);
         ctx.stroke();
       } else {
-        ctx.strokeStyle = "#87ffe0";
-        ctx.fillStyle = "#7ef2d63d";
+        ctx.strokeStyle = "#ff5a1f";
+        ctx.fillStyle = "#ff5a1f3d";
         ctx.rotate(Math.PI / 4);
         ctx.fillRect(-s / 2, -s / 2, s, s);
         ctx.strokeRect(-s / 2, -s / 2, s, s);
-        ctx.fillStyle = "#d4fff0";
+        ctx.fillStyle = "#ffd9c2";
         ctx.fillRect(-2, -2, 4, 4);
       }
       ctx.restore();
@@ -143,8 +143,8 @@ export default function PacketRun({ active, motion, onSound }) {
     const size = Math.min(27, w * 0.045);
     ctx.save();
     ctx.translate(player.x, player.y - 16);
-    ctx.fillStyle = game.hitFlash > 0 ? "#eeb399" : "#c3e7df";
-    ctx.strokeStyle = "#68cabc";
+    ctx.fillStyle = game.hitFlash > 0 ? "#c5c4c2" : "#ffd9c2";
+    ctx.strokeStyle = "#ff5a1f";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(0, -size);
@@ -154,15 +154,15 @@ export default function PacketRun({ active, motion, onSound }) {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-    ctx.fillStyle = "#64e9d1";
+    ctx.fillStyle = "#ff5a1f";
     ctx.fillRect(-3, size * 0.5, 6, Math.max(3, size * 0.4));
     ctx.restore();
-    ctx.fillStyle = "#b0cecf";
+    ctx.fillStyle = "#c2c1bf";
     ctx.font = "10px monospace";
     ctx.textAlign = "left";
     ctx.fillText(w < 500 ? "PACKET RUN" : "PACKET RUN / TLS CHANNEL", 16, 23);
     ctx.textAlign = "right";
-    ctx.fillStyle = "#89d6c2";
+    ctx.fillStyle = "#ff5a1f";
     ctx.fillText(`LANE ${game.lane + 1} / 3`, w - 16, 23);
   }, []);
   useEffect(() => {

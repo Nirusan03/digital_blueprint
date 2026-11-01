@@ -7,6 +7,8 @@ These optimized images are actual public source material, not generated product 
 | niroga-website.webp | https://orders.niroga.ai/ | Actual 1280×720 browser screenshot, WebP encoding |
 | senova-website.webp | https://senovaproducts.com/ (redirected to senovaproducts.lk) | Actual 1280×720 browser screenshot, WebP encoding |
 | immersive-website.webp | https://www.immersivesmile.com/ | Actual 1280×720 browser screenshot, WebP encoding |
+| westminster-award.webp | https://www.westminster.ac.uk/about-us/alumni-and-supporters/westminster-alumni-awards/2026-winners/recent-graduate-award-2026 | Browser screenshot captured 1 November 2026, cropped to the page header |
+| adscai-repository.webp | https://dl.lib.uom.lk/collections/82a1a2f9-fd70-41b2-a766-d599d3bbfadd | Browser screenshot captured 1 November 2026, cropped above the cookie notice |
 | bluelotus-dashboard.webp | https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/37/15/7c/37157c87-fd3a-5ab9-4d16-085617aedc23/3.png/600x1300bb.jpg | Official Apple App Store dashboard graphic, WebP encoding; CSS frames its interface detail |
 | bluelotus-approvals.webp | https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7f/73/f9/7f73f9b1-5d93-bdbc-8628-ed21d4b17027/6.png/600x1300bb.jpg | Official Apple App Store waiting-list graphic, WebP encoding; CSS frames its interface detail |
 

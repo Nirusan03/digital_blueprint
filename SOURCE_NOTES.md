@@ -90,3 +90,7 @@ The latest layout puts research first and all projects after the toolkit, preser
 The project archive now includes an original procedural Three.js circuit sculpture and CSS depth layers around existing source previews. No model, texture, icon package or motion library was downloaded. The supplied full IEEE PDF remains outside the repository; the existing first-page WebP is the only publication image used. Public product links are unchanged.
 
 Web searches reviewed portfolio/depth interaction approaches. Implementation references were the primary [Three.js WebGLRenderer documentation](https://threejs.org/docs/pages/WebGLRenderer.html) and [MDN transform-style documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/transform-style). Geometry, assembly animation and input behaviour were authored locally, rather than copied from a reference site.
+
+## Experience figures
+
+The figures on the Experience section (Niroga AI, BlueLotus360, Altrium, Vetstoria) come from `public/Nirusan_Hariharan_CV.pdf`. IIT, Immersive Smile Plus and Izatic have no figures in the CV, so none are shown.

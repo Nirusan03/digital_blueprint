@@ -28,7 +28,7 @@
 .quantum-surface-axis span:nth-child(2) { writing-mode:vertical-rl; transform:rotate(180deg); letter-spacing:.1em; }
 .quantum-x-axis { display:flex; justify-content:space-between; margin-top:9px; font:9px var(--mono); color:var(--story-muted); }
 .quantum-gradient-key { display:flex; align-items:center; gap:10px; font:10px var(--mono); color:var(--story-muted); margin-top:18px; }
-.quantum-gradient-key i { height:6px; flex:1; background:linear-gradient(90deg,#1f3f5b,#9cdebe); }
+.quantum-gradient-key i { height:6px; flex:1; background:linear-gradient(90deg,#0e0e10,#ff5a1f 60%,#ffecd6); }
 .quantum-probabilities { display:grid; gap:22px; margin:35px 0; }
 .quantum-probability { display:grid; align-items:center; grid-template-columns:45px 1fr 68px; gap:10px; font:13px var(--mono); }
 .quantum-probability > div { height:13px; background:#ffffff09; border-right:1px solid var(--story-line); }

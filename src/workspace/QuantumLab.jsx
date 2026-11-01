@@ -17,8 +17,9 @@ function ResponseSurface({ x, y, coupled, onSelect }) {
       for (let col = 0; col < size; col++) {
         const value = featureMap(col / (size - 1), 1 - row / (size - 1), coupled).readout;
         const offset = (row * size + col) * 4;
-        const low = [31, 63, 91], high = [156, 222, 190];
-        for (let channel = 0; channel < 3; channel++) pixels.data[offset + channel] = low[channel] + value * (high[channel] - low[channel]);
+        // Ink through signal orange to warm white.
+        const stops = value < 0.6 ? [[14, 14, 16], [255, 90, 31], value / 0.6] : [[255, 90, 31], [255, 236, 214], (value - 0.6) / 0.4];
+        for (let channel = 0; channel < 3; channel++) pixels.data[offset + channel] = stops[0][channel] + stops[2] * (stops[1][channel] - stops[0][channel]);
         pixels.data[offset + 3] = 255;
       }
     }
@@ -31,7 +32,7 @@ function ResponseSurface({ x, y, coupled, onSelect }) {
   return (
     <div className="quantum-surface-wrap">
       <div className="quantum-plot-heading"><h4 tabIndex={-1}>Quantum response surface</h4><span>P(q₁ = 1)</span></div>
-      <div className="quantum-surface-axis"><span>1.0</span><span>FEATURE Y</span><span>0.0</span></div>
+      <div className="quantum-surface-axis"><span>1.0</span><span>Feature Y</span><span>0.0</span></div>
       <div className="quantum-surface" onPointerDown={select} aria-hidden="true">
         <canvas ref={canvas} width="128" height="128" />
         <svg viewBox="0 0 400 400" className="quantum-surface-grid">
@@ -42,7 +43,7 @@ function ResponseSurface({ x, y, coupled, onSelect }) {
         </svg>
         <span className="surface-hint">Tap a point to change the inputs</span>
       </div>
-      <div className="quantum-x-axis"><span>0.0</span><span>FEATURE X</span><span>1.0</span></div>
+      <div className="quantum-x-axis"><span>0.0</span><span>Feature X</span><span>1.0</span></div>
       <div className="quantum-gradient-key"><span>0%</span><i /><span>100%</span></div>
     </div>
   );
@@ -124,8 +125,8 @@ export default function QuantumLab({ motion = true }) {
   };
   return (
     <section id="index-quantum-ml" ref={host} className="quantum-lab" aria-labelledby="quantum-lab-title">
-      <div className="quantum-lab-intro"><span className="chapter-label">QUANTUM ML / INTERACTIVE EXPLORER</span><h3 id="quantum-lab-title">From features to quantum states.</h3><p>Move the inputs. Connect the qubits. See how the same data produces a different measurement.</p></div>
-      <div className="quantum-lab-toolbar"><span>2 QUBITS <i /> 4 OUTCOMES</span><div className="quantum-toolbar-actions"><button className="quantum-sweep" disabled={!motion} title={motion ? "Animate one input sweep" : "Enable motion to animate a sweep"} onClick={() => { sweepOrigin.current = inputs; setSweep(current => current+1); setRunning(false); setPhase(0); }}>Sweep inputs <span aria-hidden="true">↗</span></button><button className="quantum-coupling" aria-pressed={coupled} onClick={() => { stopSweep.current(); setCoupled(!coupled); setPhase(0); setRunning(false); }}><i />Qubit coupling {coupled ? "on" : "off"}</button></div></div>
+      <div className="quantum-lab-intro"><p className="kicker">Try the idea yourself</p><h3 id="quantum-lab-title">From features to quantum states.</h3><p>Move the inputs. Connect the qubits. See how the same data produces a different measurement.</p></div>
+      <div className="quantum-lab-toolbar"><span>Two qubits, four outcomes</span><div className="quantum-toolbar-actions"><button className="quantum-sweep" disabled={!motion} title={motion ? "Animate one input sweep" : "Enable motion to animate a sweep"} onClick={() => { sweepOrigin.current = inputs; setSweep(current => current+1); setRunning(false); setPhase(0); }}>Sweep inputs</button><button className="quantum-coupling" aria-pressed={coupled} onClick={() => { stopSweep.current(); setCoupled(!coupled); setPhase(0); setRunning(false); }}><i />Qubit coupling {coupled ? "on" : "off"}</button></div></div>
       <div className="quantum-lab-grid">
         <ResponseSurface x={x} y={y} coupled={coupled} onSelect={(a,b) => changeInputs(a,b)} />
         <div className="quantum-readout">
@@ -141,12 +142,12 @@ export default function QuantumLab({ motion = true }) {
       <div className="quantum-inputs">
         {[["x",x],["y",y]].map(([name,value],i) => <label key={name} htmlFor={`quantum-feature-${name}`}><span>Feature {name.toUpperCase()} <output>{value.toFixed(2)}</output></span><input id={`quantum-feature-${name}`} type="range" min="0" max="100" step="1" value={Math.round(value*100)} onChange={event => changeInputs(i ? x : Number(event.target.value)/100,i ? Number(event.target.value)/100 : y)} /><small>Encoding angle: {(value * 2).toFixed(2)}π</small></label>)}
       </div>
-      <div className="quantum-response-line"><div className="quantum-plot-heading"><h4>Output probability as X changes</h4><span>Y HELD AT {y.toFixed(2)}</span></div><svg viewBox="0 0 520 184" role="img" aria-label="Probability response across feature X at the selected value of feature Y"><path className="response-grid" d="M40 30H480 M40 90H480 M40 150H480"/><text x="1" y="36">1.0</text><text x="10" y="96">.5</text><text x="18" y="156">0</text><path className="response-curve" d={curve}/><path className="response-cursor" d={`M${40+x*440} 25V150`} /><circle className="quantum-cursor" cx={40+x*440} cy={150-result.readout*120} r="5"/><text x="40" y="179">0</text><text x="480" y="179" textAnchor="end">1</text><text x="260" y="179" textAnchor="middle">FEATURE X</text></svg></div>
-      <div className="quantum-circuit-heading"><h4>Trace the circuit</h4><button onClick={trace}>Replay signal <span aria-hidden="true">↗</span></button></div>
+      <div className="quantum-response-line"><div className="quantum-plot-heading"><h4>Output probability as X changes</h4><span>Y held at {y.toFixed(2)}</span></div><svg viewBox="0 0 520 184" role="img" aria-label="Probability response across feature X at the selected value of feature Y"><path className="response-grid" d="M40 30H480 M40 90H480 M40 150H480"/><text x="1" y="36">1.0</text><text x="10" y="96">.5</text><text x="18" y="156">0</text><path className="response-curve" d={curve}/><path className="response-cursor" d={`M${40+x*440} 25V150`} /><circle className="quantum-cursor" cx={40+x*440} cy={150-result.readout*120} r="5"/><text x="40" y="179">0</text><text x="480" y="179" textAnchor="end">1</text><text x="260" y="179" textAnchor="middle">Feature X</text></svg></div>
+      <div className="quantum-circuit-heading"><h4>Trace the circuit</h4><button onClick={trace}>Replay signal</button></div>
       <Circuit x={x} y={y} coupled={coupled} phase={Math.min(3,phase)} />
-      <div className="quantum-trace-caption" aria-live="polite"><span>0{Math.min(3,phase)} / 03</span>{TRACE[Math.min(3,phase)]}</div>
+      <div className="quantum-trace-caption" aria-live="polite"><span>{Math.min(3,phase)} of 3</span>{TRACE[Math.min(3,phase)]}</div>
       <div className="quantum-presets"><button onClick={() => preset(.25,0,true)}>Try a Bell state</button><button onClick={() => preset(0,0,false)}>Reset to |00⟩</button></div>
-      <p className="quantum-lab-note">Two synthetic features and an exact two-qubit simulation. This illustration explains quantum encoding; the trained QuanNetDetect models and their published results are separate. RY rotations and a controlled-NOT gate follow <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.RYGate" target="_blank" rel="noopener noreferrer">standard gate definitions ↗</a>.</p>
+      <p className="quantum-lab-note">Two synthetic features and an exact two-qubit simulation. This illustration explains quantum encoding; the trained QuanNetDetect models and their published results are separate. RY rotations and a controlled-NOT gate follow <a href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.RYGate" target="_blank" rel="noopener noreferrer">standard gate definitions</a>.</p>
     </section>
   );
 }

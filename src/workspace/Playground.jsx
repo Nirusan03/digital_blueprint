@@ -2,8 +2,8 @@ import { useState } from "react";
 import QuantumRelay from "./QuantumRelay";
 import PacketRun from "./PacketRun";
 import "./playground.css";
-export default function Playground({ onState, onSound, active, motion }) {
-  const [game, setGame] = useState("quantum");
+export default function Playground({ onState, onSound, active, motion, initial = "quantum" }) {
+  const [game, setGame] = useState(initial);
   const navigate = (event) => {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
@@ -36,7 +36,7 @@ export default function Playground({ onState, onSound, active, motion }) {
           tabIndex={game === "quantum" ? 0 : -1}
           onClick={() => setGame("quantum")}
         >
-          01 / Quantum Relay
+          Quantum Relay
         </button>
         <button
           id="tab-packet"
@@ -46,7 +46,7 @@ export default function Playground({ onState, onSound, active, motion }) {
           tabIndex={game === "packet" ? 0 : -1}
           onClick={() => setGame("packet")}
         >
-          02 / Packet Run
+          Packet Run
         </button>
       </div>
       <div

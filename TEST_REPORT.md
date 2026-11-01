@@ -1,3 +1,5 @@
+> Note, 1 November 2026: the scrolling page and desktop shell were rebuilt. Sections below describe the previous interface and need rewriting; the 25 logic tests still pass.
+
 # Local verification — 30 October 2026
 
 Current revision: dark scrolling portfolio, IEEE first-page preview, real product previews, compact IIT source links in Recognition and native scroll animation. Nothing was committed, pushed, uploaded or deployed.

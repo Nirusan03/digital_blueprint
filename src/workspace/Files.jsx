@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { CONTACT, PROJECTS } from "../constants";
-import { CAREER, LINKS, RECOGNITION } from "./content";
-import portrait from "../assets/portraits/nirusan-cutout-v2.webp";
+import { CAREER, LINKS, RECOGNITION, toolkit } from "./content";
 import "./portrait.css";
 import "./toolkit.css";
 import "./milestones.css";
-import MilestoneIcon from "./MilestoneIcon";
 import ExperienceRow from "./ExperienceRow";
 import "./experience-motion.css";
 import useFileChoreography from "./useFileChoreography";
@@ -18,12 +16,11 @@ export function AboutFile() {
   return (
     <div className="about-file" ref={reveal}>
       <figure>
-        <img src={portrait} alt="Nirusan Hariharan" width="220" height="280" />
+        <img src="/portrait/nirusan-800.webp" alt="Nirusan Hariharan" width="800" height="1000" />
         <figcaption>Colombo, Sri Lanka</figcaption>
       </figure>
       <div>
-        <p className="file-eyebrow">ABOUT / NIRUSAN HARIHARAN</p>
-        <h2>
+                <h2>
           Software engineer.
           <br />
           Quantum researcher.
@@ -47,10 +44,10 @@ export function AboutFile() {
         </p>
         <div className="file-links">
           <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn ↗
+            LinkedIn
           </a>
           <a href="/Nirusan_Hariharan_CV.pdf" download>
-            Résumé ↓
+            Résumé
           </a>
         </div>
       </div>
@@ -61,8 +58,7 @@ export function ResearchFile({ motion = true }) {
   return (
     <article className="research-file">
       <div className="research-intro">
-      <p className="file-eyebrow">PUBLISHED RESEARCH / APRIL 2026</p>
-      <h2>QuanNetDetect</h2>
+            <h2>QuanNetDetect</h2>
       <p className="research-title">
         A Quantum Hybrid Deep Learning Framework for Encrypted TLS Malicious
         Traffic Detection
@@ -106,13 +102,13 @@ export function ResearchFile({ motion = true }) {
       </p>
       <div className="file-links">
         <a href={LINKS.paper} target="_blank" rel="noopener noreferrer">
-          Read the IEEE paper ↗
+          Read the IEEE paper
         </a>
         <a href={LINKS.thesis} target="_blank" rel="noopener noreferrer">
-          IIT thesis record ↗
+          IIT thesis record
         </a>
         <a href={LINKS.conference} target="_blank" rel="noopener noreferrer">
-          Accepted papers ↗
+          Accepted papers
         </a>
       </div>
       <p className="document-note">DOI: 10.1109/QCNC69040.2026.00129</p>
@@ -133,10 +129,10 @@ export function ResearchFile({ motion = true }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          ADScAI repository ↗
+          ADScAI repository
         </a>
         <a href={LINKS.adscaiPaper} target="_blank" rel="noopener noreferrer">
-          ADScAI paper download ↗
+          ADScAI paper download
         </a>
       </div>
     </article>
@@ -145,8 +141,7 @@ export function ResearchFile({ motion = true }) {
 export function ImmersiveFile() {
   return (
     <article className="immersive-file">
-      <p className="file-eyebrow">CO-FOUNDER & CTO / VR & IOT</p>
-      <h2>Immersive Smile Plus</h2>
+            <h2>Immersive Smile Plus</h2>
       <p className="file-intro">
         I build immersive experiences for healthcare with our founding team. Our
         work brings together virtual reality, connected devices, and software
@@ -154,7 +149,7 @@ export function ImmersiveFile() {
       </p>
       <div className="file-links">
         <a href={LINKS.immersive} target="_blank" rel="noopener noreferrer">
-          Visit Immersive Smile ↗
+          Visit Immersive Smile
         </a>
       </div>
     </article>
@@ -165,7 +160,7 @@ export function RecognitionFile({ visual = null }) {
   useEffect(() => {
     // The reading view uses the shared scroll choreography. PC panes observe their own rows.
     const host = milestones.current;
-    if (!host || host.closest(".scroll-portfolio") || !("IntersectionObserver" in window)) return;
+    if (!host || !("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(({target,isIntersecting}) => target.setAttribute("data-milestone",isIntersecting ? "entering" : "idle"));
     }, { threshold:.12 });
@@ -175,8 +170,7 @@ export function RecognitionFile({ visual = null }) {
   return (
     <div className="recognition-file" ref={milestones}>
       <div className={visual ? "chapter-dimensional-heading" : undefined}>
-      <div><p className="file-eyebrow">RESEARCH / EDUCATION / STARTUPS</p>
-      <h2>A few milestones</h2>
+      <div>      <h2>A few milestones</h2>
       <p className="file-intro">
         A record of the work, and the teams and institutions that have
         recognised it.
@@ -185,8 +179,7 @@ export function RecognitionFile({ visual = null }) {
       {RECOGNITION.map((item) => (
         <article key={item.title} className="milestone-row" data-tone={item.tone}>
           <div className="milestone-meta">
-            <MilestoneIcon name={item.icon} />
-            {item.year && <span className="milestone-year">{item.year}</span>}
+                        {item.year && <span className="milestone-year">{item.year}</span>}
           </div>
           <div className="milestone-copy">
             <h3>{item.title}</h3>
@@ -206,13 +199,13 @@ export function RepositoryLinks({ project }) {
   if (project.links)
     return project.links.map(({ label, url }) => (
       <a key={url} href={url} target="_blank" rel="noopener noreferrer">
-        {label} ↗
+        {label}
       </a>
     ));
   if (project.website)
     return (
       <a href={project.website} target="_blank" rel="noopener noreferrer">
-        Visit the project ↗
+        Visit the project
       </a>
     );
   if (project.sourceStatus === "unavailable")
@@ -220,14 +213,14 @@ export function RepositoryLinks({ project }) {
       <a
         href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(project.title + " project walkthrough")}`}
       >
-        Discuss this project ↗
+        Discuss this project
       </a>
     );
   return (
     project.githubs || [{ label: "View source", url: project.github }]
   ).map((repo) => (
     <a key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
-      {repo.label} ↗
+      {repo.label}
     </a>
   ));
 }
@@ -237,8 +230,7 @@ export function WorkFile() {
   return (
     <div className="work-file">
       <div className="work-file-index">
-        <p className="file-eyebrow">PROJECT ARCHIVE / {PROJECTS.length}</p>
-        <nav aria-label="Select a project">
+                <nav aria-label="Select a project">
           {PROJECTS.map((item, index) => (
             <button
               key={item.title}
@@ -255,7 +247,7 @@ export function WorkFile() {
       <article key={project.title} className="work-file-preview" aria-live="polite">
         {project.preview && <ProjectMedia project={project} />}
         {!project.preview && project.image && <ProjectIllustration project={project} />}
-        {project.role && <p className="file-eyebrow">PRODUCTION / {project.role}</p>}
+
         <h2>{project.title.trim()}</h2>
         <p>{project.description}</p>
         <p className="inline-stack">{project.technologies.join(" / ")}</p>
@@ -272,7 +264,7 @@ export function WorkFile() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              IEEE paper ↗
+              IEEE paper
             </a>
           )}
         </div>
@@ -289,7 +281,7 @@ export function ExperienceFile({ expanded = false, motion = true, visual = null 
   const experience = useRef(null);
   useEffect(() => {
     const host = experience.current;
-    if (!host || host.closest(".scroll-portfolio") || !("IntersectionObserver" in window)) return;
+    if (!host || !("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(({target,isIntersecting}) => target.setAttribute("data-experience",isIntersecting ? "entering" : "idle"));
     }, { threshold:.12 });
@@ -298,97 +290,18 @@ export function ExperienceFile({ expanded = false, motion = true, visual = null 
   }, []);
   return (
     <div className="experience-file" ref={experience}>
-      <p className="file-eyebrow">WORK HISTORY / CURRENT & PREVIOUS</p>
-      {visual ? <div className="chapter-dimensional-heading"><h2>Experience</h2>{visual}</div> : <h2>Experience</h2>}
+            {visual ? <div className="chapter-dimensional-heading"><h2>Experience</h2>{visual}</div> : <h2>Experience</h2>}
       {CAREER.map((item,index) => <ExperienceRow key={item.company} item={item} index={index} defaultOpen={expanded || index < 2} motion={motion} />)}
-      <a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé ↓</a>
+      <a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé</a>
     </div>
   );
 }
 
-const toolkit = [
-  [
-    "Languages",
-    [
-      ["Python", "python"],
-      ["Java", "java"],
-      ["C#", "csharp"],
-      ["TypeScript", "typescript"],
-      ["JavaScript", "javascript"],
-      ["Kotlin", "kotlin"],
-      ["Swift", "swift"],
-    ],
-  ],
-  [
-    "Backend",
-    [
-      ["FastAPI", "fastapi"],
-      ["Spring Boot", "spring"],
-      ["ASP.NET Core", "dotnetcore"],
-      ["Node.js", "nodejs"],
-      ["Flask", "flask"],
-    ],
-  ],
-  [
-    "Frontend",
-    [
-      ["React", "react"],
-      ["Next.js", "nextjs"],
-      ["Angular", "angular"],
-      ["Vue", "vuejs"],
-      ["Blazor", "blazor"],
-    ],
-  ],
-  [
-    "AI & quantum",
-    [
-      ["LLM integrations", "concept-llm"],
-      ["MCP", "concept-mcp"],
-      ["TensorFlow", "tensorflow"],
-      ["Qiskit", "qiskit"],
-      ["PennyLane", "concept-circuit"],
-    ],
-  ],
-  [
-    "Data",
-    [
-      ["PostgreSQL", "postgresql"],
-      ["MongoDB", "mongodb"],
-      ["MySQL", "mysql"],
-      ["Firebase", "firebase"],
-      ["Supabase", "supabase"],
-      ["SQLite", "sqlite"],
-    ],
-  ],
-  [
-    "Infrastructure",
-    [
-      ["AWS", "amazonwebservices"],
-      ["Azure", "azure"],
-      ["Linode", "concept-cloud"],
-      ["Docker", "docker"],
-      ["Jenkins", "jenkins"],
-      ["Azure DevOps", "azuredevops"],
-    ],
-  ],
-  [
-    "Immersive & mobile",
-    [
-      ["Unity", "unity"],
-      ["Unreal Engine", "unrealengine"],
-      ["VR", "concept-vr"],
-      ["IoT", "concept-iot"],
-      ["Android", "android"],
-      ["iOS", "apple"],
-    ],
-  ],
-];
 export function StackFile({ visual = null }) {
   const reveal=useFileChoreography("dl > div");
   return (
     <div className="stack-file" ref={reveal}>
-      <p className="file-eyebrow">TOOLS / LANGUAGES / PLATFORMS</p>
-      {visual ? <div className="chapter-dimensional-heading"><h2>The toolkit</h2>{visual}</div> : <h2>The toolkit</h2>}
+            {visual ? <div className="chapter-dimensional-heading"><h2>The toolkit</h2>{visual}</div> : <h2>The toolkit</h2>}
       <dl>
         {toolkit.map(([title, list]) => (
           <div key={title}>
@@ -434,9 +347,7 @@ export function ContactFile() {
   };
   return (
     <div className="contact-file" ref={reveal}>
-      <p className="file-eyebrow">CONTACT</p>
-      <svg className="contact-signal" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true"><circle className="contact-orbit" cx="50" cy="50" r="43" strokeDasharray="2 8"/><path className="contact-signal-path" pathLength="1" d="m20 52 60-29-23 59-10-24-27-6ZM47 58l33-35M47 58l-7 18 17 6"/><circle cx="80" cy="23" r="3" fill="currentColor" stroke="none"/></svg>
-      <h2>Get in touch.</h2>
+                  <h2>Get in touch.</h2>
       <p>
         For roles, projects, or a conversation about something you’re building.
       </p>
@@ -455,60 +366,15 @@ export function ContactFile() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          GitHub ↗
+          GitHub
         </a>
         <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
-          LinkedIn ↗
+          LinkedIn
         </a>
         <a href="/Nirusan_Hariharan_CV.pdf" download>
-          Résumé ↓
+          Résumé
         </a>
       </div>
-    </div>
-  );
-}
-export function ReadIndex({ onBack, sound, onSound }) {
-  return (
-    <div className="read-index">
-      <header>
-        <button onClick={onBack}>← 3D workspace</button>
-        <button onClick={onSound} aria-pressed={!sound}>
-          {sound ? "Mute sound" : "Unmute sound"}
-        </button>
-        <nav aria-label="Portfolio index">
-          <a href="#index-research">Research</a>
-          <a href="#index-experience">Experience</a>
-          <a href="#index-contact">Contact</a>
-        </nav>
-        <a href="/Nirusan_Hariharan_CV.pdf" download>
-          Résumé ↓
-        </a>
-      </header>
-      <main id="portfolio-index">
-        <h1 className="sr-only">Nirusan Hariharan — portfolio</h1>
-        <section>
-          <AboutFile />
-        </section>
-        <section id="index-research">
-          <ResearchFile />
-        </section>
-        <section id="index-recognition">
-          <RecognitionFile />
-        </section>
-        <section id="index-experience">
-          <ExperienceFile />
-        </section>
-        <section id="index-work">
-          <WorkFile />
-        </section>
-        <section id="index-toolkit">
-          <StackFile />
-        </section>
-        <section id="index-contact">
-          <ContactFile />
-        </section>
-      </main>
-      <footer>© {new Date().getFullYear()} Nirusan Hariharan</footer>
     </div>
   );
 }

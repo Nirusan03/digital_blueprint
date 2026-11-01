@@ -20,8 +20,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #0c1a21;
-  color: #dbe8dd;
+  background: #181715;
+  color: #e4e3e1;
   padding: 0;
   font: 13px/1.7 var(--mono);
 }
@@ -31,8 +31,8 @@
   justify-content: space-between;
   padding: 10px 14px;
   gap: 10px;
-  background: #bdd4c6;
-  color: #152d28;
+  background: #cbcac8;
+  color: #232220;
 }
 .nano-header span:nth-child(2) {
   overflow-wrap: anywhere;
@@ -55,14 +55,14 @@
 }
 .nano-status {
   padding: 8px 15px;
-  color: #9dc9b4;
+  color: #b5b4b2;
   font: 11px/1.6 var(--mono);
   overflow-wrap: anywhere;
 }
 .nano-shortcuts,
 .nano-confirm {
   padding: 10px;
-  border-top: 1px solid #456454;
+  border-top: 1px solid #565553;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -70,8 +70,8 @@
 .nano-shortcuts button,
 .nano-confirm button {
   min-height: 42px;
-  color: #d3eddf;
-  border: 1px solid #456454;
+  color: #e2e1df;
+  border: 1px solid #565553;
   padding: 7px 14px;
   font: 12px var(--mono);
 }

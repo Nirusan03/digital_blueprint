@@ -62,6 +62,7 @@ export default function ExperienceRow({ item, index, defaultOpen, motion }) {
         </span>
       </summary>
       <div className="experience-body">
+        {item.metrics && <ul className="experience-metrics">{item.metrics.map(([value,label]) => <li key={label}><strong>{value}</strong> {label}</li>)}</ul>}
         <ul className="experience-achievements">
           {item.description.map((line,i) => <li key={line} style={{'--entry-order':i}}>{line}</li>)}
         </ul>

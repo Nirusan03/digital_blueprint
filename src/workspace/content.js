@@ -45,6 +45,7 @@ export const CAREER = [
       "Contribute to application architecture, cloud infrastructure, and software delivery.",
       "Develop cross-platform experiences with a focus on reliability and maintainability.",
     ],
+    metrics: [["40%", "lower average API response time across web and mobile"]],
     technologies: [
       "FastAPI",
       "Python",
@@ -65,6 +66,7 @@ export const CAREER = [
       "Develop backend services and APIs with a focus on performance and reliability.",
       "Support application maintenance, modernization, and release engineering.",
     ],
+    metrics: [["4", "Azure DevOps deployment tracks across iOS and Android"]],
     technologies: [
       "ASP.NET Core",
       "C#",
@@ -98,6 +100,7 @@ export const CAREER = [
       "Worked on full-stack SaaS applications and secure data exchange.",
       "Contributed to AI integrations and application reliability.",
     ],
+    metrics: [["50,000+", "users on the PlanYear SaaS platform"], ["100+", "daily communications automated with Spring AI"], ["25%", "faster delivery, saving 5 hours a week"], ["10%", "fewer data-inconsistency incidents in production"]],
     technologies: [
       "Spring Boot",
       "React",
@@ -115,6 +118,7 @@ export const CAREER = [
       "Improved a Spring Boot reporting API used by veterinary clinics.",
       "Worked on message-queue middleware across SaaS products and an internal frontend component framework.",
     ],
+    metrics: [["200", "clinics on the Reporting API, with 12% more session coverage"], ["40%", "of clinics relied on Autonoe, across 4 SaaS products"], ["20%", "deeper insights for business decisions"]],
     technologies: ["Spring Boot", "React", "Vue", "MySQL", "AWS"],
   },
   {
@@ -131,6 +135,7 @@ export const RECOGNITION = [
   {
     year: "2026",
     title: "Recent Graduate Award — finalist",
+    preview: "/previews/westminster-award.webp",
     icon: "laurels",
     tone: "gold",
     detail: "University of Westminster Alumni Awards.",
@@ -139,6 +144,7 @@ export const RECOGNITION = [
   {
     year: "2026",
     title: "QuanNetDetect published at IEEE QCNC",
+    preview: "/research/ieee-qcnc-first-page.webp",
     icon: "quantum",
     tone: "cyan",
     detail: "Co-authored with Guhanathan Poravi. QCNC 2026, Kobe, Japan.",
@@ -147,6 +153,7 @@ export const RECOGNITION = [
   {
     year: "2025",
     title: "First Class Honours · BSc Computer Science",
+    preview: "/portrait/nirusan-800.webp",
     icon: "graduate",
     tone: "lavender",
     detail:
@@ -160,6 +167,7 @@ export const RECOGNITION = [
   {
     year: "2025",
     title: "Best Undergraduate Research — ADScAI",
+    preview: "/previews/adscai-repository.webp",
     icon: "research",
     tone: "mint",
     detail:
@@ -169,6 +177,7 @@ export const RECOGNITION = [
   {
     year: "2026",
     title: "Immersive Smile Plus — national showcases",
+    preview: "/previews/immersive-website.webp",
     icon: "globe",
     tone: "cyan",
     detail:
@@ -178,6 +187,7 @@ export const RECOGNITION = [
   {
     year: "",
     title: "Best Innovative Tech Product · IIT",
+    preview: "/previews/immersive-website.webp",
     icon: "immersive",
     tone: "peach",
     detail:
@@ -187,6 +197,7 @@ export const RECOGNITION = [
   {
     year: "2023",
     title: "1st Runner-Up · IEEE Innovation Nation Sri Lanka",
+    preview: "/previews/immersive-website.webp",
     icon: "trophy",
     tone: "gold",
     detail: "Immersive Smile Plus, Idea Stage.",
@@ -203,6 +214,7 @@ export const RECOGNITION = [
   {
     year: "2022",
     title: "Grand finalist · HACKX 7.0",
+    preview: "/previews/immersive-website.webp",
     icon: "launch",
     tone: "peach",
     detail: "VR healthcare project. University of Kelaniya.",
@@ -225,4 +237,82 @@ export const RECOGNITION = [
     detail: "A team project exploring an application for digital trading.",
     url: LINKS.linkedin,
   },
+];
+
+export const toolkit = [
+  [
+    "Languages",
+    [
+      ["Python", "python"],
+      ["Java", "java"],
+      ["C#", "csharp"],
+      ["TypeScript", "typescript"],
+      ["JavaScript", "javascript"],
+      ["Kotlin", "kotlin"],
+      ["Swift", "swift"],
+    ],
+  ],
+  [
+    "Backend",
+    [
+      ["FastAPI", "fastapi"],
+      ["Spring Boot", "spring"],
+      ["ASP.NET Core", "dotnetcore"],
+      ["Node.js", "nodejs"],
+      ["Flask", "flask"],
+    ],
+  ],
+  [
+    "Frontend",
+    [
+      ["React", "react"],
+      ["Next.js", "nextjs"],
+      ["Angular", "angular"],
+      ["Vue", "vuejs"],
+      ["Blazor", "blazor"],
+    ],
+  ],
+  [
+    "AI & quantum",
+    [
+      ["LLM integrations", "concept-llm"],
+      ["MCP", "concept-mcp"],
+      ["TensorFlow", "tensorflow"],
+      ["Qiskit", "qiskit"],
+      ["PennyLane", "concept-circuit"],
+    ],
+  ],
+  [
+    "Data",
+    [
+      ["PostgreSQL", "postgresql"],
+      ["MongoDB", "mongodb"],
+      ["MySQL", "mysql"],
+      ["Firebase", "firebase"],
+      ["Supabase", "supabase"],
+      ["SQLite", "sqlite"],
+    ],
+  ],
+  [
+    "Infrastructure",
+    [
+      ["AWS", "amazonwebservices"],
+      ["Azure", "azure"],
+      ["Linode", "concept-cloud"],
+      ["Docker", "docker"],
+      ["Jenkins", "jenkins"],
+      ["Azure DevOps", "azuredevops"],
+    ],
+  ],
+  [
+    "Immersive & mobile",
+    [
+      ["Unity", "unity"],
+      ["Unreal Engine", "unrealengine"],
+      ["VR", "concept-vr"],
+      ["IoT", "concept-iot"],
+      ["Android", "android"],
+      ["iOS", "apple"],
+    ],
+  ],
 ];

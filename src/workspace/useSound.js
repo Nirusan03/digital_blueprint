@@ -3,8 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export default function useSound() {
   const context = useRef(null);
   const ambient = useRef(null);
-  const enabled = useRef(true);
-  const [sound, setSound] = useState(true);
+  const enabled = useRef(false);
+  const [sound, setSound] = useState(false);
 
   const activate = useCallback(() => {
     if (!enabled.current || document.hidden) return null;
