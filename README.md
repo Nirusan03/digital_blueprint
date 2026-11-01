@@ -63,7 +63,7 @@ Fonts and scene assets are served locally. GSAP and Lenis are bundled, not loade
 
 Dependencies are pinned; `.npmrc` selects the official npm registry and disables lifecycle scripts. Keep the lockfile when installing. These measures and the clean audit do not guarantee that any package is risk-free.
 
-The site is hosted on Vercel, which reads `vercel.json` and ignores `public/_headers`, so the CV's `X-Robots-Tag: noindex` lives in `vercel.json`. Do not block the CV in `robots.txt`: Google has to fetch it to see that header. `public/_headers` holds security headers for a host that supports that format; they are not active on Vercel, and Vite does not apply this file. Configure equivalent response headers if the eventual host uses another format, and verify them after deployment. Inline styles are permitted for window positions and state visualizations; scripts remain restricted to the same origin.
+The site is hosted on Vercel, and `vercel.json` sets all response headers: Content-Security-Policy, frame and sniffing protection, and the CV's `X-Robots-Tag: noindex`. Do not block the CV in `robots.txt`: Google has to fetch it to see that header. Inline styles stay allowed in the policy for positions and state visualizations; scripts stay restricted to the same origin.
 
 See [TEST_REPORT.md](TEST_REPORT.md) for coverage and limitations, and [SOURCE_NOTES.md](SOURCE_NOTES.md) for factual provenance.
 

@@ -11,7 +11,7 @@ export default function GameSheet({ kind, motion, playCue, onClose }) {
   const [, setQubit] = useState([1, 0]);
   useEffect(() => {
     const node = dialog.current;
-    node.showModal();
+    if (!node.open) node.showModal();
     document.documentElement.style.overflow = "hidden";
     if (motion) gsap.fromTo(node, { clipPath: "inset(100% 0 0 0)" }, { clipPath: "inset(0% 0 0 0)", duration: 0.9, ease: "expo.inOut" });
     return () => { document.documentElement.style.overflow = ""; };

@@ -158,6 +158,17 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
                 <p>Software engineer, quantum researcher, and co-founder of a VR healthcare company.</p>
                 <p className="film-place">Colombo, Sri Lanka</p>
               </div>
+              <div className="film-card">
+                <a className="film-portrait" href="#index-about" aria-label="About Nirusan Hariharan">
+                  <img src="/portrait/nirusan-480.webp" srcSet="/portrait/nirusan-480.webp 480w, /portrait/nirusan-800.webp 800w" sizes="20vw" alt="" width="480" height="600" decoding="async" />
+                </a>
+                <ul className="film-now">
+                  <li><strong>Software Engineer</strong> Niroga AI, BlueLotus360</li>
+                  <li><strong>Co-founder &amp; CTO</strong> Immersive Smile Plus</li>
+                  <li><strong>Visiting Lecturer</strong> IIT</li>
+                  <li><strong>Published</strong> IEEE QCNC 2026</li>
+                </ul>
+              </div>
             </div>
             <div className="film-scrim" data-side="left" aria-hidden="true" />
             <div className="film-scrim" data-side="right" aria-hidden="true" />
@@ -343,9 +354,11 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
         </span>
       </footer>
       {sheet && (
+        <SceneBoundary onFailure={() => setSheet(null)}>
         <Suspense fallback={null}>
           <GameSheet kind={sheet} motion={motion} playCue={playCue} onClose={() => setSheet(null)} />
         </Suspense>
+        </SceneBoundary>
       )}
     </div>
   );

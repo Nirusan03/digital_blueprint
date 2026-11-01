@@ -15,7 +15,9 @@ export default function heroBox(view) {
   const ledeRight = shown ? lede.offsetLeft + lede.offsetWidth : gutter;
   const below = { left: gutter, top: ledeBottom + gap, width: width - gutter * 2, height: floor - ledeBottom - gap };
   const beside = { left: ledeRight + gap, top: NAV, width: width - ledeRight - gap - gutter, height: floor - NAV };
+  // The portrait block shares the intro's column, so the bench must stay beside it.
+  const card = view.querySelector(".film-card");
   const size = (box) => Math.min(box.width / BENCH_ASPECT, box.height);
-  const box = size(beside) > size(below) ? beside : below;
+  const box = card?.offsetParent || size(beside) > size(below) ? beside : below;
   return { left: box.left, top: box.top, width: Math.max(1, box.width), height: Math.max(1, box.height) };
 }

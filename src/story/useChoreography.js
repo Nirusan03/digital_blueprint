@@ -18,6 +18,7 @@ function intro(host) {
     onSplit: (self) => gsap.from(self.chars, { yPercent: 118, duration: 1.3, ease: OUT, stagger: 0.024, delay: 0.25 }),
   });
   gsap.from(host.querySelectorAll(".film-lede > *"), { y: 22, autoAlpha: 0, duration: 1.1, ease: OUT, stagger: 0.1, delay: 0.9 });
+  gsap.from(host.querySelectorAll(".film-portrait, .film-now li"), { y: 26, autoAlpha: 0, duration: 1, ease: OUT, stagger: 0.07, delay: 1.05 });
   gsap.from(".nav-bar > *", { y: -18, autoAlpha: 0, duration: 0.9, ease: OUT, stagger: 0.07, delay: 0.7 });
 }
 
@@ -32,6 +33,7 @@ const easeIn = (t) => t ** 3;
 function film(host, progress) {
   const [first, last] = host.querySelectorAll(".film-name span");
   const lede = host.querySelector(".film-lede");
+  const card = host.querySelector(".film-card");
   const flash = host.querySelector(".film-flash");
   const stage = host.querySelector(".film-stage");
   const beats = [...host.querySelectorAll(".film-beat")];
@@ -57,6 +59,7 @@ function film(host, progress) {
     show(last, 1 - away, `translate3d(${(22 * away).toFixed(2)}%,0,0)`);
     const lift = span(p, 0.01, 0.07);
     show(lede, 1 - lift, `translate3d(0,${(-40 * lift).toFixed(1)}px,0)`);
+    show(card, 1 - lift, `translate3d(0,${(-40 * lift).toFixed(1)}px,0)`);
     const veil = { left: 0, right: 0 };
     beats.forEach((beat, index) => {
       const [start, hold] = BEATS[index];
@@ -84,7 +87,7 @@ function film(host, progress) {
     onUpdate: (self) => update(self.progress),
     onRefresh: (self) => update(self.progress),
   });
-  return () => [first, last, lede, flash, scrims.left, scrims.right, ...stills.slice(1), ...beats.flatMap((beat) => [...beat.children])]
+  return () => [first, last, lede, card, flash, scrims.left, scrims.right, ...stills.slice(1), ...beats.flatMap((beat) => [...beat.children])]
     .forEach((element) => element.removeAttribute("style"));
 }
 
@@ -354,7 +357,7 @@ export default function useChoreography(root, motion, progress, level) {
     document.fonts?.ready.then(settle);
     window.addEventListener("load", settle);
     if (location.hash.startsWith("#index-"))
-      requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView({ behavior: "instant" }));
+      requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: "instant" }));
     return () => {
       cancelAnimationFrame(queued);
       framing.disconnect();

@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import gsap from "gsap";
 import useSound from "./useSound";
 import Story from "../story/Story";
+import SceneBoundary from "./SceneBoundary";
 import quality from "../story/quality";
 
 const loadDesktop = () => import("./Desktop");
@@ -83,6 +84,6 @@ export default function Workspace() {
     window.scrollTo(0, 0);
   });
   if (showDesktop)
-    return <Suspense fallback={<div style={{ position: "fixed", inset: 0, background: "#0b0b0c" }} />}><Desktop motion={motion} onMotion={toggleMotion} sound={sound} setSound={setEnabled} play={play} onExit={leave} /></Suspense>;
+    return <SceneBoundary onFailure={() => setDesktop(false)}><Suspense fallback={<div style={{ position: "fixed", inset: 0, background: "#0b0b0c" }} />}><Desktop motion={motion} onMotion={toggleMotion} sound={sound} setSound={setEnabled} play={play} onExit={leave} /></Suspense></SceneBoundary>;
   return <Story onDesktop={enter} motion={motion} onMotion={toggleMotion} sound={sound} onSound={() => setEnabled(!sound)} playCue={play} />;
 }
