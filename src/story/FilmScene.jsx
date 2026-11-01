@@ -44,19 +44,22 @@ export default function FilmScene({ level, progress, onReady, onFallback }) {
     const low = level === "low";
     let renderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: !low, alpha: true, powerPreference: "high-performance" });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
     } catch {
       onFallback();
       return;
     }
     const fine = matchMedia("(pointer: fine)").matches;
-    const ratios = low ? [1.25, 1, 0.8] : [Math.min(devicePixelRatio || 1, 1.75), 1.25, 1, 0.8];
+    const ratios = low ? [2, 1.6, 1.3, 1] : [Math.min(devicePixelRatio || 1, 1.75), 1.25, 1, 0.8];
+    // Never above 60fps, so 90 and 120Hz phones don't pay double. 30fps is the final step down.
+    let minGap = low ? 14 : 0;
     let step = 0;
     renderer.setPixelRatio(Math.min(ratios[0], devicePixelRatio || 1));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
-    renderer.localClippingEnabled = !low;
+    renderer.setClearColor(0x0b0b0c, 1);
+    renderer.localClippingEnabled = true;
     renderer.domElement.setAttribute("aria-hidden", "true");
     renderer.domElement.dataset.ratio = String(renderer.getPixelRatio());
     renderer.domElement.dataset.tier = level;
@@ -65,16 +68,15 @@ export default function FilmScene({ level, progress, onReady, onFallback }) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, 1, 0.03, 80);
     let frame = 0, last = performance.now(), lastDraw = 0, elapsed = 0, shown = progress.current, width = 1, height = 1, visible = true, inView = true, disposed = false;
-    let announced = false, assembled = low;
+    let announced = false, assembled = false;
     const samples = [];
     const requestFrame = () => { if (!frame && !disposed) frame = requestAnimationFrame(render); };
-    const workbench = buildWorkbench({ scene, renderer, level, reveal: !low, onTexture: requestFrame });
+    const workbench = buildWorkbench({ scene, renderer, level, reveal: true, onTexture: requestFrame });
     const now = { target: new THREE.Vector3() };
     const pointer = { x: 0, y: 0, cx: 0, cy: 0 };
     let started = performance.now();
-    if (low) workbench.setReveal(1);
     // Draw the shadows before the first frame: an unrendered shadow map leaves every solid unlit.
-    else workbench.bakeShadows();
+    workbench.bakeShadows();
 
     // Fit the bench's silhouette into the free space the hero's text leaves, at any screen shape.
     const hero = { pull: 1, x: 0, y: 0 };
@@ -138,28 +140,23 @@ export default function FilmScene({ level, progress, onReady, onFallback }) {
     // Trade resolution for smoothness, and give up on live 3D only as the last resort.
     function adapt(delta) {
       samples.push(delta);
-      if (samples.length < 40) return;
-      const sorted = [...samples].sort((a, b) => a - b);
+      if (samples.length < 30) return;
       const average = samples.reduce((a, b) => a + b, 0) / samples.length;
-      const jitter = sorted[Math.floor(sorted.length * 0.9)] - sorted[20];
       samples.length = 0;
-      // A steady 30fps can just be a phone's low power mode, so only unsteady frames count at that rate.
-      const budget = low ? 0.05 : 0.021;
-      if (average < budget && (low || jitter < 0.008)) return;
-      if (average > 0.03 && jitter < 0.004 && average < 0.04) return;
+      if (average < (minGap >= 30 ? 0.05 : 0.021)) return;
       if (step < ratios.length - 1) {
         step++;
         renderer.setPixelRatio(Math.min(ratios[step], devicePixelRatio || 1));
         renderer.setSize(width, height, false);
         renderer.domElement.dataset.ratio = String(renderer.getPixelRatio());
         if (step === 1) workbench.dropShadows();
-      } else if (average > 0.045) onFallback();
+      } else if (minGap < 30) minGap = 30;
+      else if (average > 0.06) onFallback();
     }
     function render(time) {
       frame = 0;
       if (disposed || !visible) return;
-      // Low-tier devices draw at 30fps, which leaves the main thread free for scrolling.
-      if (low && time - lastDraw < 30) { requestFrame(); return; }
+      if (time - lastDraw < minGap) { requestFrame(); return; }
       lastDraw = time;
       const delta = Math.max(0, Math.min((time - last) / 1000, 0.25));
       last = time;
@@ -204,7 +201,7 @@ export default function FilmScene({ level, progress, onReady, onFallback }) {
       pointer.x = (event.clientX / innerWidth - 0.5) * 2;
       pointer.y = -(event.clientY / innerHeight - 0.5) * 2;
     };
-    if (fine && !low) window.addEventListener("pointermove", move, { passive: true });
+    if (fine) window.addEventListener("pointermove", move, { passive: true });
     const lost = (event) => { event.preventDefault(); onFallback(); };
     renderer.domElement.addEventListener("webglcontextlost", lost);
     // Compile every shader now, so the stall happens before the visitor starts scrolling.

@@ -89,7 +89,7 @@ html:has(.story) { scroll-behavior: auto; scroll-padding-top: 0; }
 .film { height: 580vh; position: relative; }
 .film-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .film-view { position: absolute; inset: 0; container: film / size; }
-.film-canvas { position: absolute; inset: 0; z-index: 2; }
+.film-canvas { position: absolute; inset: 0; z-index: 0; }
 .film-canvas canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .film-stills { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
 .film-still { position: absolute; inset: 0; opacity: 0; visibility: hidden; will-change: opacity; }
@@ -97,7 +97,6 @@ html:has(.story) { scroll-behavior: auto; scroll-padding-top: 0; }
 .film-still img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .film-still-hero img { object-fit: contain; }
 .film-stage[data-scene="canvas"] .film-stills { display: none; }
-.film-stage[data-scene="poster"] .film-canvas { opacity: 0; }
 .film-name {
   position: absolute; left: var(--gut); right: var(--gut); bottom: clamp(6px, 2.2cqh, 30px); z-index: 1;
   display: flex; justify-content: space-between; gap: 0.2em;

@@ -21,6 +21,9 @@ const STILLS = ["research", "engineering", "immersive", "core"];
 // Haxmas has its own project artwork; the other previews are public captures named in content.js.
 const preview = (item) => item.preview || (item.title.includes("Haxmas") ? PROJECTS.find((project) => project.title.startsWith("ElderGuardian")).image : null);
 
+// Rows on phones use smaller copies of the shared previews.
+const thumb = (source) => (/convocation-2025|westminster-award|adscai-repository|immersive-website/.test(source) ? source.replace(".webp", "-720.webp") : source);
+
 function Panel({ project }) {
   const { preview } = project;
   return (
@@ -80,13 +83,13 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
   const root = useRef(null);
   const progress = useRef(0);
   const level = useState(quality)[0];
-  // canvas: live 3D. poster: a still while the 3D loads. stills: pre-rendered frames only.
-  const [scene, setScene] = useState(() => (!motion || level === "still" ? "stills" : level === "high" ? "canvas" : "poster"));
+  // canvas: live 3D. stills: pre-rendered frames only.
+  const [scene, setScene] = useState(() => (!motion || level === "still" ? "stills" : "canvas"));
   const [sheet, setSheet] = useState(null);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState("");
   const sceneFailure = useCallback(() => setScene("stills"), []);
-  const sceneReady = useCallback(() => setScene((current) => (current === "poster" ? "canvas" : current)), []);
+  const sceneReady = useCallback(() => {}, []);
   const live = motion && level !== "still" && scene !== "stills";
   const lenis = useChoreography(root, motion, progress, level);
   useEffect(() => {
@@ -282,7 +285,7 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.detail}</p>
-                  {preview(item) && <img className="row-thumb" src={preview(item)} alt="" width="640" height="360" loading="lazy" decoding="async" />}
+                  {preview(item) && <img className="row-thumb" src={thumb(preview(item))} alt="" width="640" height="360" loading="lazy" decoding="async" />}
                 </div>
                 <div className="links">
                   {(item.links || [{ url: item.url, label: item.url.includes("linkedin") ? "LinkedIn" : "Source" }]).map((link) => <a key={link.url} href={link.url} {...out}>{link.label}</a>)}

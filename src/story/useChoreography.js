@@ -170,8 +170,8 @@ function reveals(host, low) {
     });
   });
   const paper = host.querySelector(".paper-sheet");
-  if (paper && !low) gsap.fromTo(paper, { rotateX: 26, rotateY: -22, rotateZ: 5, y: 60 }, {
-    rotateX: 0, rotateY: 0, rotateZ: 0, y: 0, ease: "none",
+  if (paper && !low) gsap.fromTo(paper, { rotateX: 24, rotateY: -16, rotateZ: 4, scale: 0.86, y: 60 }, {
+    rotateX: 0, rotateY: 0, rotateZ: 0, scale: 1, y: 0, ease: "none",
     scrollTrigger: { trigger: paper.parentElement, start: "top 90%", end: "top 20%", scrub: true },
   });
   host.querySelectorAll(".role").forEach((role) => {
@@ -280,7 +280,8 @@ export default function useChoreography(root, motion, progress, level) {
   useEffect(() => {
     const host = root.current;
     if (!host) return;
-    const low = level !== "high";
+    // Only the no-WebGL fallback tier skips animation. Phones get all of it.
+    const low = level === "still";
     const nav = host.querySelector(".nav-bar");
     const bar = host.querySelector(".progress");
     let smooth = null, tickerCallback = null, removeCursor = () => {}, removePeek = () => {}, media = null, resetFilm = () => {};
@@ -301,9 +302,9 @@ export default function useChoreography(root, motion, progress, level) {
       media = rail(host, low);
     }, host);
     if (motion) {
-      if (!low) removeCursor = cursor(host);
+      removeCursor = cursor(host);
       removePeek = peek(host);
-      if (!low && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      if (level === "high" && matchMedia("(hover: hover) and (pointer: fine)").matches) {
         smooth = new Lenis({ lerp: 0.1, wheelMultiplier: 0.95 });
         smooth.on("scroll", ScrollTrigger.update);
         tickerCallback = (time) => smooth.raf(time * 1000);
@@ -346,7 +347,7 @@ export default function useChoreography(root, motion, progress, level) {
       event.preventDefault();
       history.pushState(null, "", link.getAttribute("href"));
       if (smooth) smooth.scrollTo(target, { duration: 1.6, easing: (t) => 1 - Math.pow(1 - t, 4) });
-      else target.scrollIntoView({ behavior: motion && !low ? "smooth" : "instant" });
+      else target.scrollIntoView({ behavior: motion ? "smooth" : "instant" });
     };
     host.addEventListener("click", jump);
     const settle = () => ScrollTrigger.refresh();
