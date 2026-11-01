@@ -26,10 +26,13 @@ Nothing in this project publishes or deploys automatically.
 
 The main route is a scroll film. A hand-built Three.js workbench materialises from blueprint lines on load, then the camera, keyed to scroll progress, orbits through the Research, Engineering and Immersive Smile stations and dives into the quantum core, which flashes into the Research chapter. After it: research, an interactive quantum explorer, Projects (a horizontal rail of research and products, then the full list), experience with figures from the CV, about, recognition with pointer-following previews, toolkit, play and contact. The page shifts between ink, bone and signal-orange tones as sections reach reading position.
 
-- Motion uses GSAP (ScrollTrigger, SplitText) and Lenis. Lenis runs only on fine pointers, so touch scrolling stays native. Motion off and reduced-motion preferences remove all of it and show content statically.
+- Motion uses GSAP (ScrollTrigger, SplitText) and Lenis. Lenis runs only on capable devices with a fine pointer, so touch scrolling stays native. Motion off and reduced-motion preferences remove all of it and show content statically.
+- `src/story/quality.js` picks a tier per device. **High**: the full scene. **Low** (touch devices, 4 cores or fewer, weak integrated graphics): a reduced scene at 30fps. **Still** (software graphics, data saver, motion off): the pre-rendered frames in `public/film/`, crossfaded by scroll, with no WebGL or Three.js download. While running, `FilmScene.jsx` lowers its resolution if frames slip, and falls back to the stills as the last resort. If the bench or camera path changes, re-capture `public/film/`.
+- The hero sizes everything from the stage's own width and height (container query units), and `heroBox.js` measures the free space so the bench and still frame fit it. Size new layout from both dimensions; widths alone break at browser zoom and on foldables.
+- Scroll work stays compositor-friendly on purpose. Do not animate colours or custom properties on a page-wide ancestor, use `mix-blend-mode` on fixed elements, or animate the font width axis: each of these caused visible stutter on modest hardware.
 - Mona Sans is the only display and text face; its width axis is animated by scroll on the large titles. JetBrains Mono is used only for data readouts and the terminal.
 - Quantum Relay, Packet Run and the terminal open in a full-screen sheet from the Play section, so playing never changes mode.
-- Desktop mode opens only from the **Desktop mode** button (or an explicit `/#workspace` link), and only on screens over 1100px wide with a hovering pointer; phones and tablets stay on the scrolling page even with that link. It has a menu bar, a dock, draggable and resizable windows that open from and minimise to their dock icons, double-click to maximise, arrow-key movement from a focused title bar, and Escape to close.
+- Desktop mode opens only from the **Desktop mode** button (or an explicit `/#workspace` link), and only on screens over 1100px wide and 600px tall with a hovering pointer; phones and tablets stay on the scrolling page even with that link. It has a menu bar, a dock, draggable and resizable windows that open from and minimise to their dock icons, double-click to maximise, arrow-key movement from a focused title bar, and Escape to close.
 - Sound is off by default. It can be turned on from the footer or the View menu.
 - Research includes the two-qubit explorer at `/#index-quantum-ml`, using synthetic inputs and labelled separately from the published results. Reported accuracies come from Table II of the IEEE paper.
 
@@ -44,7 +47,7 @@ Sections link as `/#index-research`, `/#index-work`, `/#index-experience`, `/#in
 | `src/workspace/Files.jsx` | Shared portfolio documents, project links, and toolkit icons |
 | `src/workspace/workbench.js` | Shared 3D workbench: geometry, materials, blueprint reveal, idle motion |
 | `src/story/FilmScene.jsx` | Scroll-driven camera path and film renderer |
-| `src/story/useChoreography.js`, `story.css`, `Story.jsx` | Scroll motion, the page design, and page structure |
+| `src/story/useChoreography.js`, `story.css`, `Story.jsx`, `quality.js` | Scroll motion, the page design, page structure, device tiers |
 | `src/workspace/World.jsx`, `desktop.css`, `Window.jsx` | Desktop mode wallpaper, shell and window manager |
 | `src/lib/shell.js`, `src/workspace/Terminal.jsx` | Browser filesystem, command parser, completion, and editor |
 | `src/lib/packetRun.js`, `src/workspace/PacketRun.jsx` | Arcade simulation, canvas rendering, controls, pause, best score |
@@ -60,7 +63,7 @@ Fonts and scene assets are served locally. GSAP and Lenis are bundled, not loade
 
 Dependencies are pinned; `.npmrc` selects the official npm registry and disables lifecycle scripts. Keep the lockfile when installing. These measures and the clean audit do not guarantee that any package is risk-free.
 
-`public/_headers` contains production security headers for a host that supports that format. Vite does not apply this file. Configure equivalent response headers if the eventual host uses another format, and verify them after deployment. Inline styles are permitted for window positions and state visualizations; scripts remain restricted to the same origin.
+The site is hosted on Vercel, which reads `vercel.json` and ignores `public/_headers`, so the CV's `X-Robots-Tag: noindex` lives in `vercel.json`. Do not block the CV in `robots.txt`: Google has to fetch it to see that header. `public/_headers` holds security headers for a host that supports that format; they are not active on Vercel, and Vite does not apply this file. Configure equivalent response headers if the eventual host uses another format, and verify them after deployment. Inline styles are permitted for window positions and state visualizations; scripts remain restricted to the same origin.
 
 See [TEST_REPORT.md](TEST_REPORT.md) for coverage and limitations, and [SOURCE_NOTES.md](SOURCE_NOTES.md) for factual provenance.
 

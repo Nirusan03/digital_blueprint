@@ -1,5 +1,4 @@
 /* Desktop mode: a real window manager over the 3D bench. */
-.mode-curtain { position: fixed; inset: 0; z-index: 200; background: #ff5a1f; pointer-events: none; }
 .world-stage { position: absolute; inset: 0; }
 .world-stage > canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 
@@ -121,3 +120,5 @@ time.dt-plain:hover { background: none; }
 .dt .window-body [data-file-reveal], .dt .window-body [data-file-reveal] * { opacity: 1 !important; transform: none !important; }
 .dt .document-dark .experience-metrics { list-style: none; padding: 0; margin: 4px 0 16px; display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--story-muted); font-size: 14px; }
 .dt .document-dark .experience-metrics strong { color: var(--story-ink); font-size: 22px; font-weight: 500; letter-spacing: -0.03em; margin-right: 4px; }
+html[data-quality="low"] .dt :is(.dt-bar, .dt-menu nav, .dt-dock, .world-label) { backdrop-filter: none; background: #1a1a1d; }
+html[data-quality="still"] .dt :is(.dt-bar, .dt-menu nav, .dt-dock, .world-label) { backdrop-filter: none; background: #1a1a1d; }

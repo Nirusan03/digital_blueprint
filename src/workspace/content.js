@@ -153,7 +153,7 @@ export const RECOGNITION = [
   {
     year: "2025",
     title: "First Class Honours · BSc Computer Science",
-    preview: "/portrait/nirusan-800.webp",
+    preview: "/previews/convocation-2025.webp",
     icon: "graduate",
     tone: "lavender",
     detail:

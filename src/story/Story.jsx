@@ -1,10 +1,11 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { CONTACT, PROJECTS } from "../constants";
 import { CAREER, LINKS, RECOGNITION, toolkit } from "../workspace/content";
-import { RepositoryLinks } from "../workspace/Files";
+import RepositoryLinks from "../workspace/RepositoryLinks";
 import QuantumLab from "../workspace/QuantumLab";
 import SceneBoundary from "../workspace/SceneBoundary";
 import useChoreography from "./useChoreography";
+import quality from "./quality";
 import "./story.css";
 
 const FilmScene = lazy(() => import("./FilmScene"));
@@ -15,6 +16,7 @@ const flagships = FLAGSHIPS.map((title) => PROJECTS.find((project) => project.ti
 const archive = PROJECTS.filter((project) => !FLAGSHIPS.includes(project.title));
 const NAV = [["Projects", "index-work"], ["Research", "index-research"], ["Experience", "index-experience"], ["About", "index-about"], ["Contact", "index-contact"]];
 const out = { target: "_blank", rel: "noopener noreferrer" };
+const STILLS = ["research", "engineering", "immersive", "core"];
 
 // Haxmas has its own project artwork; the other previews are public captures named in content.js.
 const preview = (item) => item.preview || (item.title.includes("Haxmas") ? PROJECTS.find((project) => project.title.startsWith("ElderGuardian")).image : null);
@@ -26,8 +28,8 @@ function Panel({ project }) {
       <a className="panel-stage" href={preview.url} {...out} data-cursor="Open" aria-label={`Open ${project.title}`}>
         <div className="panel-picture">
           {preview.kind === "app"
-            ? preview.screens.map((screen) => <img key={screen.src} src={screen.src} alt={screen.alt} width="600" height="1300" loading="lazy" />)
-            : <img src={preview.src} alt={preview.alt} width={preview.kind === "paper" ? 1082 : 1280} height={preview.kind === "paper" ? 1400 : 720} loading="lazy" />}
+            ? preview.screens.map((screen) => <img key={screen.src} src={screen.src} alt={screen.alt} width="600" height="1300" loading="lazy" decoding="async" />)
+            : <img src={preview.src} alt={preview.alt} width={preview.kind === "paper" ? 1082 : 1280} height={preview.kind === "paper" ? 1400 : 720} loading="lazy" decoding="async" />}
         </div>
       </a>
       <div className="panel-copy">
@@ -54,7 +56,7 @@ function ArchiveRow({ project }) {
       </button>
       <div className="ledger-more" inert={!open}>
         <div>
-          {project.image && <img className="row-thumb" src={project.image} alt="" width="800" height="450" loading="lazy" />}
+          {project.image && <img className="row-thumb" src={project.image} alt="" width="800" height="450" loading="lazy" decoding="async" />}
           <p>{project.description}</p>
           {project.collaborators && <p className="panel-credit">With {project.collaborators.join(", ")}.</p>}
           <div className="links"><RepositoryLinks project={project} /></div>
@@ -77,12 +79,16 @@ function Clock() {
 export default function Story({ onDesktop, motion, onMotion, sound, onSound, playCue }) {
   const root = useRef(null);
   const progress = useRef(0);
-  const [sceneFailed, setSceneFailed] = useState(false);
+  const level = useState(quality)[0];
+  // canvas: live 3D. poster: a still while the 3D loads. stills: pre-rendered frames only.
+  const [scene, setScene] = useState(() => (!motion || level === "still" ? "stills" : level === "high" ? "canvas" : "poster"));
   const [sheet, setSheet] = useState(null);
   const [menu, setMenu] = useState(false);
   const [copied, setCopied] = useState("");
-  const sceneFailure = useCallback(() => setSceneFailed(true), []);
-  const lenis = useChoreography(root, motion, progress);
+  const sceneFailure = useCallback(() => setScene("stills"), []);
+  const sceneReady = useCallback(() => setScene((current) => (current === "poster" ? "canvas" : current)), []);
+  const live = motion && level !== "still" && scene !== "stills";
+  const lenis = useChoreography(root, motion, progress, level);
   useEffect(() => {
     if (sheet || menu) lenis.current?.stop();
     else lenis.current?.start();
@@ -97,19 +103,19 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
     setTimeout(() => setCopied(""), 2200);
   };
   return (
-    <div className="story" id="portfolio-home" ref={root} data-tone="ink">
+    <div className="story" id="portfolio-home" ref={root}>
       <a className="skip-link" href="#index-research">Skip to content</a>
       <div className="progress" aria-hidden="true" />
       <div className="cursor" aria-hidden="true"><span /></div>
       <div className="peek" aria-hidden="true"><img alt="" /></div>
 
-      <header className="nav-bar">
+      <header className="nav-bar" data-tone="ink">
         <a className="nav-name" href="#portfolio-home">Nirusan Hariharan</a>
         <nav aria-label="Sections">
           {NAV.map(([label, id]) => <a key={id} href={`#${id}`}>{label}</a>)}
         </nav>
         <div className="nav-end">
-          <a href="/Nirusan_Hariharan_CV.pdf" download>Résumé</a>
+          <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>Résumé</a>
           <button className="nav-desktop" onClick={onDesktop} data-desktop-trigger>Desktop mode</button>
           <button className="nav-menu" onClick={() => setMenu(true)} aria-expanded={menu}>Menu</button>
         </div>
@@ -119,23 +125,36 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
           <button className="menu-close" onClick={() => setMenu(false)} autoFocus>Close</button>
           <nav aria-label="Sections">
             {NAV.map(([label, id]) => <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>{label}</a>)}
-            <a href="/Nirusan_Hariharan_CV.pdf" download>Résumé</a>
+            <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>Résumé</a>
           </nav>
         </div>
       )}
 
       <main>
         <section className="film" data-tone="ink" aria-labelledby="film-title">
-          <div className="film-stage">
-            <h1 className="film-name" id="film-title" aria-label="Nirusan Hariharan"><span>Nirusan</span> <span>Hariharan</span></h1>
-            <SceneBoundary onFailure={sceneFailure}>
-              <Suspense fallback={null}>
-                {!sceneFailed && <FilmScene motion={motion} progress={progress} onFailure={sceneFailure} />}
-              </Suspense>
-            </SceneBoundary>
-            <div className="film-lede">
-              <p>Software engineer, quantum researcher, and co-founder of a VR healthcare company.</p>
-              <p className="film-place">Colombo, Sri Lanka</p>
+          <div className="film-stage" data-scene={motion ? scene : "stills"}>
+            <div className="film-view">
+              <h1 className="film-name" id="film-title" aria-label="Nirusan Hariharan"><span>Nirusan</span> <span>Hariharan</span></h1>
+              <div className="film-stills" aria-hidden="true">
+                <div className="film-still film-still-hero"><img src="/film/hero.webp" alt="" width="1400" height="1100" decoding="async" /></div>
+                {STILLS.map((name) => (
+                  <picture className="film-still" key={name}>
+                    <source media="(max-aspect-ratio: 1/1)" srcSet={`/film/${name}-p.webp`} />
+                    <img src={`/film/${name}-l.webp`} alt="" width="1600" height="1000" decoding="async" loading="lazy" />
+                  </picture>
+                ))}
+              </div>
+              {live && (
+                <SceneBoundary onFailure={sceneFailure}>
+                  <Suspense fallback={null}>
+                    <FilmScene level={level} progress={progress} onReady={sceneReady} onFallback={sceneFailure} />
+                  </Suspense>
+                </SceneBoundary>
+              )}
+              <div className="film-lede">
+                <p>Software engineer, quantum researcher, and co-founder of a VR healthcare company.</p>
+                <p className="film-place">Colombo, Sri Lanka</p>
+              </div>
             </div>
             <div className="film-scrim" data-side="left" aria-hidden="true" />
             <div className="film-scrim" data-side="right" aria-hidden="true" />
@@ -165,7 +184,7 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
           <h2 className="mega" id="research-title" data-kinetic>QuanNetDetect</h2>
           <div className="research-grid">
             <a className="paper" href={LINKS.paper} {...out} data-cursor="Read" aria-label="Read the QuanNetDetect IEEE QCNC 2026 publication">
-              <img className="paper-sheet" src="/research/ieee-qcnc-first-page.webp" alt="First page of the QuanNetDetect paper, by Nirusan Hariharan and Guhanathan Poravi, IEEE QCNC 2026." width="1082" height="1400" loading="lazy" />
+              <img className="paper-sheet" src="/research/ieee-qcnc-first-page.webp" alt="First page of the QuanNetDetect paper, by Nirusan Hariharan and Guhanathan Poravi, IEEE QCNC 2026." width="1082" height="1400" loading="lazy" decoding="async" />
             </a>
             <div className="research-copy">
               <p className="statement" data-lines>A Quantum Hybrid Deep Learning Framework for Encrypted TLS Malicious Traffic Detection</p>
@@ -238,12 +257,12 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
               </li>
             ))}
           </ol>
-          <div className="links"><a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé</a></div>
+          <div className="links"><a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>Download résumé</a></div>
         </section>
 
         <section className="ch about" id="index-about" data-tone="ink" aria-labelledby="about-title">
           <figure className="about-portrait" data-clip>
-            <img src="/portrait/nirusan-1408.webp" srcSet="/portrait/nirusan-800.webp 800w, /portrait/nirusan-1408.webp 1408w" sizes="(max-width: 900px) 100vw, 42vw" alt="Nirusan Hariharan" width="1408" height="1760" loading="lazy" data-parallax="3" />
+            <img src="/portrait/nirusan-1408.webp" srcSet="/portrait/nirusan-800.webp 800w, /portrait/nirusan-1408.webp 1408w" sizes="(max-width: 900px) 100vw, 42vw" alt="Nirusan Hariharan" width="1408" height="1760" loading="lazy" decoding="async" data-parallax="3" />
           </figure>
           <div className="about-copy">
             <h2 id="about-title" className="kicker">About</h2>
@@ -263,7 +282,7 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
                 <div>
                   <h3>{item.title}</h3>
                   <p>{item.detail}</p>
-                  {preview(item) && <img className="row-thumb" src={preview(item)} alt="" width="640" height="360" loading="lazy" />}
+                  {preview(item) && <img className="row-thumb" src={preview(item)} alt="" width="640" height="360" loading="lazy" decoding="async" />}
                 </div>
                 <div className="links">
                   {(item.links || [{ url: item.url, label: item.url.includes("linkedin") ? "LinkedIn" : "Source" }]).map((link) => <a key={link.url} href={link.url} {...out}>{link.label}</a>)}
@@ -279,7 +298,7 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
             {toolkit.map(([group, tools]) => (
               <div key={group} className="mark">
                 <dt>{group}</dt>
-                {tools.map(([name, icon]) => <dd key={name}><img src={`/icons/toolkit/${icon}.svg`} alt="" width="40" height="40" loading="lazy" />{name}</dd>)}
+                <dd><ul>{tools.map(([name, icon]) => <li key={name}><img src={`/icons/toolkit/${icon}.svg`} alt="" width="40" height="40" loading="lazy" decoding="async" />{name}</li>)}</ul></dd>
               </div>
             ))}
           </dl>
@@ -305,12 +324,12 @@ export default function Story({ onDesktop, motion, onMotion, sound, onSound, pla
           <div className="links links-lg">
             <a href="https://github.com/Nirusan03" {...out}>GitHub</a>
             <a href={LINKS.linkedin} {...out}>LinkedIn</a>
-            <a href="/Nirusan_Hariharan_CV.pdf" download>Résumé</a>
+            <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>Résumé</a>
           </div>
         </section>
       </main>
 
-      <footer className="foot">
+      <footer className="foot" data-tone="ink">
         <span>© {new Date().getFullYear()} Nirusan Hariharan</span>
         <Clock />
         <span className="foot-controls">

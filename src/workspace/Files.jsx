@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CONTACT, PROJECTS } from "../constants";
+import RepositoryLinks from "./RepositoryLinks";
 import { CAREER, LINKS, RECOGNITION, toolkit } from "./content";
 import "./portrait.css";
 import "./toolkit.css";
@@ -46,7 +47,7 @@ export function AboutFile() {
           <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
-          <a href="/Nirusan_Hariharan_CV.pdf" download>
+          <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>
             Résumé
           </a>
         </div>
@@ -195,35 +196,6 @@ export function RecognitionFile({ visual = null }) {
     </div>
   );
 }
-export function RepositoryLinks({ project }) {
-  if (project.links)
-    return project.links.map(({ label, url }) => (
-      <a key={url} href={url} target="_blank" rel="noopener noreferrer">
-        {label}
-      </a>
-    ));
-  if (project.website)
-    return (
-      <a href={project.website} target="_blank" rel="noopener noreferrer">
-        Visit the project
-      </a>
-    );
-  if (project.sourceStatus === "unavailable")
-    return (
-      <a
-        href={`mailto:${CONTACT.email}?subject=${encodeURIComponent(project.title + " project walkthrough")}`}
-      >
-        Discuss this project
-      </a>
-    );
-  return (
-    project.githubs || [{ label: "View source", url: project.github }]
-  ).map((repo) => (
-    <a key={repo.url} href={repo.url} target="_blank" rel="noopener noreferrer">
-      {repo.label}
-    </a>
-  ));
-}
 export function WorkFile() {
   const [selected, setSelected] = useState(0);
   const project = PROJECTS[selected];
@@ -292,7 +264,7 @@ export function ExperienceFile({ expanded = false, motion = true, visual = null 
     <div className="experience-file" ref={experience}>
             {visual ? <div className="chapter-dimensional-heading"><h2>Experience</h2>{visual}</div> : <h2>Experience</h2>}
       {CAREER.map((item,index) => <ExperienceRow key={item.company} item={item} index={index} defaultOpen={expanded || index < 2} motion={motion} />)}
-      <a href="/Nirusan_Hariharan_CV.pdf" download>Download résumé</a>
+      <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>Download résumé</a>
     </div>
   );
 }
@@ -371,7 +343,7 @@ export function ContactFile() {
         <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">
           LinkedIn
         </a>
-        <a href="/Nirusan_Hariharan_CV.pdf" download>
+        <a href="/Nirusan_Hariharan_CV.pdf" rel="nofollow" download>
           Résumé
         </a>
       </div>

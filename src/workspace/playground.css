@@ -28,7 +28,7 @@
   font-size: 35px;
 }
 .packet-heading > span {
-  font: 11px var(--mono);
+  font: 12px var(--mono);
   color: #6a6967;
 }
 .packet-description {
@@ -42,7 +42,7 @@
   justify-content: space-between;
   gap: 14px;
   padding: 20px 0 14px;
-  font: 11px/1.8 var(--mono);
+  font: 12px/1.8 var(--mono);
   color: #6a6967;
 }
 .packet-hud strong {
@@ -80,7 +80,7 @@
   padding: 22px;
 }
 .packet-overlay p {
-  font: 10px/1.7 var(--mono);
+  font: 12px/1.7 var(--mono);
   letter-spacing: 0.14em;
   color: #a9a8a6;
 }
@@ -111,7 +111,7 @@
   background: #d4d3d1;
 }
 .packet-help {
-  font: 11px/1.9 var(--mono);
+  font: 12px/1.9 var(--mono);
   color: #676664;
   margin-top: 17px;
 }
@@ -121,13 +121,13 @@
     margin-bottom: 24px;
   }
   .play-tabs button {
-    font-size: 10px;
+    font-size: 12px;
   }
   .packet-heading h2 {
     font-size: 29px;
   }
   .packet-heading > span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .packet-description {
     font-size: 15px;
@@ -136,7 +136,7 @@
     height: clamp(160px, 32dvh, 270px);
   }
   .packet-hud {
-    font-size: 10px;
+    font-size: 12px;
   }
   .packet-hud strong {
     font-size: 17px;
@@ -145,6 +145,6 @@
     font-size: 24px;
   }
   .packet-help {
-    font-size: 10px;
+    font-size: 12px;
   }
 }

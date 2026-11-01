@@ -1,4 +1,4 @@
-> Note, 1 November 2026: the scrolling page and desktop shell were rebuilt. Sections below describe the previous interface and need rewriting; the 25 logic tests still pass.
+> Note, 1 November 2026: the scrolling page and desktop shell were rebuilt. Sections below describe the previous interface and need rewriting; the 25 logic tests still pass. Performance and layout were checked in Chrome with touch emulation, 4–6× CPU throttling and a software GPU, at 320–1920px wide, on a production build. Not yet checked on physical phones.
 
 # Local verification — 30 October 2026
 

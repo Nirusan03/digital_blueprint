@@ -1,0 +1,5 @@
+# The CV stays crawlable on purpose: Google must fetch it to see its noindex header (see vercel.json).
+User-agent: *
+Allow: /
+
+Sitemap: https://itsnirusan.com/sitemap.xml

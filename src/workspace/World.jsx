@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { buildWorkbench, disposeScene, stations } from "./workbench";
+import quality from "../story/quality";
 
 export default function World({
   motion,
@@ -35,12 +36,11 @@ export default function World({
       return;
     }
     const compact = window.matchMedia("(max-width: 760px)").matches;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, quality() === "high" ? 1.5 : 1));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
     renderer.setClearColor(0x0b0b0c, 0);
-    renderer.localClippingEnabled = true;
     renderer.domElement.setAttribute(
       "aria-label",
       "Interactive 3D engineering workspace. Use the labeled stations or drag to orbit.",
@@ -68,11 +68,9 @@ export default function World({
     controls.touches.ONE = null;
     controls.touches.TWO = null;
     renderer.domElement.style.touchAction = "pan-y";
-    const workbench = buildWorkbench({ scene, renderer, compact, onTexture: () => requestFrame() });
+    const workbench = buildWorkbench({ scene, renderer, level: quality() === "high" ? "high" : "low", onTexture: () => requestFrame() });
     workbench.setReveal(1);
-    // The bench holds still, so its shadows are drawn once rather than every frame.
-    renderer.shadowMap.autoUpdate = false;
-    renderer.shadowMap.needsUpdate = true;
+    workbench.bakeShadows();
     const { objects, vector } = workbench;
     const raycaster = new THREE.Raycaster(),
       pointer = new THREE.Vector2();

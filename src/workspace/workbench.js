@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import portrait from "../assets/portraits/nirusan-cutout-v3.webp";
 
 export const stations = [
@@ -43,7 +44,31 @@ function softTexture(stops) {
 }
 
 // The machined bench shared by the scrolling film and the desktop wallpaper.
-export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} }) {
+// Static meshes that share a material become one draw call.
+function bake(group, live) {
+  group.updateMatrixWorld(true);
+  const inverse = group.matrixWorld.clone().invert();
+  const byMaterial = new Map();
+  group.children.forEach((child) => {
+    if (!child.isMesh || live.has(child)) return;
+    if (!byMaterial.has(child.material)) byMaterial.set(child.material, []);
+    byMaterial.get(child.material).push(child);
+  });
+  byMaterial.forEach((meshes, material) => {
+    if (meshes.length < 2) return;
+    const parts = meshes.map((mesh) => mesh.geometry.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld)));
+    const merged = mergeGeometries(parts, false);
+    parts.forEach((part) => part.dispose());
+    if (!merged) return;
+    const mesh = new THREE.Mesh(merged, material);
+    mesh.castShadow = mesh.receiveShadow = meshes[0].castShadow;
+    meshes.forEach((item) => { item.geometry.dispose(); item.removeFromParent(); });
+    group.add(mesh);
+  });
+}
+
+export function buildWorkbench({ scene, renderer, level = "high", reveal: blueprint = false, onTexture = () => {} }) {
+  const low = level === "low";
   const pmrem = new THREE.PMREMGenerator(renderer),
     room = new RoomEnvironment(),
     environment = pmrem.fromScene(room, 0.04);
@@ -54,15 +79,17 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x0a0a0a, 1.1));
   const key = new THREE.DirectionalLight(0xfff6ea, 4.2);
   key.position.set(-3.5, 8, 4.5);
-  if (!compact) {
+  if (!low) {
     key.castShadow = true;
-    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.mapSize.set(1024, 1024);
     key.shadow.camera.left = key.shadow.camera.bottom = -5;
     key.shadow.camera.right = key.shadow.camera.top = 5;
     key.shadow.bias = -0.0006;
     key.shadow.radius = 5;
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    // The bench holds still, so shadows are drawn once, when it is complete.
+    renderer.shadowMap.autoUpdate = false;
   }
   scene.add(key);
   const rim = new THREE.DirectionalLight(SIGNAL, 3.4);
@@ -75,7 +102,7 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   const reveal = new THREE.Plane(new THREE.Vector3(0, -1, 0), 40);
   const wireReveal = new THREE.Plane(new THREE.Vector3(0, 1, 0), -40);
   const solid = (Type, parameters) =>
-    new Type({ ...parameters, clippingPlanes: [reveal] });
+    new Type(blueprint ? { ...parameters, clippingPlanes: [reveal] } : parameters);
   const metal = solid(THREE.MeshStandardMaterial, { color: 0xa9abae, metalness: 0.94, roughness: 0.24 });
   const dark = solid(THREE.MeshStandardMaterial, { color: 0x0f1012, metalness: 0.75, roughness: 0.38 });
   const graphite = solid(THREE.MeshStandardMaterial, { color: 0x0e0f11, metalness: 0.4, roughness: 0.58 });
@@ -88,20 +115,21 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
     color: SIGNAL, transparent: true, opacity: 0, depthWrite: false, clippingPlanes: [wireReveal],
   });
   const wired = [];
+  const live = new Set();
   const mesh = (geometry, material, parent = scene, x = 0, y = 0, z = 0) => {
     const item = new THREE.Mesh(geometry, material);
     item.position.set(x, y, z);
-    item.castShadow = item.receiveShadow = !compact;
+    item.castShadow = item.receiveShadow = !low;
     parent.add(item);
-    if (geometry.type === "BoxGeometry" || geometry.type === "CylinderGeometry") wired.push(item);
+    if (blueprint && (geometry.type === "BoxGeometry" || geometry.type === "CylinderGeometry")) wired.push(item);
     return item;
   };
   const box = (x, y, z, material, parent, px = 0, py = 0, pz = 0) =>
     mesh(new THREE.BoxGeometry(x, y, z), material, parent, px, py, pz);
   const cylinder = (r, h, material, parent, px = 0, py = 0, pz = 0) =>
-    mesh(new THREE.CylinderGeometry(r, r, h, compact ? 48 : 96), material, parent, px, py, pz);
+    mesh(new THREE.CylinderGeometry(r, r, h, low ? 28 : 64), material, parent, px, py, pz);
   const ring = (r, t, material, parent, px = 0, py = 0, pz = 0) => {
-    const item = mesh(new THREE.TorusGeometry(r, t, 10, compact ? 80 : 160), material, parent, px, py, pz);
+    const item = mesh(new THREE.TorusGeometry(r, t, low ? 5 : 8, low ? 48 : 112), material, parent, px, py, pz);
     item.rotation.x = Math.PI / 2;
     return item;
   };
@@ -113,8 +141,9 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   ring(3.22, 0.024, copper, bench, 0, -0.19, 0);
   ring(2.99, 0.01, metal, bench, 0, -0.125, 0);
   ring(1.2, 0.01, metal, bench, 0, -0.123, 0);
-  for (let i = 0; i < 72; i++) {
-    const a = (i / 72) * Math.PI * 2;
+  const ticks = low ? 36 : 72;
+  for (let i = 0; i < ticks; i++) {
+    const a = (i / ticks) * Math.PI * 2;
     const tick = new THREE.Mesh(
       new THREE.BoxGeometry(0.014, 0.008, i % 6 === 0 ? 0.13 : 0.05),
       i % 6 === 0 ? ceramic : metal,
@@ -138,6 +167,7 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   shadow.rotation.x = -Math.PI / 2;
   scene.add(shadow);
 
+  let photo = null;
   const objects = [],
     routes = [],
     textures = [shadowTexture];
@@ -158,7 +188,7 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
         new THREE.Vector3(0, 0.06, 0),
       ]);
       routes.push(cable);
-      mesh(new THREE.TubeGeometry(cable, 24, 0.02, 6, false), i % 2 ? copper : metal, bench);
+      mesh(new THREE.TubeGeometry(cable, low ? 10 : 20, 0.02, 5, false), i % 2 ? copper : metal, bench);
       if (station.id === "work") {
         box(0.88, 0.25, 0.68, metal, group, 0, 0.18, 0);
         box(0.72, 0.06, 0.51, dark, group, 0, 0.34, 0);
@@ -178,7 +208,7 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
         const material = solid(THREE.MeshBasicMaterial, {
           color: 0xffffff, side: THREE.DoubleSide, transparent: true, alphaTest: 0.02, depthWrite: false,
         });
-        const photo = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 0.95), material);
+        photo = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 0.95), material);
         photo.position.set(0, 0.685, 0.041);
         group.add(photo);
         new THREE.TextureLoader().load(portrait, (texture) => {
@@ -206,10 +236,10 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
         box(1.03, 0.39, 0.47, ceramic, group, 0, 0.37, 0);
         box(0.85, 0.27, 0.03, dark, group, 0, 0.37, 0.25);
         for (const x of [-0.27, 0.27])
-          mesh(new THREE.SphereGeometry(0.068, 18, 12), metal, group, x, 0.37, 0.28);
-        const strap = mesh(new THREE.TorusGeometry(0.44, 0.048, 10, 48, Math.PI), dark, group, 0, 0.4, -0.1);
+          mesh(new THREE.SphereGeometry(0.068, 12, 8), metal, group, x, 0.37, 0.28);
+        const strap = mesh(new THREE.TorusGeometry(0.44, 0.048, 6, 24, Math.PI), dark, group, 0, 0.4, -0.1);
         strap.rotation.x = -0.25;
-        mesh(new THREE.SphereGeometry(0.16, 28, 18), signal, group, 0.73, 0.18, 0.22);
+        mesh(new THREE.SphereGeometry(0.16, 20, 14), signal, group, 0.73, 0.18, 0.22);
         const wearable = ring(0.2, 0.055, metal, group, -0.77, 0.22, 0.1);
         wearable.rotation.x = 0.45;
       } else {
@@ -232,29 +262,31 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   core.position.y = 1.48;
   scene.add(core);
   objects.push(core);
-  cylinder(0.65, 0.18, metal, scene, 0, 0.05, 0);
-  cylinder(0.48, 0.2, dark, scene, 0, 0.21, 0);
-  ring(0.49, 0.02, signal, scene, 0, 0.31, 0);
+  const frame = new THREE.Group();
+  scene.add(frame);
+  cylinder(0.65, 0.18, metal, frame, 0, 0.05, 0);
+  cylinder(0.48, 0.2, dark, frame, 0, 0.21, 0);
+  ring(0.49, 0.02, signal, frame, 0, 0.31, 0);
   for (let i = 0; i < 4; i++) {
     const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
     const x = Math.sin(a) * 1.18,
       z = Math.cos(a) * 1.18;
-    cylinder(0.03, 2.65, metal, scene, x, 1.18, z);
-    box(0.16, 0.07, 0.16, copper, scene, x, 2.5, z);
+    cylinder(0.03, 2.65, metal, frame, x, 1.18, z);
+    box(0.16, 0.07, 0.16, copper, frame, x, 2.5, z);
   }
   const canopy = ring(1.66, 0.05, metal, scene, 0, 2.52, 0);
-  ring(1.52, 0.011, signal, scene, 0, 2.5, 0);
+  ring(1.52, 0.011, signal, frame, 0, 2.5, 0);
   const knot = mesh(
-    new THREE.TorusKnotGeometry(0.77, 0.12, compact ? 200 : 320, 24, 2, 3),
-    solid(THREE.MeshPhysicalMaterial, { color: 0xc9c9c7, metalness: 1, roughness: 0.14, clearcoat: 1, envMapIntensity: 1.8 }),
+    new THREE.TorusKnotGeometry(0.77, 0.12, low ? 110 : 220, low ? 10 : 18, 2, 3),
+    low
+      ? solid(THREE.MeshStandardMaterial, { color: 0xc9c9c7, metalness: 1, roughness: 0.16, envMapIntensity: 1.8 })
+      : solid(THREE.MeshPhysicalMaterial, { color: 0xc9c9c7, metalness: 1, roughness: 0.14, clearcoat: 1, envMapIntensity: 1.8 }),
     core,
   );
   knot.rotation.set(0.2, 0, 0.3);
   const inner = mesh(
-    new THREE.IcosahedronGeometry(0.4, 3),
-    solid(THREE.MeshPhysicalMaterial, {
-      color: 0xfff0e4, emissive: SIGNAL, emissiveIntensity: 0.65, metalness: 0.2, roughness: 0.12, transparent: true, opacity: 0.92, clearcoat: 1,
-    }),
+    new THREE.IcosahedronGeometry(0.4, low ? 2 : 3),
+    solid(THREE.MeshStandardMaterial, { color: 0xfff0e4, emissive: SIGNAL, emissiveIntensity: 0.65, metalness: 0.2, roughness: 0.14 }),
     core,
   );
   const orbitA = ring(1.17, 0.012, copper, core);
@@ -263,7 +295,7 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   orbitB.rotation.set(1.4, 0.4, -0.2);
   const vector = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), 0.76, 0xffffff, 0.15, 0.07);
   core.add(vector);
-  const marker = mesh(new THREE.SphereGeometry(0.05, 16, 10), signal, core, 1.17, 0, 0);
+  const marker = mesh(new THREE.SphereGeometry(0.05, 10, 8), signal, core, 1.17, 0, 0);
 
   const glowTexture = softTexture([[0, "rgba(255,190,140,1)"], [0.25, "rgba(255,110,45,.45)"], [1, "rgba(255,90,31,0)"]]);
   textures.push(glowTexture);
@@ -275,15 +307,16 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
 
   // Signals travelling along the conduits into the core.
   const pulseMaterial = new THREE.MeshBasicMaterial({ color: 0xffb489 });
-  const pulses = routes.map((route, i) => {
+  const pulses = routes.filter((_, i) => !low || i % 2 === 0).map((route, i, list) => {
     const pulse = new THREE.Mesh(new THREE.SphereGeometry(0.028, 10, 8), pulseMaterial);
-    pulse.userData = { route, offset: i / routes.length };
+    pulse.userData = { route, offset: i / list.length };
+    live.add(pulse);
     bench.add(pulse);
     return pulse;
   });
 
   // Dust in the light cone.
-  const count = compact ? 220 : 520;
+  const count = low ? 90 : 300;
   const dustPositions = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
     const a = Math.random() * Math.PI * 2,
@@ -298,11 +331,16 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
   scene.add(dust);
 
   // Blueprint lines, used once while the bench materialises from the floor up.
-  let wires = [...wired].map((item) => {
-    const line = new THREE.LineSegments(new THREE.EdgesGeometry(item.geometry, 28), wireMaterial);
-    item.add(line);
-    return line;
-  });
+  scene.updateMatrixWorld(true);
+  let wires = null;
+  if (wired.length) {
+    const parts = wired.map((item) => new THREE.EdgesGeometry(item.geometry, 28).applyMatrix4(item.matrixWorld));
+    wires = new THREE.LineSegments(mergeGeometries(parts, false), wireMaterial);
+    parts.forEach((part) => part.dispose());
+    scene.add(wires);
+  }
+  [bench, frame, ...objects.filter((group) => group !== core)].forEach((group) => bake(group, live));
+
   const setReveal = (amount) => {
     const draw = Math.min(1, amount / 0.28);
     const sweep = Math.min(1, Math.max(0, (amount - 0.2) / 0.8));
@@ -312,8 +350,15 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
     wireReveal.constant = -height;
     wireMaterial.opacity = draw * (1 - eased * eased) * 0.85;
     shadow.material.opacity = eased;
+    // These don't take the clipping plane, so they wait: the photo fades in once its plate has formed.
+    const details = amount >= 0.9;
+    vector.visible = details;
+    pulses.forEach((pulse) => { pulse.visible = details; });
+    const face = Math.min(1, Math.max(0, (height - 0.75) / 0.6));
+    if (photo) { photo.visible = face > 0; photo.material.opacity = face; }
     if (amount >= 1 && wires) {
-      wires.forEach((line) => { line.geometry.dispose(); line.removeFromParent(); });
+      wires.geometry.dispose();
+      wires.removeFromParent();
       wires = null;
     }
   };
@@ -336,10 +381,16 @@ export function buildWorkbench({ scene, renderer, compact, onTexture = () => {} 
 
   return {
     objects, knot, inner, core, glow, vector, tick, setReveal,
+    bakeShadows: () => { if (!low) renderer.shadowMap.needsUpdate = true; },
+    dropShadows: () => {
+      if (!key.castShadow) return;
+      key.castShadow = false;
+      scene.traverse((object) => { if (object.material) object.material.needsUpdate = true; });
+    },
     dispose: () => {
       textures.forEach((texture) => texture.dispose());
       environment.dispose();
-      if (wires) wires.forEach((line) => line.geometry.dispose());
+      if (wires) wires.geometry.dispose();
       wireMaterial.dispose();
     },
   };
